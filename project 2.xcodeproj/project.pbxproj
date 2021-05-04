@@ -3,29 +3,53 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B9384F794F2F364429920884 /* Pods_project_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1447BBAB0EF45A842E62BB2C /* Pods_project_2.framework */; };
 		C9BFE081264049D900489159 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE080264049D900489159 /* AppDelegate.swift */; };
 		C9BFE083264049D900489159 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE082264049D900489159 /* SceneDelegate.swift */; };
-		C9BFE085264049D900489159 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE084264049D900489159 /* ViewController.swift */; };
+		C9BFE085264049D900489159 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE084264049D900489159 /* MainViewController.swift */; };
 		C9BFE088264049D900489159 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9BFE086264049D900489159 /* Main.storyboard */; };
 		C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE089264049D900489159 /* project_2.xcdatamodeld */; };
 		C9BFE08D264049DB00489159 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9BFE08C264049DB00489159 /* Assets.xcassets */; };
 		C9BFE090264049DB00489159 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9BFE08E264049DB00489159 /* LaunchScreen.storyboard */; };
+		C9BFE0A126404C8000489159 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0A026404C8000489159 /* BaseViewController.swift */; };
+		C9BFE0A826404CE700489159 /* MyListsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0A726404CE700489159 /* MyListsCell.swift */; };
+		C9BFE0AB26404D3600489159 /* NewListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0AA26404D3600489159 /* NewListViewController.swift */; };
+		C9BFE0AE26404D5F00489159 /* NewListCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0AD26404D5F00489159 /* NewListCircleView.swift */; };
+		C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B026404D7D00489159 /* BaseView.swift */; };
+		C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */; };
+		C9BFE0B726404DDE00489159 /* SelfSizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */; };
+		C9BFE0BA26404E0200489159 /* NewReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B926404E0200489159 /* NewReminderViewController.swift */; };
+		C9BFE0BD26404E1A00489159 /* NewReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0BC26404E1A00489159 /* NewReminderCell.swift */; };
+		C9BFE0C026404E5C00489159 /* ActionsBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0BF26404E5C00489159 /* ActionsBottomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1447BBAB0EF45A842E62BB2C /* Pods_project_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_project_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9BFE07D264049D900489159 /* project 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9BFE080264049D900489159 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9BFE082264049D900489159 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C9BFE084264049D900489159 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C9BFE084264049D900489159 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C9BFE087264049D900489159 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9BFE08A264049D900489159 /* project_2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = project_2.xcdatamodel; sourceTree = "<group>"; };
 		C9BFE08C264049DB00489159 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9BFE08F264049DB00489159 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C9BFE091264049DB00489159 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9BFE0A026404C8000489159 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		C9BFE0A726404CE700489159 /* MyListsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsCell.swift; sourceTree = "<group>"; };
+		C9BFE0AA26404D3600489159 /* NewListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListViewController.swift; sourceTree = "<group>"; };
+		C9BFE0AD26404D5F00489159 /* NewListCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListCircleView.swift; sourceTree = "<group>"; };
+		C9BFE0B026404D7D00489159 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCirlceCell.swift; sourceTree = "<group>"; };
+		C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizingTableView.swift; sourceTree = "<group>"; };
+		C9BFE0B926404E0200489159 /* NewReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReminderViewController.swift; sourceTree = "<group>"; };
+		C9BFE0BC26404E1A00489159 /* NewReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReminderCell.swift; sourceTree = "<group>"; };
+		C9BFE0BF26404E5C00489159 /* ActionsBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsBottomView.swift; sourceTree = "<group>"; };
+		CA3AC11012C2637B5BC7B19B /* Pods-project 2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project 2.debug.xcconfig"; path = "Target Support Files/Pods-project 2/Pods-project 2.debug.xcconfig"; sourceTree = "<group>"; };
+		DBCCA199F64AAB563F452210 /* Pods-project 2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project 2.release.xcconfig"; path = "Target Support Files/Pods-project 2/Pods-project 2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +57,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9384F794F2F364429920884 /* Pods_project_2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1BFABA20CC3AE9D92F4DF712 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1447BBAB0EF45A842E62BB2C /* Pods_project_2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B895612B5BC6BEAD702823B9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA3AC11012C2637B5BC7B19B /* Pods-project 2.debug.xcconfig */,
+				DBCCA199F64AAB563F452210 /* Pods-project 2.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C9BFE074264049D900489159 = {
 			isa = PBXGroup;
 			children = (
 				C9BFE07F264049D900489159 /* project 2 */,
 				C9BFE07E264049D900489159 /* Products */,
+				B895612B5BC6BEAD702823B9 /* Pods */,
+				1BFABA20CC3AE9D92F4DF712 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,9 +102,9 @@
 		C9BFE07F264049D900489159 /* project 2 */ = {
 			isa = PBXGroup;
 			children = (
+				C9BFE09F26404C6A00489159 /* UI */,
 				C9BFE080264049D900489159 /* AppDelegate.swift */,
 				C9BFE082264049D900489159 /* SceneDelegate.swift */,
-				C9BFE084264049D900489159 /* ViewController.swift */,
 				C9BFE086264049D900489159 /* Main.storyboard */,
 				C9BFE08C264049DB00489159 /* Assets.xcassets */,
 				C9BFE08E264049DB00489159 /* LaunchScreen.storyboard */,
@@ -70,6 +114,24 @@
 			path = "project 2";
 			sourceTree = "<group>";
 		};
+		C9BFE09F26404C6A00489159 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C9BFE084264049D900489159 /* MainViewController.swift */,
+				C9BFE0A026404C8000489159 /* BaseViewController.swift */,
+				C9BFE0A726404CE700489159 /* MyListsCell.swift */,
+				C9BFE0AA26404D3600489159 /* NewListViewController.swift */,
+				C9BFE0AD26404D5F00489159 /* NewListCircleView.swift */,
+				C9BFE0B026404D7D00489159 /* BaseView.swift */,
+				C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */,
+				C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */,
+				C9BFE0B926404E0200489159 /* NewReminderViewController.swift */,
+				C9BFE0BC26404E1A00489159 /* NewReminderCell.swift */,
+				C9BFE0BF26404E5C00489159 /* ActionsBottomView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,9 +139,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9BFE094264049DB00489159 /* Build configuration list for PBXNativeTarget "project 2" */;
 			buildPhases = (
+				D772B910ACFCBE7881E3F7DA /* [CP] Check Pods Manifest.lock */,
 				C9BFE079264049D900489159 /* Sources */,
 				C9BFE07A264049D900489159 /* Frameworks */,
 				C9BFE07B264049D900489159 /* Resources */,
+				4FC94F1178A3E9BE078727CB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -135,14 +199,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4FC94F1178A3E9BE078727CB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-project 2/Pods-project 2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-project 2/Pods-project 2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-project 2/Pods-project 2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D772B910ACFCBE7881E3F7DA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-project 2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C9BFE079264049D900489159 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9BFE085264049D900489159 /* ViewController.swift in Sources */,
+				C9BFE0BA26404E0200489159 /* NewReminderViewController.swift in Sources */,
+				C9BFE0AE26404D5F00489159 /* NewListCircleView.swift in Sources */,
+				C9BFE0BD26404E1A00489159 /* NewReminderCell.swift in Sources */,
+				C9BFE0A126404C8000489159 /* BaseViewController.swift in Sources */,
+				C9BFE085264049D900489159 /* MainViewController.swift in Sources */,
+				C9BFE0AB26404D3600489159 /* NewListViewController.swift in Sources */,
 				C9BFE081264049D900489159 /* AppDelegate.swift in Sources */,
+				C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */,
 				C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */,
+				C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */,
+				C9BFE0C026404E5C00489159 /* ActionsBottomView.swift in Sources */,
+				C9BFE0B726404DDE00489159 /* SelfSizingTableView.swift in Sources */,
+				C9BFE0A826404CE700489159 /* MyListsCell.swift in Sources */,
 				C9BFE083264049D900489159 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +403,7 @@
 		};
 		C9BFE095264049DB00489159 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3AC11012C2637B5BC7B19B /* Pods-project 2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -306,6 +423,7 @@
 		};
 		C9BFE096264049DB00489159 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBCCA199F64AAB563F452210 /* Pods-project 2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
