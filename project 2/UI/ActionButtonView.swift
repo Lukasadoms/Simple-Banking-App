@@ -7,20 +7,20 @@
 
 import UIKit
 
-protocol ActionsBottomViewDelegate: AnyObject {
-    func actionsBottomViewAddListPressed()
-    func actionsBottomViewNewReminderPressed()
+protocol ActionsButtonViewDelegate: AnyObject {
+    func actionsButtonViewAddMoneyPressed()
+    func actionsButtonViewSendMoneyPressed()
 }
 
-class ActionsBottomView: UIToolbar {
+class ActionButtonView: UIToolbar {
     private var defaultShadowImage: UIImage?
     private var defaultBackgroundImage: UIImage?
     private var defaultBarTintColor: UIColor?
     
     
-    weak var actionsDelegate: ActionsBottomViewDelegate?
+    weak var actionsDelegate: ActionsButtonViewDelegate?
     
-    private let newReminderButton: UIBarButtonItem = {
+    private let addMoneyButton: UIBarButtonItem = {
         let color = UIColor.systemBlue
         let highlightedColor = UIColor.systemBlue.withAlphaComponent(0.5)
         let button = UIButton()
@@ -35,13 +35,13 @@ class ActionsBottomView: UIToolbar {
         button.setImage(highlightedImage, for: .highlighted)
         let fontSize = button.titleLabel?.font.pointSize ?? 12
         button.titleLabel?.font = .boldSystemFont(ofSize: fontSize)
-        button.addTarget(self, action: #selector(newReminderPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addMoneyPressed), for: .touchUpInside)
         
 
         return UIBarButtonItem(customView: button)
     }()
     
-    private let addListButton: UIBarButtonItem = {
+    private let sendMoneyButton: UIBarButtonItem = {
        
         let color = UIColor.systemBlue
         let highlightedColor = UIColor.systemBlue.withAlphaComponent(0.5)
@@ -55,7 +55,7 @@ class ActionsBottomView: UIToolbar {
         button.setImage(highlightedImage, for: .highlighted)
         let fontSize = button.titleLabel?.font.pointSize ?? 12
         button.titleLabel?.font = .boldSystemFont(ofSize: fontSize)
-        button.addTarget(self, action: #selector(addListPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(sendMoneyPressed), for: .touchUpInside)
 
         return UIBarButtonItem(customView: button)
     }()
@@ -65,7 +65,7 @@ class ActionsBottomView: UIToolbar {
         setupView()
     }
     
-    required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {  
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -76,9 +76,9 @@ class ActionsBottomView: UIToolbar {
         
         setItems(
             [
-                newReminderButton,
+                addMoneyButton,
                 UIBarButtonItem(systemItem: .flexibleSpace),
-                addListButton
+                sendMoneyButton
             ],
             animated: false)
     }
@@ -86,13 +86,13 @@ class ActionsBottomView: UIToolbar {
 
 // MARK: - Transparency Effect
 
-extension ActionsBottomView {
+extension ActionButtonView {
     
-    @objc private func addListPressed() {
-        actionsDelegate?.actionsBottomViewAddListPressed()
+    @objc private func addMoneyPressed() {
+        actionsDelegate?.actionsButtonViewAddMoneyPressed()
     }
 
-    @objc private func newReminderPressed() {
-        actionsDelegate?.actionsBottomViewNewReminderPressed()
+    @objc private func sendMoneyPressed() {
+        actionsDelegate?.actionsButtonViewSendMoneyPressed()
     }
 }

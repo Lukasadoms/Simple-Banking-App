@@ -77,7 +77,7 @@ final class MainViewController: BaseViewController {
         return tableView
     }()
     
-    private let bottomView = ActionsBottomView()
+    private let bottomView = ActionButtonView()
     private let contentView = UIView()
     private let scrollView = UIScrollView()
     
@@ -233,16 +233,15 @@ extension MainViewController: UITableViewDelegate {
     }
 }
 
-
-extension MainViewController: ActionsBottomViewDelegate {
-    func actionsBottomViewAddListPressed() {
-        let newListViewController = NewListViewController()
+extension MainViewController: ActionsButtonViewDelegate {
+    func actionsButtonViewAddMoneyPressed() {
+        let newListViewController = AddMoneyViewController()
         let navigationController = UINavigationController(rootViewController: newListViewController)
         present(navigationController, animated: true, completion: nil)
     }
 
-    func actionsBottomViewNewReminderPressed() {
-        let newReminderViewController = NewReminderViewController()
+    func actionsButtonViewSendMoneyPressed() {
+        let newReminderViewController = SendMoneyViewController()
         let navigationController = UINavigationController(rootViewController: newReminderViewController)
         present(navigationController, animated: true, completion: nil)
     }
