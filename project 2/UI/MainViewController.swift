@@ -14,25 +14,8 @@ final class MainViewController: BaseViewController {
 
     private let EdgeMargin: CGFloat = 20
     private let SearchBarHeight: CGFloat = 50
-    private let CollectionViewCellHeight: CGFloat = 75
-    
-
-    private var collectionViewCellWidth: CGFloat {
-        (view.frame.width / 2) - EdgeMargin * 2
-    }
 
     // MARK: - UI elements
-
-    private lazy var remindersTypeCollectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.sectionInset = .zero
-        collectionViewLayout.itemSize = CGSize(width: collectionViewCellWidth, height: CollectionViewCellHeight)
-
-        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = .systemGray6
-
-        return collectionView
-    }()
     
     private let SearchBarTextField: TextField = {
         let textField = TextField()
@@ -52,7 +35,7 @@ final class MainViewController: BaseViewController {
 
     private let myTransactionsLabel: UILabel = {
         let label = UILabel()
-        label.text = "My list"
+        label.text = "My Transactions"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -82,7 +65,7 @@ final class MainViewController: BaseViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.isScrollEnabled = false
-        tableView.register(MyListsCell.self, forCellReuseIdentifier: "MyListsCell")
+        tableView.register(TransactionCell.self, forCellReuseIdentifier: "TransactionCell")
 
         tableView.layer.cornerRadius = 8
         tableView.layer.maskedCorners = [
@@ -98,9 +81,8 @@ final class MainViewController: BaseViewController {
     private let contentView = UIView()
     private let scrollView = UIScrollView()
     
-    init(myListText: String = "My Transactions") {
-        super.init(nibName: nil, bundle: nil)
-        self.myTransactionsLabel.text = myListText
+    init() {
+        super.init(nibName: nil, bundle: nil) // Ar čia viskas gerai ?
     }
     
     required init?(coder: NSCoder) {
@@ -237,7 +219,7 @@ extension MainViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        tableView.dequeueReusableCell(withIdentifier: "MyListsCell", for: indexPath)
+        tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
     }
 }
 
@@ -256,14 +238,12 @@ extension MainViewController: ActionsBottomViewDelegate {
     func actionsBottomViewAddListPressed() {
         let newListViewController = NewListViewController()
         let navigationController = UINavigationController(rootViewController: newListViewController)
-        
         present(navigationController, animated: true, completion: nil)
     }
 
     func actionsBottomViewNewReminderPressed() {
         let newReminderViewController = NewReminderViewController()
         let navigationController = UINavigationController(rootViewController: newReminderViewController)
-
         present(navigationController, animated: true, completion: nil)
     }
 }

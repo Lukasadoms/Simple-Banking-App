@@ -27,8 +27,6 @@ class BaseViewController: UIViewController {
 
 extension BaseViewController {
     
-    
-    
     func observeKeyboardNotifications() {
         NotificationCenter.default.addObserver(
             self,

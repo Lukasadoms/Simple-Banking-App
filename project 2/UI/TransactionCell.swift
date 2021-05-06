@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MyListsCell: UITableViewCell {
+final class TransactionCell: UITableViewCell {
 
     private let RoundedEdgesRadius: CGFloat = 15
 
@@ -39,7 +39,7 @@ final class MyListsCell: UITableViewCell {
     // MARK: - Configuration
 
     func configureCell() {
-        iconView = UIImageView(image: #imageLiteral(resourceName: "codepayLogo").withTintColor(.white))
+        iconView = UIImageView(image: #imageLiteral(resourceName: "codepayLogo"))
 
         iconContainerView.layer.cornerRadius = RoundedEdgesRadius
         iconContainerView.clipsToBounds = true
