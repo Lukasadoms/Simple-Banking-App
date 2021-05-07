@@ -192,15 +192,15 @@ final class LoginViewController: BaseViewController {
         case 0:
             passwordReenterTextField.isHidden = true
             currencyPicker.isHidden = true
-        //            loginButton.snp.updateConstraints { make in
-        //                make.top.equalTo(passwordTextField.snp.bottom).offset(EdgeMargin)
-        //            }
-        //            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
+//            loginButton.snp.updateConstraints { make in
+//                make.top.equalTo(passwordTextField.snp.bottom).offset(EdgeMargin)
+//            }
+//            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
         case 1:
             passwordReenterTextField.isHidden = false
             currencyPicker.isHidden = false
 //            loginButton.snp.updateConstraints { make in
-//                make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+//                make.top.equalTo(currencyPicker.snp.bottom).offset(EdgeMargin)
 //                make.centerX.equalTo(contentView)
 //                make.height.equalTo(80)
 //            }

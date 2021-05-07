@@ -4,6 +4,27 @@ import UIKit
 final class SendMoneyViewController: BaseViewController {
 
     private var EdgeInset: CGFloat = 16
+    
+    private let balanceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Your balance:"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    private let moneyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "$0"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    private let sendMoneyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Send money:"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
 
     private lazy var newReminderTableView: UITableView = {
         let tableView = UITableView()
@@ -37,13 +58,31 @@ final class SendMoneyViewController: BaseViewController {
         configureNavigationBar()
         view.addSubview(newReminderTableView)
         view.addSubview(informationLabel)
+        view.addSubview(balanceLabel)
+        view.addSubview(moneyLabel)
+        view.addSubview(sendMoneyLabel)
     }
 
     override func setupConstraints() {
         super.setupConstraints()
+        
+        balanceLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+        }
+        
+        moneyLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
+        
+        sendMoneyLabel.snp.makeConstraints { make in
+            make.top.equalTo(balanceLabel.snp.bottom).offset(24)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+        }
 
         newReminderTableView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(EdgeInset)
+            make.top.equalTo(sendMoneyLabel.snp.bottom).offset(EdgeInset)
             make.bottom.equalTo(informationLabel.snp.top)
             make.leading.equalTo(view).offset(EdgeInset)
             make.trailing.equalTo(view).inset(EdgeInset)
@@ -117,20 +156,21 @@ extension SendMoneyViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SendMoneyCell", for: indexPath)
 
-        guard let newReminderCell = cell as? SendMoneyCell else {
+        guard let sendMoneyCell = cell as? SendMoneyCell else {
             return cell
         }
 
         switch indexPath.section {
         case 0:
-            newReminderCell.setupCell(type: .phoneField)
+            sendMoneyCell.setupCell(type: .phoneField)
             
         case 1:
-            newReminderCell.setupCell(type: .moneyAmountField)
+            sendMoneyCell.setupCell(type: .moneyAmountField)
         default:
             fatalError("Unexpected section!")
         }
-        return newReminderCell
+        sendMoneyCell.roundAllCorners()
+        return sendMoneyCell
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
