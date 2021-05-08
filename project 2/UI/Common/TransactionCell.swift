@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TransactionCell: UITableViewCell {
+final class TransactionCell: CodePayTableViewCell {
 
     private let RoundedEdgesRadius: CGFloat = 15
 

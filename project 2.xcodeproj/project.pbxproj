@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B9384F794F2F364429920884 /* Pods_project_2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1447BBAB0EF45A842E62BB2C /* Pods_project_2.framework */; };
+		C97B5A512646C14E005158EA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A502646C14E005158EA /* SettingsViewController.swift */; };
+		C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */; };
 		C9BFE081264049D900489159 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE080264049D900489159 /* AppDelegate.swift */; };
 		C9BFE083264049D900489159 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE082264049D900489159 /* SceneDelegate.swift */; };
 		C9BFE085264049D900489159 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE084264049D900489159 /* MainViewController.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		1447BBAB0EF45A842E62BB2C /* Pods_project_2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_project_2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C97B5A502646C14E005158EA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodaPayTableViewCell.swift; sourceTree = "<group>"; };
 		C9BFE07D264049D900489159 /* project 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9BFE080264049D900489159 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9BFE082264049D900489159 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +87,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C97B5A522646C157005158EA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C97B5A502646C14E005158EA /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		C9BFE074264049D900489159 = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +131,7 @@
 		C9BFE09F26404C6A00489159 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C97B5A522646C157005158EA /* Settings */,
 				C9BFE0DE2645683600489159 /* SendMoney */,
 				C9BFE0DD2645681700489159 /* AddMoney */,
 				C9BFE0DC2645680F00489159 /* Login */,
@@ -138,6 +151,7 @@
 				C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */,
 				C9BFE0D326446C0500489159 /* CurrencyTextField.swift */,
 				C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */,
+				C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -284,6 +298,7 @@
 				C9BFE0BA26404E0200489159 /* SendMoneyViewController.swift in Sources */,
 				C9BFE0C42643CC2D00489159 /* LoginViewController.swift in Sources */,
 				C9BFE0A126404C8000489159 /* BaseViewController.swift in Sources */,
+				C97B5A512646C14E005158EA /* SettingsViewController.swift in Sources */,
 				C9BFE085264049D900489159 /* MainViewController.swift in Sources */,
 				C9BFE0AB26404D3600489159 /* AddMoneyViewController.swift in Sources */,
 				C9BFE081264049D900489159 /* AppDelegate.swift in Sources */,
@@ -291,6 +306,7 @@
 				C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */,
 				C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */,
 				C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */,
+				C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */,
 				C9BFE0C026404E5C00489159 /* ActionButtonView.swift in Sources */,
 				C9BFE0DA2645679400489159 /* SendMoneyCell.swift in Sources */,
 				C9BFE0B726404DDE00489159 /* SelfSizingTableView.swift in Sources */,

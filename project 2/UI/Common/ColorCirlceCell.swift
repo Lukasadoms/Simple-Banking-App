@@ -38,7 +38,6 @@ final class ColorCircleCell: UICollectionViewCell {
     
     private func setupView() {
         backgroundColor = .white
-        
         contentView.addSubview(innerView)
     }
     

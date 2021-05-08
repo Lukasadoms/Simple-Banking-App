@@ -9,11 +9,6 @@ import UIKit
 import SnapKit
 
 final class MainViewController: BaseViewController {
-    
-    // MARK: - UI constants
-
-    private let EdgeMargin: CGFloat = 20
-    private let SearchBarHeight: CGFloat = 50
 
     // MARK: - UI elements
     
@@ -22,7 +17,7 @@ final class MainViewController: BaseViewController {
         textField.placeholder = "Search Transactions"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.textColor = .black
-        textField.backgroundColor = .systemGray5
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.layer.maskedCorners = [
             .layerMinXMaxYCorner,
@@ -92,13 +87,8 @@ final class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         observeTouchesOnView()
-        let img = UIImage(systemName: "gear")!
-        let imgWidth = img.size.width
-        let imgHeight = img.size.height
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: imgWidth, height: imgHeight))
-        button.setBackgroundImage(img, for: .normal)
-        //button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
+        configureNavigationBar()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -196,11 +186,17 @@ private extension MainViewController {
 
     func applyTheming() {
         view.backgroundColor = .white
-    
     }
 
     func configureNavigationBar() {
         navigationItem.hidesBackButton = true
+        let img = UIImage(systemName: "gear")!
+        let imgWidth = img.size.width
+        let imgHeight = img.size.height
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: imgWidth, height: imgHeight))
+        button.setBackgroundImage(img, for: .normal)
+        button.addTarget(self, action: #selector(settingsButtonPressed), for: .touchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     func configureScrollView() {
@@ -243,6 +239,16 @@ extension MainViewController: ActionsButtonViewDelegate {
     func actionsButtonViewSendMoneyPressed() {
         let newReminderViewController = SendMoneyViewController()
         let navigationController = UINavigationController(rootViewController: newReminderViewController)
+        present(navigationController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Helpers
+
+extension MainViewController {
+    @objc func settingsButtonPressed() {
+        let settingsViewController = SettingsViewController()
+        let navigationController = UINavigationController(rootViewController: settingsViewController)
         present(navigationController, animated: true, completion: nil)
     }
 }

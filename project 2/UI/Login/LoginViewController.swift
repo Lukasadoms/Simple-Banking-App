@@ -10,8 +10,6 @@ import SnapKit
 
 final class LoginViewController: BaseViewController {
     
-    private let EdgeMargin: CGFloat = 20
-    
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.isHidden = true
@@ -31,7 +29,7 @@ final class LoginViewController: BaseViewController {
         textField.placeholder = "Username"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.textColor = .black
-        textField.backgroundColor = .systemGray5
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.layer.maskedCorners = [
             .layerMinXMaxYCorner,
@@ -47,7 +45,7 @@ final class LoginViewController: BaseViewController {
         textField.placeholder = "Password"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.textColor = .black
-        textField.backgroundColor = .systemGray5
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.layer.maskedCorners = [
             .layerMinXMaxYCorner,
@@ -63,7 +61,7 @@ final class LoginViewController: BaseViewController {
         textField.placeholder = "Re-enter Password"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.textColor = .black
-        textField.backgroundColor = .systemGray5
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.isSecureTextEntry = true
         textField.isHidden = true
@@ -87,13 +85,21 @@ final class LoginViewController: BaseViewController {
         return button
     }()
     
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.spacing = 20
+        return stackView
+    }()
+    
     private let contentView = UIView()
     
     private let iconView = UIImageView(image: #imageLiteral(resourceName: "codepayLogo"))
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -113,18 +119,17 @@ final class LoginViewController: BaseViewController {
     
     override func setupView() {
         super.setupView()
-        
-        
-        //applyTheming()
-                
+
         view.addSubview(contentView)
         contentView.addSubview(iconView)
         contentView.addSubview(loginSegmentedControl)
-        contentView.addSubview(usernameTextField)
-        contentView.addSubview(passwordTextField)
-        contentView.addSubview(passwordReenterTextField)
-        contentView.addSubview(loginButton)
-        contentView.addSubview(currencyPicker)
+        contentView.addSubview(stackView)
+        stackView.addArrangedSubview(usernameTextField)
+        stackView.addArrangedSubview(passwordTextField)
+        stackView.addArrangedSubview(passwordReenterTextField)
+        stackView.addArrangedSubview(currencyPicker)
+        stackView.addArrangedSubview(loginButton)
+        
     }
     
     override func setupConstraints() {
@@ -139,51 +144,52 @@ final class LoginViewController: BaseViewController {
         
         iconView.snp.makeConstraints { make in
             make.centerX.equalTo(contentView)
-            make.height.equalTo(100)
-            make.width.equalTo(100)
-            make.top.equalTo(contentView).offset(100)
+            make.height.equalTo(150)
+            make.width.equalTo(150)
+            make.top.equalTo(contentView).offset(EdgeMargin)
         }
         
         loginSegmentedControl.snp.makeConstraints { make in
             make.top.equalTo(iconView.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(view).offset(EdgeMargin)
             make.trailing.equalTo(view).inset(EdgeMargin)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
             
         }
 
-        usernameTextField.snp.makeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.top.equalTo(loginSegmentedControl.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
+            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+        }
+        
+        usernameTextField.snp.makeConstraints { make in
+            make.leading.equalTo(stackView)
+            make.trailing.equalTo(stackView)
             make.height.equalTo(50)
         }
         
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(usernameTextField.snp.bottom).offset(EdgeMargin)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+            make.leading.equalTo(stackView)
+            make.trailing.equalTo(stackView)
             make.height.equalTo(50)
         }
         
         passwordReenterTextField.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(EdgeMargin)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+            make.leading.equalTo(stackView)
+            make.trailing.equalTo(stackView)
             make.height.equalTo(50)
         }
         
         currencyPicker.snp.makeConstraints { make in
-            make.top.equalTo(passwordReenterTextField.snp.bottom).offset(EdgeMargin)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+            make.leading.equalTo(stackView)
+            make.trailing.equalTo(stackView)
             make.height.equalTo(50)
         }
         
         loginButton.snp.makeConstraints { make in
-            make.centerX.equalTo(contentView)
-            make.top.equalTo(passwordTextField.snp.bottom)
-            make.height.equalTo(80)
+            make.height.equalTo(50)
         }
     }
     
@@ -192,19 +198,11 @@ final class LoginViewController: BaseViewController {
         case 0:
             passwordReenterTextField.isHidden = true
             currencyPicker.isHidden = true
-//            loginButton.snp.updateConstraints { make in
-//                make.top.equalTo(passwordTextField.snp.bottom).offset(EdgeMargin)
-//            }
-//            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
+            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         case 1:
             passwordReenterTextField.isHidden = false
             currencyPicker.isHidden = false
-//            loginButton.snp.updateConstraints { make in
-//                make.top.equalTo(currencyPicker.snp.bottom).offset(EdgeMargin)
-//                make.centerX.equalTo(contentView)
-//                make.height.equalTo(80)
-//            }
-//            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded) NEVEIKIA
+            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         default:
             break
         }
@@ -218,19 +216,4 @@ final class LoginViewController: BaseViewController {
     }
 }
 
-extension LoginViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        let currencyArray = ["EUR", "USD"]
-        return currencyArray.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let currencyArray = ["EUR", "USD"]
-        return currencyArray[row]
-    }
-    
-}
+

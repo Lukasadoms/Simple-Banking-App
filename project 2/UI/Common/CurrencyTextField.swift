@@ -34,7 +34,6 @@ import UIKit
     
     func initTextField(){
         self.keyboardType = UIKeyboardType.decimalPad
-        currencyFormatter.numberStyle = .currency
         currencyFormatter.minimumFractionDigits = 2
         currencyFormatter.maximumFractionDigits = 2
         setAmount(defaultValue)

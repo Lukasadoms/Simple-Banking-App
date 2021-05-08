@@ -73,7 +73,6 @@ class ActionButtonView: UIToolbar {
         defaultBackgroundImage = backgroundImage(forToolbarPosition: .any, barMetrics: .default)
         defaultShadowImage = shadowImage(forToolbarPosition: .any)
         defaultBarTintColor = barTintColor
-        let spacer = UIBarButtonItem(systemItem: .flexibleSpace)
         
         setItems(
             [

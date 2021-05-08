@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 final class AddMoneyViewController: BaseViewController {
     
     private let balanceLabel: UILabel = {
@@ -31,15 +29,12 @@ final class AddMoneyViewController: BaseViewController {
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
-    
 
-    private let listTitleTextField: CurrencyTextField = {
+    private let addMoneyTextField: CurrencyTextField = {
         let textField = CurrencyTextField()
-        textField.backgroundColor = .systemGray5
+        textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.textAlignment = .center
-        textField.textColor = .systemBlue
-        textField.placeholder = "$0"
         textField.keyboardType = .decimalPad
         textField.autocorrectionType = .no
         textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
@@ -58,19 +53,16 @@ final class AddMoneyViewController: BaseViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         observeTouchesOnView()
     }
 
     override func setupView() {
         super.setupView()
-
         configureNavigationBar()
-        
         view.addSubview(balanceLabel)
         view.addSubview(moneyLabel)
         view.addSubview(addMoneyLabel)
-        view.addSubview(listTitleTextField)
+        view.addSubview(addMoneyTextField)
         view.addSubview(addButton)
         
     }
@@ -96,20 +88,16 @@ final class AddMoneyViewController: BaseViewController {
             make.top.equalTo(balanceLabel.snp.bottom).offset(24)
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
         }
-        
-        
 
-        listTitleTextField.snp.makeConstraints { make in
+        addMoneyTextField.snp.makeConstraints { make in
             make.top.equalTo(addMoneyLabel.snp.bottom).offset(20)
             make.height.equalTo(50)
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
-       
-        
         addButton.snp.makeConstraints { make in
-            make.top.equalTo(listTitleTextField.snp.bottom).offset(20)
+            make.top.equalTo(addMoneyTextField.snp.bottom).offset(20)
             make.centerX.equalTo(view)
         }
     }

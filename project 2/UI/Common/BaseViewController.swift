@@ -9,9 +9,20 @@ import UIKit
 
 class BaseViewController: UIViewController {
         
+    // MARK: - UI constants
+    
+    let EdgeMargin: CGFloat = 20
+    let SearchBarHeight: CGFloat = 50
+    
+    private let currencyPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.isHidden = true
+        return picker
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .white
         
         setupView()
@@ -79,4 +90,21 @@ class TextField: UITextField {
     override open func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
     }
+}
+
+extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        let currencyArray = ["EUR", "USD"]
+        return currencyArray.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let currencyArray = ["EUR", "USD"]
+        return currencyArray[row]
+    }
+    
 }
