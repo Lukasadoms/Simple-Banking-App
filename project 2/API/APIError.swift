@@ -19,9 +19,9 @@ enum APIError: Error {
         case .failedRequest:
             return "Missing required values, or passwords don`t match!"
         case .unexpectedDataFormat:
-            return "This username is already taken!"
+            return "Error try again later!"
         case .failedResponse:
-            return "Password is incorrect!"
+            return "Error try again later!"
         case .failedURLCreation:
             return "Error try again later!"
         case .userDoesntExist:

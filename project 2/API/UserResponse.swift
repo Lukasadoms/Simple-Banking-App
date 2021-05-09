@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserResponse: Decodable {
-    var userID: Int
+    var userID: String
     var phoneNumber: String
     var password: String
     

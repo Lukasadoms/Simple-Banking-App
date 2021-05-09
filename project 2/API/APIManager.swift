@@ -19,10 +19,12 @@ struct APIManager {
     func checkIfUserExists(phoneNumber: String, _ completion: @escaping (Result<[UserResponse], APIError>) -> Void) {
 
         guard let url = APIEndpoint.user(phoneNumber: phoneNumber).url
+        
         else {
             completion(.failure(.failedURLCreation))
             return
         }
+        print(url)
 
         session.dataTask(with: url) { data, response, error in
             guard let data = data else {
@@ -30,11 +32,11 @@ struct APIManager {
                 return
             }
 
-            guard let episodesResponse = try? JSONDecoder().decode([UserResponse].self, from: data) else {
-                completion(.failure(.userDoesntExist))
+            guard let userResponse = try? JSONDecoder().decode([UserResponse].self, from: data) else {
+                completion(.failure(.failedResponse))
                 return
             }
-            completion(.success(episodesResponse))
+            completion(.success(userResponse))
         }.resume()
     }
 }

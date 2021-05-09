@@ -80,7 +80,7 @@ class CodePayTableViewCell: UITableViewCell {
         
         switch type {
         case .phoneField:
-            primaryLabel = makeLabel(text: "Phone number:")
+            primaryLabel = makeLabel(text: "Phone number: +")
             placeholder = "+370..."
         case .passwordField:
             primaryLabel = makeLabel(text: "Password:")

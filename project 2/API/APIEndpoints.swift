@@ -17,7 +17,7 @@ enum APIEndpoint {
         switch self {
         case .user(let phoneNumber):
             let queryItem = URLQueryItem(name: PhoneNumberQueryKey, value: phoneNumber)
-            return makeURL(endpoint: "users", queryItems: [queryItem])
+            return makeURL(endpoint: "/api/v6/user", queryItems: [queryItem])
 //        case .transactions:
 //            let queryItem = URLQueryItem(name: CategoryNameQueryKey, value: SeriesName)
 //            return makeURL(endpoint: "/api/characters", queryItems: [queryItem])
@@ -40,22 +40,6 @@ private extension APIEndpoint {
     var PhoneNumberQueryKey: String {
         "phoneNumber"
     }
-    
-    var CategoryNameQueryKey: String {
-        "category"
-    }
-
-    var AuthorNameQueryKey: String {
-        "author"
-    }
-    
-    var CharacterNameQueryKey: String {
-        "name"
-    }
-    
-    var SeriesName: String {
-        "Breaking+Bad"
-    }
 
     var BaseURL: String {
         "https://608886b3a6f4a3001742691d.mockapi.io/api/v6/"
@@ -63,13 +47,17 @@ private extension APIEndpoint {
 
     func makeURL(endpoint: String, queryItems: [URLQueryItem]? = nil) -> URL? {
         let urlString = BaseURL + endpoint
-
+        
         guard let queryItems = queryItems else {
             return URL(string: urlString)
         }
-
-        var components = URLComponents(string: urlString)
-        components?.queryItems = queryItems
-        return components?.url
+        
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "608886b3a6f4a3001742691d.mockapi.io"
+        urlComponents.path = endpoint
+        urlComponents.queryItems = queryItems
+        
+        return urlComponents.url
     }
 }

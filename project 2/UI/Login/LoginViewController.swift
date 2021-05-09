@@ -12,6 +12,20 @@ final class LoginViewController: BaseViewController {
     
     let apiManager = APIManager()
     
+    private let plusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "+"
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
+    
+    private let currencyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "currency:"
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
+    
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.isHidden = true
@@ -30,7 +44,9 @@ final class LoginViewController: BaseViewController {
         let textField = TextField()
         textField.placeholder = "Phone Number"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
         textField.textColor = .black
+        textField.keyboardType = .decimalPad
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
         textField.layer.maskedCorners = [
@@ -46,6 +62,8 @@ final class LoginViewController: BaseViewController {
         let textField = TextField()
         textField.placeholder = "Password"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.isSecureTextEntry = true
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
@@ -62,6 +80,7 @@ final class LoginViewController: BaseViewController {
         let textField = TextField()
         textField.placeholder = "Re-enter Password"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
@@ -97,7 +116,7 @@ final class LoginViewController: BaseViewController {
     }()
     
     private let contentView = UIView()
-    
+    private let phoneNumberView = UIView()
     private let iconView = UIImageView(image: #imageLiteral(resourceName: "codepayLogo"))
     
     init() {
@@ -121,12 +140,23 @@ final class LoginViewController: BaseViewController {
     
     override func setupView() {
         super.setupView()
+        
+        phoneNumberView.backgroundColor = .systemGray6
+        phoneNumberView.layer.cornerRadius = 8
+        phoneNumberView.layer.maskedCorners = [
+            .layerMinXMaxYCorner,
+            .layerMaxXMaxYCorner,
+            .layerMinXMinYCorner,
+            .layerMaxXMinYCorner
+        ]
 
         view.addSubview(contentView)
         contentView.addSubview(iconView)
         contentView.addSubview(loginSegmentedControl)
         contentView.addSubview(stackView)
-        stackView.addArrangedSubview(phoneNumberTextField)
+        phoneNumberView.addSubview(phoneNumberTextField)
+        phoneNumberView.addSubview(plusLabel)
+        stackView.addArrangedSubview(phoneNumberView)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(passwordReenterTextField)
         stackView.addArrangedSubview(currencyPicker)
@@ -136,6 +166,18 @@ final class LoginViewController: BaseViewController {
     
     override func setupConstraints() {
         super.setupConstraints()
+        
+        plusLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(phoneNumberView)
+            make.leading.equalTo(phoneNumberView).offset(5)
+        }
+        
+        phoneNumberTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(plusLabel)
+            make.leading.equalTo(plusLabel.snp.trailing).offset(EdgeMargin/4)
+            make.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+        }
         
         contentView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -166,7 +208,7 @@ final class LoginViewController: BaseViewController {
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
-        phoneNumberTextField.snp.makeConstraints { make in
+        phoneNumberView.snp.makeConstraints { make in
             make.leading.equalTo(stackView)
             make.trailing.equalTo(stackView)
             make.height.equalTo(50)
@@ -200,11 +242,13 @@ final class LoginViewController: BaseViewController {
         case 0:
             passwordReenterTextField.isHidden = true
             currencyPicker.isHidden = true
-            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
+            loginButton.setTitle("Login", for: .normal)
+            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         case 1:
             passwordReenterTextField.isHidden = false
             currencyPicker.isHidden = false
-            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
+            loginButton.setTitle("Register", for: .normal)
+            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         default:
             break
         }
@@ -213,7 +257,9 @@ final class LoginViewController: BaseViewController {
     @objc func loginPressed() {
         guard
             let phoneNumber = phoneNumberTextField.text,
-            let password = passwordTextField.text
+            let password = passwordTextField.text,
+            !phoneNumber.isEmpty,
+            !password.isEmpty
         else {
             return
         }
@@ -226,12 +272,18 @@ final class LoginViewController: BaseViewController {
                 }
             case .success(let user):
                 DispatchQueue.main.async {
-                    guard let passwordIsCorrect = self?.checkPasswordIsMatching(user: user.first!) else {
-                        self?.showAlert(message: "Password is incorrect try again")
+                    guard let user = user.first else {
+                        self?.showAlert(message: "There is no account with this phoneNumber")
+                        return
+                    }
+                    guard let passwordIsCorrect = self?.checkPasswordIsMatching(user: user) else {
+                        
                         return
                     }
                     if passwordIsCorrect {
                         self?.proceedToMainView()
+                    } else {
+                        self?.showAlert(message: "Password is incorrect try again")
                     }
                 }
             }
