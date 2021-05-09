@@ -11,22 +11,6 @@ import SnapKit
 final class MainViewController: BaseViewController {
 
     // MARK: - UI elements
-    
-    private let SearchBarTextField: TextField = {
-        let textField = TextField()
-        textField.placeholder = "Search Transactions"
-        textField.font = UIFont(name: "HelveticaNeue", size: 15)
-        textField.textColor = .black
-        textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 8
-        textField.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner,
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
-        return textField
-    }()
 
     private let myTransactionsLabel: UILabel = {
         let label = UILabel()
@@ -49,6 +33,7 @@ final class MainViewController: BaseViewController {
         button.setTitle("See all transactions", for: .normal)
         button.setTitleColor(buttonColor, for: .normal)
         button.setTitleColor(buttonHighlightedColor, for: .highlighted)
+        button.addTarget(self, action: #selector(seeTransactionsPressed), for: .touchUpInside)
         return button
     }()
     
@@ -109,7 +94,6 @@ final class MainViewController: BaseViewController {
         contentView.addSubview(iconView)
         contentView.addSubview(myBalanceLabel)
         contentView.addSubview(myTransactionsLabel)
-        contentView.addSubview(SearchBarTextField)
         contentView.addSubview(myTransactionsTableView)
         contentView.addSubview(seeAllTransactionsButton)
         view.addSubview(bottomView)
@@ -150,17 +134,10 @@ final class MainViewController: BaseViewController {
             make.top.equalTo(bottomView.snp.bottom).offset(EdgeMargin)
         }
         
-        SearchBarTextField.snp.makeConstraints { make in
-            make.top.equalTo(myTransactionsLabel.snp.bottom).offset(EdgeMargin)
-            make.leading.equalTo(myTransactionsTableView)
-            make.trailing.equalTo(myTransactionsTableView)
-            make.height.equalTo(SearchBarHeight)
-        }
-        
         myTransactionsTableView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(SearchBarTextField.snp.bottom).offset(EdgeMargin)
+            make.top.equalTo(myTransactionsLabel.snp.bottom).offset(EdgeMargin)
             make.bottom.equalTo(contentView).inset(EdgeMargin)
         }
         
@@ -249,6 +226,12 @@ extension MainViewController {
     @objc func settingsButtonPressed() {
         let settingsViewController = SettingsViewController()
         let navigationController = UINavigationController(rootViewController: settingsViewController)
+        present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func seeTransactionsPressed() {
+        let transactionsViewController = TransactionsViewController()
+        let navigationController = UINavigationController(rootViewController: transactionsViewController)
         present(navigationController, animated: true, completion: nil)
     }
 }

@@ -8,14 +8,6 @@
 import UIKit
 
 final class SettingsViewController: BaseViewController {
-
-    private var EdgeInset: CGFloat = 16
-    
-    private let currencyPicker: UIPickerView = {
-        let picker = UIPickerView()
-        picker.isHidden = true
-        return picker
-    }()
     
     private let settingsLabel: UILabel = {
         let label = UILabel()
@@ -24,22 +16,6 @@ final class SettingsViewController: BaseViewController {
         return label
     }()
     
-    private let passwordTextField: TextField = {
-        let textField = TextField()
-        textField.placeholder = "Password"
-        textField.font = UIFont(name: "HelveticaNeue", size: 15)
-        textField.textColor = .black
-        textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 8
-        textField.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner,
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
-        return textField
-    }()
-
     private lazy var settingsTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
@@ -78,19 +54,19 @@ final class SettingsViewController: BaseViewController {
         super.setupConstraints()
         
         settingsLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(24)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
         settingsTableView.snp.makeConstraints { make in
-            make.top.equalTo(settingsLabel.snp.bottom).offset(EdgeInset)
+            make.top.equalTo(settingsLabel.snp.bottom).offset(EdgeMargin)
             make.bottom.equalTo(informationLabel.snp.top)
-            make.leading.equalTo(view).offset(EdgeInset)
-            make.trailing.equalTo(view).inset(EdgeInset)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
         }
         
         informationLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
             make.centerX.equalTo(view)
         }
     }
@@ -99,7 +75,7 @@ final class SettingsViewController: BaseViewController {
         super.keyboardWillAppear(keyboardHeight)
         
         informationLabel.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset + keyboardHeight)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin + keyboardHeight)
         }
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
@@ -109,7 +85,7 @@ final class SettingsViewController: BaseViewController {
         super.keyboardWillDisappear()
         
         informationLabel.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)

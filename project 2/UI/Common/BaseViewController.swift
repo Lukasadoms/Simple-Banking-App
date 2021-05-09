@@ -13,11 +13,23 @@ class BaseViewController: UIViewController {
     
     let EdgeMargin: CGFloat = 20
     let SearchBarHeight: CGFloat = 50
+    let TitleSize: CGFloat = 30
     
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.isHidden = true
         return picker
+    }()
+    
+    let moneyTextField: CurrencyTextField = {
+        let textField = CurrencyTextField()
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        textField.textAlignment = .center
+        textField.keyboardType = .decimalPad
+        textField.autocorrectionType = .no
+        textField.font = UIFont.boldSystemFont(ofSize: 20)
+        return textField
     }()
     
     override func viewDidLoad() {
@@ -98,8 +110,7 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        let currencyArray = ["EUR", "USD"]
-        return currencyArray.count
+        2
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {

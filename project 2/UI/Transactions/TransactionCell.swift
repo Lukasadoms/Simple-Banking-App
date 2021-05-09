@@ -15,14 +15,19 @@ final class TransactionCell: CodePayTableViewCell {
 
     private lazy var iconContainerView = UIView()
     private lazy var iconView = UIImageView()
-    private lazy var listNameLabel = configuredLabel(text: "Transaction text", color: .black)
-    private lazy var countLabel = configuredLabel(text: "10000", color: .placeholderText)
+    private lazy var transactionPhoneNumberLabel = UILabel()
+    private lazy var amountLabel = UILabel()
 
-    private func configuredLabel(text: String, color: UIColor) -> UILabel {
+    func configuredLabel(text: String, color: UIColor) -> UILabel {
         let label = UILabel()
         label.text = text
         label.textColor = color
         return label
+    }
+    
+    func configureCell(phoneNumber: String, amount: NSDecimalNumber) {
+        transactionPhoneNumberLabel = configuredLabel(text: phoneNumber, color: .black)
+        amountLabel = configuredLabel(text: amount.stringValue, color: .systemGray3)
     }
 
     // MARK: - Lifecycle
@@ -47,13 +52,13 @@ final class TransactionCell: CodePayTableViewCell {
 
         iconContainerView.addSubview(iconView)
         contentView.addSubview(iconContainerView)
-        contentView.addSubview(listNameLabel)
-        contentView.addSubview(countLabel)
+        contentView.addSubview(transactionPhoneNumberLabel)
+        contentView.addSubview(amountLabel)
 
         accessoryType = .disclosureIndicator
         selectionStyle = .none
         
-        listNameLabel.numberOfLines = 0
+        transactionPhoneNumberLabel.numberOfLines = 0
 
         setupConstraints()
     }
@@ -67,23 +72,23 @@ final class TransactionCell: CodePayTableViewCell {
 
         iconView.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(iconContainerView)
-            make.width.height.equalTo(18)
+            make.width.height.equalTo(20)
         }
 
-        listNameLabel.snp.makeConstraints { make in
+        transactionPhoneNumberLabel.snp.makeConstraints { make in
             make.leading.equalTo(iconContainerView.snp.trailing).offset(10)
             make.top.equalTo(contentView).offset(10)
             make.bottom.equalTo(contentView).inset(10)
         }
         
-        listNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        transactionPhoneNumberLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        countLabel.snp.makeConstraints { make in
-            make.leading.greaterThanOrEqualTo(listNameLabel.snp.trailing).offset(10)
+        amountLabel.snp.makeConstraints { make in
+            make.leading.greaterThanOrEqualTo(transactionPhoneNumberLabel.snp.trailing).offset(10)
             make.trailing.equalTo(contentView).inset(10)
             make.centerY.equalTo(contentView)
         }
         
-        countLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        amountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 }

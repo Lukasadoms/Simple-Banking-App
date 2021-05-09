@@ -3,7 +3,6 @@ import UIKit
 
 final class SendMoneyViewController: BaseViewController {
 
-    private var EdgeInset: CGFloat = 16
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -22,7 +21,7 @@ final class SendMoneyViewController: BaseViewController {
     private let sendMoneyLabel: UILabel = {
         let label = UILabel()
         label.text = "Send money:"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
     }()
 
@@ -53,7 +52,6 @@ final class SendMoneyViewController: BaseViewController {
 
     override func setupView() {
         super.setupView()
-        title = "Send Money"
         view.backgroundColor = .white
         configureNavigationBar()
         view.addSubview(newReminderTableView)
@@ -67,29 +65,29 @@ final class SendMoneyViewController: BaseViewController {
         super.setupConstraints()
         
         balanceLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
         
         moneyLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
         sendMoneyLabel.snp.makeConstraints { make in
-            make.top.equalTo(balanceLabel.snp.bottom).offset(24)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(balanceLabel.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
         newReminderTableView.snp.makeConstraints { make in
-            make.top.equalTo(sendMoneyLabel.snp.bottom).offset(EdgeInset)
+            make.top.equalTo(sendMoneyLabel.snp.bottom).offset(EdgeMargin)
             make.bottom.equalTo(informationLabel.snp.top)
-            make.leading.equalTo(view).offset(EdgeInset)
-            make.trailing.equalTo(view).inset(EdgeInset)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
         }
         
         informationLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
             make.centerX.equalTo(view)
         }
     }
@@ -98,7 +96,7 @@ final class SendMoneyViewController: BaseViewController {
         super.keyboardWillAppear(keyboardHeight)
         
         informationLabel.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset + keyboardHeight)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin + keyboardHeight)
         }
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
@@ -108,7 +106,7 @@ final class SendMoneyViewController: BaseViewController {
         super.keyboardWillDisappear()
         
         informationLabel.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeInset)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
@@ -138,8 +136,6 @@ final class SendMoneyViewController: BaseViewController {
     @objc private func cancelPressed() {
         dismiss(animated: true, completion: nil)
     }
-    
-    
 }
 
 extension SendMoneyViewController: UITableViewDataSource {

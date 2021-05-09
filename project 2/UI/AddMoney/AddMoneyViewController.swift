@@ -26,21 +26,10 @@ final class AddMoneyViewController: BaseViewController {
     private let addMoneyLabel: UILabel = {
         let label = UILabel()
         label.text = "Add money:"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
     }()
 
-    private let addMoneyTextField: CurrencyTextField = {
-        let textField = CurrencyTextField()
-        textField.backgroundColor = .systemGray6
-        textField.layer.cornerRadius = 8
-        textField.textAlignment = .center
-        textField.keyboardType = .decimalPad
-        textField.autocorrectionType = .no
-        textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
-        return textField
-    }()
-    
     private let addButton: UIButton = {
         let button = UIButton()
         let buttonColor = UIColor.systemBlue
@@ -62,7 +51,7 @@ final class AddMoneyViewController: BaseViewController {
         view.addSubview(balanceLabel)
         view.addSubview(moneyLabel)
         view.addSubview(addMoneyLabel)
-        view.addSubview(addMoneyTextField)
+        view.addSubview(moneyTextField)
         view.addSubview(addButton)
         
     }
@@ -75,29 +64,29 @@ final class AddMoneyViewController: BaseViewController {
         super.setupConstraints()
         
         balanceLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
         
         moneyLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(24)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
         addMoneyLabel.snp.makeConstraints { make in
-            make.top.equalTo(balanceLabel.snp.bottom).offset(24)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(balanceLabel.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
-        addMoneyTextField.snp.makeConstraints { make in
-            make.top.equalTo(addMoneyLabel.snp.bottom).offset(20)
+        moneyTextField.snp.makeConstraints { make in
+            make.top.equalTo(addMoneyLabel.snp.bottom).offset(EdgeMargin)
             make.height.equalTo(50)
-            make.leading.equalTo(view.safeAreaLayoutGuide).offset(16)
-            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
         addButton.snp.makeConstraints { make in
-            make.top.equalTo(addMoneyTextField.snp.bottom).offset(20)
+            make.top.equalTo(moneyTextField.snp.bottom).offset(EdgeMargin)
             make.centerX.equalTo(view)
         }
     }
