@@ -10,6 +10,8 @@ import SnapKit
 
 final class LoginViewController: BaseViewController {
     
+    let apiManager = APIManager()
+    
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
         picker.isHidden = true
@@ -24,9 +26,9 @@ final class LoginViewController: BaseViewController {
         return loginSegmentedControl
     }()
     
-    private let usernameTextField: TextField = {
+    private let phoneNumberTextField: TextField = {
         let textField = TextField()
-        textField.placeholder = "Username"
+        textField.placeholder = "Phone Number"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
@@ -124,7 +126,7 @@ final class LoginViewController: BaseViewController {
         contentView.addSubview(iconView)
         contentView.addSubview(loginSegmentedControl)
         contentView.addSubview(stackView)
-        stackView.addArrangedSubview(usernameTextField)
+        stackView.addArrangedSubview(phoneNumberTextField)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(passwordReenterTextField)
         stackView.addArrangedSubview(currencyPicker)
@@ -164,7 +166,7 @@ final class LoginViewController: BaseViewController {
             make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide).inset(EdgeMargin)
         }
         
-        usernameTextField.snp.makeConstraints { make in
+        phoneNumberTextField.snp.makeConstraints { make in
             make.leading.equalTo(stackView)
             make.trailing.equalTo(stackView)
             make.height.equalTo(50)
@@ -198,17 +200,51 @@ final class LoginViewController: BaseViewController {
         case 0:
             passwordReenterTextField.isHidden = true
             currencyPicker.isHidden = true
-            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
+            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
         case 1:
             passwordReenterTextField.isHidden = false
             currencyPicker.isHidden = false
-            UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
+            UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
         default:
             break
         }
     }
     
     @objc func loginPressed() {
+        guard
+            let phoneNumber = phoneNumberTextField.text,
+            let password = passwordTextField.text
+        else {
+            return
+        }
+        
+        apiManager.checkIfUserExists(phoneNumber: phoneNumber, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let user):
+                DispatchQueue.main.async {
+                    guard let passwordIsCorrect = self?.checkPasswordIsMatching(user: user.first!) else {
+                        self?.showAlert(message: "Password is incorrect try again")
+                        return
+                    }
+                    if passwordIsCorrect {
+                        self?.proceedToMainView()
+                    }
+                }
+            }
+        })
+        
+        
+    }
+    
+    func checkPasswordIsMatching(user: UserResponse) -> Bool {
+        passwordTextField.text == user.password
+    }
+    
+    func proceedToMainView() {
         let mainViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         navigationController.modalPresentationStyle = .fullScreen

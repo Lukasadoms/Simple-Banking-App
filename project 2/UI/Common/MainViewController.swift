@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 final class MainViewController: BaseViewController {
+    
+    let transactions: [Transaction]? = []
 
     // MARK: - UI elements
 
@@ -57,7 +59,7 @@ final class MainViewController: BaseViewController {
         return tableView
     }()
     
-    private let bottomView = ActionButtonView()
+    private let actionButtonView = ActionButtonView()
     private let contentView = UIView()
     private let scrollView = UIScrollView()
     
@@ -83,7 +85,7 @@ final class MainViewController: BaseViewController {
     override func setupView() {
         super.setupView()
         
-        bottomView.actionsDelegate = self
+        actionButtonView.actionsDelegate = self
         
         applyTheming()
         configureNavigationBar()
@@ -92,11 +94,12 @@ final class MainViewController: BaseViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(iconView)
+        contentView.addSubview(seeAllTransactionsButton)
         contentView.addSubview(myBalanceLabel)
         contentView.addSubview(myTransactionsLabel)
         contentView.addSubview(myTransactionsTableView)
-        contentView.addSubview(seeAllTransactionsButton)
-        view.addSubview(bottomView)
+
+        view.addSubview(actionButtonView)
     }
     
     override func setupConstraints() {
@@ -131,7 +134,7 @@ final class MainViewController: BaseViewController {
         myTransactionsLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(bottomView.snp.bottom).offset(EdgeMargin)
+            make.top.equalTo(actionButtonView.snp.bottom).offset(EdgeMargin)
         }
         
         myTransactionsTableView.snp.makeConstraints { make in
@@ -141,7 +144,7 @@ final class MainViewController: BaseViewController {
             make.bottom.equalTo(contentView).inset(EdgeMargin)
         }
         
-        bottomView.snp.makeConstraints { make in
+        actionButtonView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(myBalanceLabel.snp.bottom).offset(EdgeMargin)
@@ -149,9 +152,9 @@ final class MainViewController: BaseViewController {
         }
         
         seeAllTransactionsButton.snp.makeConstraints { make in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.top.equalTo(myTransactionsTableView.snp.bottom)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.top.equalTo(myTransactionsTableView.snp.bottom)//.offset(EdgeMargin)
             make.height.equalTo(80)
         }
     }
@@ -203,6 +206,17 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let transaction = transactions?[indexPath.row] else { return }
+        
+        let transactionDetailViewController = TransactionDetailViewController()
+        let navigationController = UINavigationController(rootViewController: transactionDetailViewController)
+        
+        transactionDetailViewController.transaction = transaction
+        present(navigationController, animated: true, completion: nil)
     }
 }
 

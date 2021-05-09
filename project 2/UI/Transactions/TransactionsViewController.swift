@@ -37,7 +37,6 @@ class TransactionsViewController: BaseViewController {
         tableView.backgroundColor = .systemGray6
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.isScrollEnabled = false
         tableView.register(TransactionCell.self, forCellReuseIdentifier: "TransactionCell")
 
         tableView.layer.cornerRadius = 8
@@ -138,13 +137,28 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
         transactionCell.configureCell(phoneNumber: transaction.receiverId!, amount: transaction.amount!)
         return transactionCell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let transaction: Transaction
+        if isFiltering {
+          transaction = filteredTransactions[indexPath.row]
+        } else {
+          transaction = transactions[indexPath.row]
+        }
+        let transactionDetailViewController = TransactionDetailViewController()
+        let navigationController = UINavigationController(rootViewController: transactionDetailViewController)
+        
+        transactionDetailViewController.transaction = transaction
+        present(navigationController, animated: true, completion: nil)
+    }
 }
 
 extension TransactionsViewController: UISearchResultsUpdating {
+    
   func updateSearchResults(for searchController: UISearchController) {
     let searchBar = searchController.searchBar
     filterContentForSearchText(searchBar.text!)
-
   }
 }
 
@@ -155,6 +169,5 @@ extension TransactionsViewController {
       
       myTransactionsTableView.reloadData()
     }
-
 }
 

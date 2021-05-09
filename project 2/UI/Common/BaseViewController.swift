@@ -85,6 +85,12 @@ extension BaseViewController {
         )
         view.addGestureRecognizer(recognizer)
     }
+    
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Uh-oh", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
 }
 
 class TextField: UITextField {
