@@ -81,7 +81,7 @@ class CodePayTableViewCell: UITableViewCell {
         switch type {
         case .phoneField:
             primaryLabel = makeLabel(text: "Phone number: +")
-            placeholder = "+370..."
+            placeholder = "370..."
         case .passwordField:
             primaryLabel = makeLabel(text: "Password:")
             placeholder = "*****"
@@ -97,12 +97,12 @@ class CodePayTableViewCell: UITableViewCell {
             make.leading.equalTo(contentView).offset(10)
         }
         
-        //primaryLabel.setContentCompressionResistancePriority(.defaultLow , for: .horizontal)
+        primaryLabel.setContentCompressionResistancePriority(.defaultLow , for: .horizontal)
         
         textField.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.leading.equalTo(primaryLabel.snp.trailing).offset(10)
-            //make.trailing.equalTo(contentView.snp.trailing).inset(10) // textfieldas nesiplecia
+            make.trailing.equalTo(contentView.snp.trailing).inset(10) // textfieldas nesiplecia
         }
         textField.placeholder = placeholder
         //textField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal) // neveikia

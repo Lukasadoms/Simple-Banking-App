@@ -11,6 +11,7 @@ import SnapKit
 final class LoginViewController: BaseViewController {
     
     let apiManager = APIManager()
+    let userManager = UserManager()
     
     private let plusLabel: UILabel = {
         let label = UILabel()
@@ -63,7 +64,6 @@ final class LoginViewController: BaseViewController {
         textField.placeholder = "Password"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.autocorrectionType = .no
-        textField.isSecureTextEntry = true
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
@@ -84,7 +84,6 @@ final class LoginViewController: BaseViewController {
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
-        textField.isSecureTextEntry = true
         textField.isHidden = true
         textField.layer.maskedCorners = [
             .layerMinXMaxYCorner,
@@ -255,16 +254,38 @@ final class LoginViewController: BaseViewController {
     }
     
     @objc func loginPressed() {
-        guard
-            let phoneNumber = phoneNumberTextField.text,
-            let password = passwordTextField.text,
-            !phoneNumber.isEmpty,
-            !password.isEmpty
-        else {
-            return
+        switch loginSegmentedControl.selectedSegmentIndex{
+        case 0:
+            guard
+                let phoneNumber = phoneNumberTextField.text,
+                let password = passwordTextField.text,
+                !phoneNumber.isEmpty,
+                !password.isEmpty
+            else {
+                return
+            }
+            login(phoneNumber: phoneNumber, password: password)
+        case 1:
+            guard
+                let phoneNumber = phoneNumberTextField.text,
+                let password = passwordTextField.text,
+                let reEnterPassword = passwordReenterTextField.text,
+                passwordReenterTextField.text == passwordTextField.text,
+                !phoneNumber.isEmpty,
+                !password.isEmpty,
+                !reEnterPassword.isEmpty
+            else {
+                return
+            }
+            createUser(phoneNumber: phoneNumber, password: password)
+        default:
+        return
         }
         
-        apiManager.checkIfUserExists(phoneNumber: phoneNumber, { [weak self] result in
+    }
+    
+    func login(phoneNumber: String, password: String) {
+        apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -272,29 +293,56 @@ final class LoginViewController: BaseViewController {
                 }
             case .success(let user):
                 DispatchQueue.main.async {
-                    guard let user = user.first else {
-                        self?.showAlert(message: "There is no account with this phoneNumber")
-                        return
-                    }
-                    guard let passwordIsCorrect = self?.checkPasswordIsMatching(user: user) else {
-                        
-                        return
-                    }
-                    if passwordIsCorrect {
+                    if AccountManager.checkIfPasswordIsCorrect(password: password, user: user) {
                         self?.proceedToMainView()
-                    } else {
-                        self?.showAlert(message: "Password is incorrect try again")
+                    }
+                    else {
+                        self?.showAlert(message: AccountManager.AccountManagerError.wrongPassword.errorDescription)
                     }
                 }
             }
         })
-        
-        
     }
     
-    func checkPasswordIsMatching(user: UserResponse) -> Bool {
-        passwordTextField.text == user.password
-    }
+    func createUser(phoneNumber: String, password: String) {
+        apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success:
+                DispatchQueue.main.async {
+                    self?.apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self?.showAlert(message: error.errorDescription)
+                            }
+                        case .success(let user):
+                            DispatchQueue.main.async {
+                                self?.apiManager.getUserToken(user: user, { [weak self] result in
+                                    switch result {
+                                    case .failure(let error):
+                                        DispatchQueue.main.async {
+                                            self?.showAlert(message: error.errorDescription)
+                                        }
+                                    case .success(let token):
+                                        self?.userManager.saveToken(token.accessToken, userId: user.userID)
+                                        self?.userManager.saveUserId(id: user.userID)
+                                    }
+                                })
+                            }
+                        }
+                    })
+                    //self?.apiManager.createAccount(phoneNumber)
+                    self?.proceedToMainView()
+                }
+            }
+        })
+}
+    
+    
     
     func proceedToMainView() {
         let mainViewController = MainViewController()
@@ -303,5 +351,4 @@ final class LoginViewController: BaseViewController {
         present(navigationController, animated: true, completion: nil)
     }
 }
-
 

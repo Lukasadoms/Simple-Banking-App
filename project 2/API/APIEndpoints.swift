@@ -8,16 +8,24 @@
 import Foundation
 
 enum APIEndpoint {
-    case user(phoneNumber: String)
+    case checkUser(phoneNumber: String)
+    case registerUser
+    case getUserToken(user: UserResponse)
 //    case transactions
 //    case accounts
 
 
     var url: URL? {
         switch self {
-        case .user(let phoneNumber):
+        case .checkUser(let phoneNumber):
             let queryItem = URLQueryItem(name: PhoneNumberQueryKey, value: phoneNumber)
             return makeURL(endpoint: "/api/v6/user", queryItems: [queryItem])
+        case .registerUser:
+            return makeURL(endpoint: "/api/v6/user")
+        case .getUserToken(let user):
+            let userId = user.userID
+            return makeURL(endpoint: "/api/v6/user/\(userId)")
+            
 //        case .transactions:
 //            let queryItem = URLQueryItem(name: CategoryNameQueryKey, value: SeriesName)
 //            return makeURL(endpoint: "/api/characters", queryItems: [queryItem])
@@ -42,7 +50,7 @@ private extension APIEndpoint {
     }
 
     var BaseURL: String {
-        "https://608886b3a6f4a3001742691d.mockapi.io/api/v6/"
+        "https://608886b3a6f4a3001742691d.mockapi.io"
     }
 
     func makeURL(endpoint: String, queryItems: [URLQueryItem]? = nil) -> URL? {

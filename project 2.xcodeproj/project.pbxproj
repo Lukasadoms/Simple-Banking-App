@@ -18,6 +18,9 @@
 		C952E39C2647F15F00C302D5 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E39B2647F15F00C302D5 /* UserManager.swift */; };
 		C952E39E2647F1B900C302D5 /* SwiftKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E39D2647F1B900C302D5 /* SwiftKeychain.swift */; };
 		C952E3A02648071F00C302D5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E39F2648071F00C302D5 /* StringExtension.swift */; };
+		C952E3A226498DF000C302D5 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3A126498DF000C302D5 /* AccountManager.swift */; };
+		C952E3A4264AD57F00C302D5 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3A3264AD57F00C302D5 /* TokenResponse.swift */; };
+		C952E3A7264AEA3B00C302D5 /* AccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3A6264AEA3B00C302D5 /* AccountResponse.swift */; };
 		C97B5A512646C14E005158EA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A502646C14E005158EA /* SettingsViewController.swift */; };
 		C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */; };
 		C9BFE081264049D900489159 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE080264049D900489159 /* AppDelegate.swift */; };
@@ -52,6 +55,9 @@
 		C952E39B2647F15F00C302D5 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		C952E39D2647F1B900C302D5 /* SwiftKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeychain.swift; sourceTree = "<group>"; };
 		C952E39F2648071F00C302D5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		C952E3A126498DF000C302D5 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		C952E3A3264AD57F00C302D5 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		C952E3A6264AEA3B00C302D5 /* AccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountResponse.swift; sourceTree = "<group>"; };
 		C97B5A502646C14E005158EA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodaPayTableViewCell.swift; sourceTree = "<group>"; };
 		C9BFE07D264049D900489159 /* project 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,10 +136,10 @@
 		C952E3912647EB0700C302D5 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				C952E3A5264AEA2800C302D5 /* Responses */,
 				C952E3922647EB1400C302D5 /* APIManager.swift */,
 				C952E3942647EB7600C302D5 /* APIError.swift */,
 				C952E3962647EBA200C302D5 /* APIEndpoints.swift */,
-				C952E3982647EE7400C302D5 /* UserResponse.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -142,8 +148,19 @@
 			isa = PBXGroup;
 			children = (
 				C952E39B2647F15F00C302D5 /* UserManager.swift */,
+				C952E3A126498DF000C302D5 /* AccountManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		C952E3A5264AEA2800C302D5 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				C952E3982647EE7400C302D5 /* UserResponse.swift */,
+				C952E3A3264AD57F00C302D5 /* TokenResponse.swift */,
+				C952E3A6264AEA3B00C302D5 /* AccountResponse.swift */,
+			);
+			path = Responses;
 			sourceTree = "<group>";
 		};
 		C97B5A522646C157005158EA /* Settings */ = {
@@ -370,13 +387,16 @@
 				C952E3932647EB1400C302D5 /* APIManager.swift in Sources */,
 				C9BFE085264049D900489159 /* MainViewController.swift in Sources */,
 				C9BFE0AB26404D3600489159 /* AddMoneyViewController.swift in Sources */,
+				C952E3A4264AD57F00C302D5 /* TokenResponse.swift in Sources */,
 				C952E3992647EE7400C302D5 /* UserResponse.swift in Sources */,
 				C9BFE081264049D900489159 /* AppDelegate.swift in Sources */,
+				C952E3A226498DF000C302D5 /* AccountManager.swift in Sources */,
 				C9BFE0D426446C0500489159 /* CurrencyTextField.swift in Sources */,
 				C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */,
 				C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */,
 				C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */,
 				C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */,
+				C952E3A7264AEA3B00C302D5 /* AccountResponse.swift in Sources */,
 				C952E39C2647F15F00C302D5 /* UserManager.swift in Sources */,
 				C9BFE0C026404E5C00489159 /* ActionButtonView.swift in Sources */,
 				C9BFE0DA2645679400489159 /* SendMoneyCell.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserResponse: Decodable {
+struct UserResponse: Codable {
     var userID: String
     var phoneNumber: String
     var password: String

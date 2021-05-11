@@ -13,6 +13,7 @@ enum APIError: Error {
     case failedResponse
     case failedURLCreation
     case userDoesntExist
+    case userDoesExist
     
     var errorDescription: String {
         switch self {
@@ -26,6 +27,8 @@ enum APIError: Error {
             return "Error try again later!"
         case .userDoesntExist:
             return "Account with this username is not found!"
+        case .userDoesExist:
+            return "Account with this username is already registered"
         }
     }
 }

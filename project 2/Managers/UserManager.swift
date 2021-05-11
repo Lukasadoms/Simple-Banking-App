@@ -17,11 +17,11 @@ struct UserManager {
     private let userDefaults = UserDefaults.standard
     private let keyChain = KeychainSwift()
 
-    func getUserId() -> Int? {
-        return userDefaults.object(forKey: UserManagerKey.userId) as? Int
+    func getUserId() -> String? {
+        return userDefaults.object(forKey: UserManagerKey.userId) as? String
     }
     
-    func saveUserId(id: Int) {
+    func saveUserId(id: String) {
         userDefaults.setValue(id, forKey: UserManagerKey.userId)
     }
     
@@ -33,12 +33,12 @@ struct UserManager {
         userDefaults.setValue(expiration, forKey: UserManagerKey.tokenExpiration)
     }
     
-    func saveToken(_ token: String, userId: Int) {
-        keyChain.set(token, forKey: String(userId))
+    func saveToken(_ token: String, userId: String) {
+        keyChain.set(token, forKey: userId)
     }
     
-    func getToken(userId: Int) -> String? {
-        keyChain.get(String(userId))
+    func getToken(userId: String) -> String? {
+        keyChain.get(userId)
     }
     
     func isUserLoggedIn() -> Bool {
