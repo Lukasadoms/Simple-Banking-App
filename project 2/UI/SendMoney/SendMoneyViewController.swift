@@ -3,7 +3,8 @@ import UIKit
 
 final class SendMoneyViewController: BaseViewController {
 
-    var account: AccountResponse?
+    var currentAccount: AccountResponse?
+    let apiManager = APIManager()
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -25,15 +26,19 @@ final class SendMoneyViewController: BaseViewController {
         label.font = UIFont.boldSystemFont(ofSize: 30)
         return label
     }()
-
-    private lazy var sendMoneyTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = .white
-        tableView.rowHeight = 50
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(SendMoneyCell.self, forCellReuseIdentifier: "SendMoneyCell")
-        return tableView
+    
+    private let sendToLabel: UILabel = {
+        let label = UILabel()
+        label.text = "To: +"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
+    
+    private let referenceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Reference:"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
     }()
     
     private let informationLabel: UILabel = {
@@ -42,6 +47,40 @@ final class SendMoneyViewController: BaseViewController {
         label.textColor = .systemGray3
         label.textAlignment = .center
         return label
+    }()
+    
+    private let sendButton: UIButton = {
+        let button = UIButton()
+        let buttonColor = UIColor.systemBlue
+        let buttonHighlightedColor = UIColor.systemBlue.withAlphaComponent(0.5)
+        button.setTitle("Send", for: .normal)
+        button.setTitleColor(buttonColor, for: .normal)
+        button.setTitleColor(buttonHighlightedColor, for: .highlighted)
+        button.addTarget(self, action: #selector(sendMoneyPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    private let phoneNumberTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "370..."
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.keyboardType = .decimalPad
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    private let referenceTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "Reference"
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        return textField
     }()
     
     override func viewDidLoad() {
@@ -55,11 +94,17 @@ final class SendMoneyViewController: BaseViewController {
         super.setupView()
         view.backgroundColor = .white
         configureNavigationBar()
-        view.addSubview(sendMoneyTableView)
+        view.addSubview(moneyTextField)
+        view.addSubview(sendToLabel)
+        view.addSubview(referenceLabel)
+        view.addSubview(phoneNumberTextField)
+        view.addSubview(referenceTextField)
+        view.addSubview(referenceLabel)
         view.addSubview(informationLabel)
         view.addSubview(balanceLabel)
         view.addSubview(moneyLabel)
         view.addSubview(sendMoneyLabel)
+        view.addSubview(sendButton)
     }
 
     override func setupConstraints() {
@@ -80,9 +125,40 @@ final class SendMoneyViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
-        sendMoneyTableView.snp.makeConstraints { make in
+        moneyTextField.snp.makeConstraints { make in
             make.top.equalTo(sendMoneyLabel.snp.bottom).offset(EdgeMargin)
-            make.bottom.equalTo(informationLabel.snp.top)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.height.equalTo(50)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+        }
+        
+        sendToLabel.snp.makeConstraints { make in
+            make.top.equalTo(moneyTextField.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.width.equalTo(45)
+        }
+        
+        phoneNumberTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(sendToLabel)
+            make.leading.equalTo(sendToLabel.snp.trailing).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(30)
+        }
+        
+        referenceLabel.snp.makeConstraints { make in
+            make.top.equalTo(sendToLabel.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view).offset(EdgeMargin)
+        }
+        
+        referenceTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(referenceLabel)
+            make.leading.equalTo(referenceLabel.snp.trailing).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(30)
+        }
+        
+        sendButton.snp.makeConstraints { make in
+            make.top.equalTo(referenceTextField.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(view).offset(EdgeMargin)
             make.trailing.equalTo(view).inset(EdgeMargin)
         }
@@ -97,7 +173,7 @@ final class SendMoneyViewController: BaseViewController {
         super.keyboardWillAppear(keyboardHeight)
         
         informationLabel.snp.updateConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(EdgeMargin + keyboardHeight)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(keyboardHeight)
         }
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
@@ -138,57 +214,49 @@ final class SendMoneyViewController: BaseViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @objc func sendMoneyPressed() {
+        guard
+            let currentAccount = currentAccount,
+            let phoneNumber = phoneNumberTextField.text,
+            let reference = referenceTextField.text
+        else { return }
+        apiManager.checkIfAccountExists(phoneNumber: phoneNumber, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let account):
+                continueSendMoney(account: account)
+            }
+        })
+        
+        func continueSendMoney(account: AccountResponse) {
+            apiManager.postTransaction(
+                senderAccount: currentAccount,
+                receiverAccount: account,
+                amount: Decimal(moneyTextField.value),
+                currency: currentAccount.currency,
+                reference: reference,
+                { [weak self] result in
+                    
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: "Transaction submitted succesfully")
+                    }
+                }
+            })
+        }
+    }
+    
     func updateUI() {
-        guard let account = account else { return }
+        guard let account = currentAccount else { return }
         moneyLabel.text = "\(account.balance)"
     }
 }
 
-extension SendMoneyViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        default:
-            return 1
-        }
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SendMoneyCell", for: indexPath)
-
-        guard let sendMoneyCell = cell as? SendMoneyCell else {
-            return cell
-        }
-
-        switch indexPath.section {
-        case 0:
-            sendMoneyCell.setupCell(type: .phoneField)
-            
-        case 1:
-            sendMoneyCell.setupCell(type: .moneyAmountField)
-        default:
-            fatalError("Unexpected section!")
-        }
-        sendMoneyCell.roundAllCorners()
-        return sendMoneyCell
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        2
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }
-}
-
-extension SendMoneyViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        20
-    }
-}

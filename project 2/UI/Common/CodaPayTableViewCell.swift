@@ -88,7 +88,7 @@ class CodePayTableViewCell: UITableViewCell {
             placeholder = "*****"
         case .referenceTextField:
             primaryLabel = makeLabel(text: "Reference:")
-            placeholder = "transaction info"
+            placeholder = "reference text"
         default:
             break
         }

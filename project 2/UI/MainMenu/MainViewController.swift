@@ -245,7 +245,7 @@ extension MainViewController: ActionsButtonViewDelegate {
 
     func actionsButtonViewSendMoneyPressed() {
         let sendMoneyViewController = SendMoneyViewController()
-        sendMoneyViewController.account = account
+        sendMoneyViewController.currentAccount = account
         let navigationController = UINavigationController(rootViewController: sendMoneyViewController)
         present(navigationController, animated: true, completion: nil)
     }

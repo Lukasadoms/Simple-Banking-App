@@ -14,8 +14,8 @@ enum APIEndpoint {
     case getUserToken(user: UserResponse)
     case account
     case getUserTransactions(phoneNumber: String)
-
-
+    case transaction
+    
     var url: URL? {
         switch self {
         case .checkUser(let phoneNumber):
@@ -34,6 +34,8 @@ enum APIEndpoint {
         case .getUserTransactions(let phoneNumber):
             let queryItem = URLQueryItem(name: SearchQueryKey, value: phoneNumber)
             return makeURL(endpoint: "/api/v6/transaction", queryItems: [queryItem])
+        case .transaction:
+            return makeURL(endpoint: "/api/v6/transaction")
         }
     }
 }

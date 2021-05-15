@@ -240,4 +240,50 @@ struct APIManager {
             completion(.success(userResponse))
         }.resume()
     }
+    
+    func postTransaction(senderAccount: AccountResponse,
+                         receiverAccount: AccountResponse,
+                         amount: Decimal, currency: String,
+                         reference: String,
+                         _ completion: @escaping (Result<TransactionResponse, APIError>) -> Void)
+    {
+        let createdOn = Int(Date().timeIntervalSince1970)
+        guard let url = APIEndpoint.account.url
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+        
+        let updatingUser = TransactionResponse(id: "",
+                                               senderId: senderAccount.id,
+                                               receiverId: receiverAccount.id,
+                                               amount: amount,
+                                               currency: currency,
+                                               createdOn: createdOn,
+                                               reference: reference
+        )
+
+        guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
+            completion(.failure(.unexpectedDataFormat))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = APIHTTPMethod.post
+        request.httpBody = requestJSON
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+            guard let userResponse = try? JSONDecoder().decode(TransactionResponse.self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(userResponse))
+        }.resume()
+    }
 }

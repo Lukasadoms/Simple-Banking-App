@@ -265,7 +265,8 @@ final class LoginViewController: BaseViewController {
             else {
                 return
             }
-            loginUser(phoneNumber: phoneNumber, password: password)
+            //loginUser(phoneNumber: phoneNumber, password: password)
+            self.proceedToMainView(account: AccountResponse(id: "", phoneNumber: "37063655911", currency: "EUR", balance: 100))
         case 1:
             guard
                 let phoneNumber = phoneNumberTextField.text,
