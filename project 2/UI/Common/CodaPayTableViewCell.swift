@@ -95,6 +95,7 @@ class CodePayTableViewCell: UITableViewCell {
         primaryLabel.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.leading.equalTo(contentView).offset(10)
+            make.width.equalTo(contentView).multipliedBy(0.35)
         }
         
         primaryLabel.setContentCompressionResistancePriority(.defaultLow , for: .horizontal)

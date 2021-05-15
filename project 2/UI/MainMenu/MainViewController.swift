@@ -11,6 +11,7 @@ import SnapKit
 final class MainViewController: BaseViewController {
     
     let transactions: [Transaction]? = []
+    let account: AccountResponse?
 
     // MARK: - UI elements
 
@@ -94,12 +95,12 @@ final class MainViewController: BaseViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubview(iconView)
-        contentView.addSubview(seeAllTransactionsButton)
+        scrollView.addSubview(seeAllTransactionsButton)
         contentView.addSubview(myBalanceLabel)
         contentView.addSubview(myTransactionsLabel)
         contentView.addSubview(myTransactionsTableView)
 
-        view.addSubview(actionButtonView)
+        contentView.addSubview(actionButtonView)
     }
     
     override func setupConstraints() {
@@ -115,6 +116,7 @@ final class MainViewController: BaseViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView)
             make.width.equalTo(scrollView)
+            
         }
         
         iconView.snp.makeConstraints { make in
@@ -154,7 +156,7 @@ final class MainViewController: BaseViewController {
         seeAllTransactionsButton.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(myTransactionsTableView.snp.bottom)//.offset(EdgeMargin)
+            make.top.equalTo(contentView.snp.bottom)//.offset(EdgeMargin)
             make.height.equalTo(80)
         }
     }

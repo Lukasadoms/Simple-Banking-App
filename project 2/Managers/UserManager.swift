@@ -10,19 +10,19 @@ import Foundation
 struct UserManager {
     
     private enum UserManagerKey {
-        static let userId: String = "current user id"
+        static let phoneNumber: String = "current user phoneNumber"
         static let tokenExpiration: String = "current token expiration"
     }
     
     private let userDefaults = UserDefaults.standard
     private let keyChain = KeychainSwift()
 
-    func getUserId() -> String? {
-        return userDefaults.object(forKey: UserManagerKey.userId) as? String
+    func getUserphoneNumber() -> String? {
+        return userDefaults.object(forKey: UserManagerKey.phoneNumber) as? String
     }
     
-    func saveUserId(id: String) {
-        userDefaults.setValue(id, forKey: UserManagerKey.userId)
+    func saveUserPhoneNumber(phoneNumber: String) {
+        userDefaults.setValue(phoneNumber, forKey: UserManagerKey.phoneNumber)
     }
     
     func getTokenExpiration() -> Int? {
@@ -33,17 +33,17 @@ struct UserManager {
         userDefaults.setValue(expiration, forKey: UserManagerKey.tokenExpiration)
     }
     
-    func saveToken(_ token: String, userId: String) {
-        keyChain.set(token, forKey: userId)
+    func saveToken(_ token: String, phoneNumber: String) {
+        keyChain.set(token, forKey: phoneNumber)
     }
     
-    func getToken(userId: String) -> String? {
-        keyChain.get(userId)
+    func getToken(phoneNumber: String) -> String? {
+        keyChain.get(phoneNumber)
     }
     
     func isUserLoggedIn() -> Bool {
-        guard let userId = getUserId(),
-              let _ = getToken(userId: userId),
+        guard let phoneNumber = getUserphoneNumber(),
+              let _ = getToken(phoneNumber: phoneNumber),
               let expirationTimestamp = getTokenExpiration() else {
             return false
         }

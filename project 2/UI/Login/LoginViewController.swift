@@ -305,6 +305,7 @@ final class LoginViewController: BaseViewController {
     }
     
     func createUser(phoneNumber: String, password: String) {
+        
         apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
             case .failure(let error):
@@ -312,37 +313,48 @@ final class LoginViewController: BaseViewController {
                     self?.showAlert(message: error.errorDescription)
                 }
             case .success:
-                DispatchQueue.main.async {
-                    self?.apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
-                        switch result {
-                        case .failure(let error):
-                            DispatchQueue.main.async {
-                                self?.showAlert(message: error.errorDescription)
-                            }
-                        case .success(let user):
-                            DispatchQueue.main.async {
-                                self?.apiManager.getUserToken(user: user, { [weak self] result in
-                                    switch result {
-                                    case .failure(let error):
-                                        DispatchQueue.main.async {
-                                            self?.showAlert(message: error.errorDescription)
-                                        }
-                                    case .success(let token):
-                                        self?.userManager.saveToken(token.accessToken, userId: user.userID)
-                                        self?.userManager.saveUserId(id: user.userID)
-                                    }
-                                })
-                            }
-                        }
-                    })
-                    //self?.apiManager.createAccount(phoneNumber)
-                    self?.proceedToMainView()
-                }
+              continueUserCreation()
+                
             }
         })
-}
-    
-    
+        
+        func continueUserCreation() {
+            apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success(let user):
+                    getUserToken(user: user)
+                }
+            })
+            apiManager.createAccount(phoneNumber: phoneNumber, currency: "EUR", { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success:
+                    self?.proceedToMainView()
+                }
+            })
+        }
+        
+        func getUserToken(user: UserResponse) {
+            apiManager.getUserToken(user: user, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success(let token):
+                    self?.userManager.saveToken(token.accessToken, phoneNumber: user.phoneNumber)
+                    self?.userManager.saveUserPhoneNumber(phoneNumber: user.phoneNumber)
+                }
+            })
+        }
+    }
     
     func proceedToMainView() {
         let mainViewController = MainViewController()

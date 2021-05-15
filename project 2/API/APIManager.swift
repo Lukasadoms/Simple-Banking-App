@@ -110,18 +110,19 @@ struct APIManager {
         }.resume()
     }
     
-    func createAccount(phoneNumber: String, password: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
+    func createAccount(phoneNumber: String, currency: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
 
-        guard let url = APIEndpoint.registerUser.url
+        guard let url = APIEndpoint.registerAccount.url
         else {
             completion(.failure(.failedURLCreation))
             return
         }
         
-        let registerUser = UserResponse(
-            userID: "",
+        let registerUser = AccountResponse(
+            id: "",
             phoneNumber: phoneNumber,
-            password: password
+            currency: currency,
+            balance: 0
         )
 
         guard let requestJSON = try? JSONEncoder().encode(registerUser) else {

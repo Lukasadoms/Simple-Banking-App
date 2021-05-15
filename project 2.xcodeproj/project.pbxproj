@@ -163,6 +163,15 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		C952E3A8264FA86F00C302D5 /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				C9BFE084264049D900489159 /* MainViewController.swift */,
+				C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */,
+			);
+			path = MainMenu;
+			sourceTree = "<group>";
+		};
 		C97B5A522646C157005158EA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +218,7 @@
 		C9BFE09F26404C6A00489159 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				C952E3A8264FA86F00C302D5 /* MainMenu */,
 				C952E3842646F00900C302D5 /* Transactions */,
 				C97B5A522646C157005158EA /* Settings */,
 				C9BFE0DE2645683600489159 /* SendMoney */,
@@ -222,11 +232,9 @@
 		C9BFE0C82643D6B800489159 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				C9BFE084264049D900489159 /* MainViewController.swift */,
 				C9BFE0B026404D7D00489159 /* BaseView.swift */,
 				C9BFE0A026404C8000489159 /* BaseViewController.swift */,
 				C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */,
-				C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */,
 				C9BFE0D326446C0500489159 /* CurrencyTextField.swift */,
 				C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */,
 				C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */,
