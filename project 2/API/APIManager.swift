@@ -110,7 +110,7 @@ struct APIManager {
         }.resume()
     }
     
-    func createAccount(phoneNumber: String, currency: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
+    func createAccount(phoneNumber: String, currency: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
         guard let url = APIEndpoint.registerAccount.url
         else {
@@ -141,11 +141,40 @@ struct APIManager {
                 completion(.failure(.failedRequest))
                 return
             }
-            guard let userResponse = try? JSONDecoder().decode(UserResponse.self, from: data) else {
+            guard let userResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
                 completion(.failure(.failedResponse))
                 return
             }
             completion(.success(userResponse))
+        }.resume()
+    }
+    
+    func checkIfAccountExists(phoneNumber: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
+
+        guard let url = APIEndpoint.checkUser(phoneNumber: phoneNumber).url
+        
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+
+        session.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+
+            guard let userResponse = try? JSONDecoder().decode([AccountResponse].self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            if let user = userResponse.first {
+                completion(.success(user))
+                return
+            } else {
+                completion(.failure(.userDoesntExist))
+                return
+            }
         }.resume()
     }
 }

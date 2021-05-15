@@ -11,6 +11,7 @@ import SnapKit
 final class LoginViewController: BaseViewController {
     
     let apiManager = APIManager()
+    let accountManager = AccountManager()
     let userManager = UserManager()
     
     private let plusLabel: UILabel = {
@@ -58,7 +59,7 @@ final class LoginViewController: BaseViewController {
         ]
         return textField
     }()
-
+    
     private let passwordTextField: TextField = {
         let textField = TextField()
         textField.placeholder = "Password"
@@ -148,7 +149,7 @@ final class LoginViewController: BaseViewController {
             .layerMinXMinYCorner,
             .layerMaxXMinYCorner
         ]
-
+        
         view.addSubview(contentView)
         contentView.addSubview(iconView)
         contentView.addSubview(loginSegmentedControl)
@@ -199,7 +200,7 @@ final class LoginViewController: BaseViewController {
             make.height.equalTo(40)
             
         }
-
+        
         stackView.snp.makeConstraints { make in
             make.top.equalTo(loginSegmentedControl.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(contentView)
@@ -264,7 +265,7 @@ final class LoginViewController: BaseViewController {
             else {
                 return
             }
-            login(phoneNumber: phoneNumber, password: password)
+            loginUser(phoneNumber: phoneNumber, password: password)
         case 1:
             guard
                 let phoneNumber = phoneNumberTextField.text,
@@ -277,14 +278,34 @@ final class LoginViewController: BaseViewController {
             else {
                 return
             }
-            createUser(phoneNumber: phoneNumber, password: password)
+            registerUser(phoneNumber: phoneNumber, password: password)
         default:
-        return
+            return
         }
         
     }
-    
-    func login(phoneNumber: String, password: String) {
+}
+
+// MARK: - Login functionality
+
+extension LoginViewController {
+    func loginUser(phoneNumber: String, password: String) {
+        
+        func checkIfAccountExists() {
+            apiManager.checkIfAccountExists(phoneNumber: phoneNumber, {  [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success(let account):
+                    DispatchQueue.main.async {
+                        self?.proceedToMainView(account: account)
+                    }
+                }
+            })
+        }
+        
         apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
             case .failure(let error):
@@ -293,8 +314,9 @@ final class LoginViewController: BaseViewController {
                 }
             case .success(let user):
                 DispatchQueue.main.async {
-                    if AccountManager.checkIfPasswordIsCorrect(password: password, user: user) {
-                        self?.proceedToMainView()
+                    guard let passwordCheck = self?.accountManager.checkIfPasswordIsCorrect(password: password, user: user) else { return }
+                    if passwordCheck {
+                        checkIfAccountExists()
                     }
                     else {
                         self?.showAlert(message: AccountManager.AccountManagerError.wrongPassword.errorDescription)
@@ -303,21 +325,13 @@ final class LoginViewController: BaseViewController {
             }
         })
     }
+}
+
+// MARK: - Register functionality
+
+extension LoginViewController {
     
-    func createUser(phoneNumber: String, password: String) {
-        
-        apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
-            switch result {
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.showAlert(message: error.errorDescription)
-                }
-            case .success:
-              continueUserCreation()
-                
-            }
-        })
-        
+    func registerUser(phoneNumber: String, password: String) {
         func continueUserCreation() {
             apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
                 switch result {
@@ -335,8 +349,8 @@ final class LoginViewController: BaseViewController {
                     DispatchQueue.main.async {
                         self?.showAlert(message: error.errorDescription)
                     }
-                case .success:
-                    self?.proceedToMainView()
+                case .success(let account):
+                    self?.proceedToMainView(account: account)
                 }
             })
         }
@@ -354,13 +368,45 @@ final class LoginViewController: BaseViewController {
                 }
             })
         }
+        
+        func checkIfUserExists(phoneNumber: String) {
+            apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
+                switch result {
+                case .failure(let error):
+                    switch error {
+                    case .userDoesntExist:
+                        continueUserCreation()
+                    default:
+                        DispatchQueue.main.async {
+                            self?.showAlert(message: error.errorDescription)
+                        }
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: AccountManager.AccountManagerError.accountAlreadyExists.errorDescription)
+                    }
+                }
+            })
+        }
     }
-    
-    func proceedToMainView() {
+}
+
+// MARK: - Navigation
+
+extension LoginViewController {
+    func proceedToMainView(account: AccountResponse) {
         let mainViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         navigationController.modalPresentationStyle = .fullScreen
+        mainViewController.account = account
         present(navigationController, animated: true, completion: nil)
     }
 }
+
+
+
+
+
+
+
 

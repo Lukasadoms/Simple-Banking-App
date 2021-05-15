@@ -43,23 +43,7 @@ class AccountManager {
 
 extension AccountManager {
     
-    static func registerAccount(username: String?, password: String?) throws {
-        guard
-            let username = username,
-            let password = password,
-            !username.isEmpty,
-            !password.isEmpty
-        else {
-            throw AccountManagerError.missingValues
-        }
-        
-        guard !isUsernameTaken(username) else {
-            throw AccountManagerError.accountAlreadyExists
-        }
-        //TODO REGISTER ACCOUNT
-    }
-    
-    static func checkIfPasswordIsCorrect(password: String, user: UserResponse) -> Bool {
+    func checkIfPasswordIsCorrect(password: String, user: UserResponse) -> Bool {
         password == user.password
     }
 }

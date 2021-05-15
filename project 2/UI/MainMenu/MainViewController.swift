@@ -10,8 +10,8 @@ import SnapKit
 
 final class MainViewController: BaseViewController {
     
-    let transactions: [Transaction]? = []
-    let account: AccountResponse?
+    private let transactions: [Transaction]? = []
+    var account: AccountResponse?
 
     // MARK: - UI elements
 
@@ -76,6 +76,7 @@ final class MainViewController: BaseViewController {
         super.viewDidLoad()
         observeTouchesOnView()
         configureNavigationBar()
+        getAccountDetails()
         
     }
     
@@ -233,6 +234,14 @@ extension MainViewController: ActionsButtonViewDelegate {
         let newReminderViewController = SendMoneyViewController()
         let navigationController = UINavigationController(rootViewController: newReminderViewController)
         present(navigationController, animated: true, completion: nil)
+    }
+}
+
+// MARK: - API Calls
+
+extension MainViewController {
+    func getAccountDetails() {
+        
     }
 }
 
