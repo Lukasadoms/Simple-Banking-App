@@ -10,8 +10,8 @@ import SnapKit
 
 class TransactionsViewController: BaseViewController {
     
-    var transactions: [Transaction] = []
-    var filteredTransactions: [Transaction] = []
+    var transactions: [TransactionResponse] = []
+    var filteredTransactions: [TransactionResponse] = []
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
@@ -112,19 +112,18 @@ class TransactionsViewController: BaseViewController {
 }
 
 extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-      if isFiltering {
-        return filteredTransactions.count
-      }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering {
+            return filteredTransactions.count
+        }
         
-      return transactions.count
+        return transactions.count
     }
-
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-        let transaction: Transaction
+        let transaction: TransactionResponse
         if isFiltering {
             transaction = filteredTransactions[indexPath.row]
         } else {
@@ -134,13 +133,13 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
         guard let transactionCell = cell as? TransactionCell else {
             return cell
         }
-        transactionCell.configureCell(phoneNumber: transaction.receiverId!, amount: transaction.amount!)
+        transactionCell.configureCell(phoneNumber: transaction.senderId, amount: transaction.amount)
         return transactionCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let transaction: Transaction
+        let transaction: TransactionResponse
         if isFiltering {
           transaction = filteredTransactions[indexPath.row]
         } else {

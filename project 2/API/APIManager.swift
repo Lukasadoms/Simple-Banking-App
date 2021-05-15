@@ -13,6 +13,7 @@ struct APIManager {
         static let get = "GET"
         static let post = "POST"
         static let delete = "DELETE"
+        static let put = "PUT"
     }
     
     private var session: URLSession {
@@ -51,7 +52,7 @@ struct APIManager {
     
     func createUser(phoneNumber: String, password: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
 
-        guard let url = APIEndpoint.registerUser.url
+        guard let url = APIEndpoint.user.url
         else {
             completion(.failure(.failedURLCreation))
             return
@@ -112,7 +113,7 @@ struct APIManager {
     
     func createAccount(phoneNumber: String, currency: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
-        guard let url = APIEndpoint.registerAccount.url
+        guard let url = APIEndpoint.account.url
         else {
             completion(.failure(.failedURLCreation))
             return
@@ -151,7 +152,7 @@ struct APIManager {
     
     func checkIfAccountExists(phoneNumber: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
-        guard let url = APIEndpoint.checkUser(phoneNumber: phoneNumber).url
+        guard let url = APIEndpoint.checkAccount(phoneNumber: phoneNumber).url
         
         else {
             completion(.failure(.failedURLCreation))
@@ -175,6 +176,68 @@ struct APIManager {
                 completion(.failure(.userDoesntExist))
                 return
             }
+        }.resume()
+    }
+    
+    func getAccountTransactions(phoneNumber: String, _ completion: @escaping (Result<[TransactionResponse], APIError>) -> Void) {
+
+        guard let url = APIEndpoint.getUserTransactions(phoneNumber: phoneNumber).url
+        
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+
+        session.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+
+            guard let transactionResponse = try? JSONDecoder().decode([TransactionResponse].self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(transactionResponse))
+        }.resume()
+    }
+    
+    func sendMoneyToAccount(account: AccountResponse, amount: Double, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
+
+        guard let url = APIEndpoint.account.url
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+        
+        let updatingUser = AccountResponse(
+            id: account.id,
+            phoneNumber: account.phoneNumber,
+            currency: account.currency,
+            balance: account.balance + amount
+        )
+
+        guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
+            completion(.failure(.unexpectedDataFormat))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = APIHTTPMethod.put
+        request.httpBody = requestJSON
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+            guard let userResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(userResponse))
         }.resume()
     }
 }

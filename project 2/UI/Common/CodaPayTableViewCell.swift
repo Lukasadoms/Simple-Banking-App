@@ -14,6 +14,7 @@ class CodePayTableViewCell: UITableViewCell {
         case moneyAmountField
         case passwordField
         case currencyPicker
+        case referenceTextField
     }
     
     private let currencyPicker: UIPickerView = {
@@ -68,7 +69,7 @@ class CodePayTableViewCell: UITableViewCell {
             setupTextPickerCell()
         case .moneyAmountField:
             setupMoneyAmountCell()
-        case .passwordField, .phoneField:
+        case .passwordField, .phoneField, .referenceTextField:
             setupTextFieldCell(type: type)
         }
     }
@@ -85,6 +86,9 @@ class CodePayTableViewCell: UITableViewCell {
         case .passwordField:
             primaryLabel = makeLabel(text: "Password:")
             placeholder = "*****"
+        case .referenceTextField:
+            primaryLabel = makeLabel(text: "Reference:")
+            placeholder = "transaction info"
         default:
             break
         }
@@ -98,15 +102,14 @@ class CodePayTableViewCell: UITableViewCell {
             make.width.equalTo(contentView).multipliedBy(0.35)
         }
         
-        primaryLabel.setContentCompressionResistancePriority(.defaultLow , for: .horizontal)
-        
         textField.snp.makeConstraints { make in
             make.centerY.equalTo(contentView)
             make.leading.equalTo(primaryLabel.snp.trailing).offset(10)
-            make.trailing.equalTo(contentView.snp.trailing).inset(10) // textfieldas nesiplecia
+            make.trailing.equalTo(contentView.snp.trailing).inset(10)
         }
+        
         textField.placeholder = placeholder
-        //textField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal) // neveikia
+
     }
     
     func setupTextPickerCell() {
@@ -169,7 +172,7 @@ extension CodePayTableViewCell: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let currencyArray = ["EUR", "USD"]
         return currencyArray[row]
-    } // ar galima visa sita padaryti global ?
+    }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         

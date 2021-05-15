@@ -350,7 +350,9 @@ extension LoginViewController {
                         self?.showAlert(message: error.errorDescription)
                     }
                 case .success(let account):
-                    self?.proceedToMainView(account: account)
+                    DispatchQueue.main.async {
+                        self?.proceedToMainView(account: account)
+                    }
                 }
             })
         }
@@ -369,25 +371,25 @@ extension LoginViewController {
             })
         }
         
-        func checkIfUserExists(phoneNumber: String) {
-            apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
-                switch result {
-                case .failure(let error):
-                    switch error {
-                    case .userDoesntExist:
-                        continueUserCreation()
-                    default:
-                        DispatchQueue.main.async {
-                            self?.showAlert(message: error.errorDescription)
-                        }
-                    }
-                case .success:
+        
+        apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
+            switch result {
+            case .failure(let error):
+                switch error {
+                case .userDoesntExist:
+                    continueUserCreation()
+                default:
                     DispatchQueue.main.async {
-                        self?.showAlert(message: AccountManager.AccountManagerError.accountAlreadyExists.errorDescription)
+                        self?.showAlert(message: error.errorDescription)
                     }
                 }
-            })
-        }
+            case .success:
+                DispatchQueue.main.async {
+                    self?.showAlert(message: AccountManager.AccountManagerError.accountAlreadyExists.errorDescription)
+                }
+            }
+        })
+        
     }
 }
 

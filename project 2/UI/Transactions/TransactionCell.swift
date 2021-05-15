@@ -25,9 +25,9 @@ final class TransactionCell: CodePayTableViewCell {
         return label
     }
     
-    func configureCell(phoneNumber: String, amount: NSDecimalNumber) {
+    func configureCell(phoneNumber: String, amount: Decimal) {
         transactionPhoneNumberLabel = configuredLabel(text: phoneNumber, color: .black)
-        amountLabel = configuredLabel(text: amount.stringValue, color: .systemGray3)
+        amountLabel = configuredLabel(text: "\(amount)", color: .systemGray3)
     }
 
     // MARK: - Lifecycle

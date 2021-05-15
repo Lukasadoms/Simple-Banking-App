@@ -9,10 +9,11 @@ import Foundation
 
 enum APIEndpoint {
     case checkUser(phoneNumber: String)
-    case registerUser
+    case checkAccount(phoneNumber: String)
+    case user
     case getUserToken(user: UserResponse)
-    case registerAccount
-//    case accounts
+    case account
+    case getUserTransactions(phoneNumber: String)
 
 
     var url: URL? {
@@ -20,25 +21,19 @@ enum APIEndpoint {
         case .checkUser(let phoneNumber):
             let queryItem = URLQueryItem(name: PhoneNumberQueryKey, value: phoneNumber)
             return makeURL(endpoint: "/api/v6/user", queryItems: [queryItem])
-        case .registerUser:
+        case .checkAccount(let phoneNumber):
+            let queryItem = URLQueryItem(name: PhoneNumberQueryKey, value: phoneNumber)
+            return makeURL(endpoint: "/api/v6/account", queryItems: [queryItem])
+        case .user:
             return makeURL(endpoint: "/api/v6/user")
         case .getUserToken(let user):
             let userId = user.userID
             return makeURL(endpoint: "/api/v6/user/\(userId)")
-        case .registerAccount:
+        case .account:
             return makeURL(endpoint: "/api/v6/account")
-            
-//        case .transactions:
-//            let queryItem = URLQueryItem(name: CategoryNameQueryKey, value: SeriesName)
-//            return makeURL(endpoint: "/api/characters", queryItems: [queryItem])
-//        case .characterInfo(let name):
-//            let queryItem = URLQueryItem(name: CharacterNameQueryKey, value: name)
-//            return makeURL(endpoint: "/api/characters", queryItems: [queryItem])
-//        case .characterQuotes(let name):
-//            let queryItem = URLQueryItem(name: AuthorNameQueryKey, value: name)
-//            return makeURL(endpoint: "/api/quote", queryItems: [queryItem])
-//        case .randomQuote:
-//            return makeURL(endpoint: "/api/quote/random")
+        case .getUserTransactions(let phoneNumber):
+            let queryItem = URLQueryItem(name: SearchQueryKey, value: phoneNumber)
+            return makeURL(endpoint: "/api/v6/transaction", queryItems: [queryItem])
         }
     }
 }
@@ -49,6 +44,10 @@ private extension APIEndpoint {
     
     var PhoneNumberQueryKey: String {
         "phoneNumber"
+    }
+    
+    var SearchQueryKey: String {
+        "search"
     }
 
     var BaseURL: String {

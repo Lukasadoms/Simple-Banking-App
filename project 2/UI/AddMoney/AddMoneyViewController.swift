@@ -9,6 +9,9 @@ import UIKit
 
 final class AddMoneyViewController: BaseViewController {
     
+    var account: AccountResponse?
+    let apiManager = APIManager()
+    
     private let balanceLabel: UILabel = {
         let label = UILabel()
         label.text = "Your balance:"
@@ -18,7 +21,7 @@ final class AddMoneyViewController: BaseViewController {
     
     private let moneyLabel: UILabel = {
         let label = UILabel()
-        label.text = "$40"
+        label.text = "40"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -37,11 +40,13 @@ final class AddMoneyViewController: BaseViewController {
         button.setTitle("Add", for: .normal)
         button.setTitleColor(buttonColor, for: .normal)
         button.setTitleColor(buttonHighlightedColor, for: .highlighted)
+        button.addTarget(self, action: #selector(addMoneyPressed), for: .touchUpInside)
         return button
     }()
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateUI()
         observeTouchesOnView()
     }
 
@@ -53,7 +58,6 @@ final class AddMoneyViewController: BaseViewController {
         view.addSubview(addMoneyLabel)
         view.addSubview(moneyTextField)
         view.addSubview(addButton)
-        
     }
     
     @objc private func cancelPressed() {
@@ -108,6 +112,24 @@ extension AddMoneyViewController {
         )
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    @objc func addMoneyPressed() {
+        guard let account = account else { return }
+        apiManager.sendMoneyToAccount(account: account, amount: moneyTextField.value, { [weak self] result in
+            switch result {
+            case .success:
+                self?.showAlert(message: "Account Balance updated")
+                self?.updateUI()
+            case .failure(let error):
+                self?.showAlert(message: error.errorDescription)
+            }
+        })
+    }
+    
+    func updateUI() {
+        guard let account = account else { return }
+        moneyLabel.text = "\(account.balance)"
     }
 }
 

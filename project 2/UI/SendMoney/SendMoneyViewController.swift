@@ -3,6 +3,7 @@ import UIKit
 
 final class SendMoneyViewController: BaseViewController {
 
+    var account: AccountResponse?
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -13,7 +14,7 @@ final class SendMoneyViewController: BaseViewController {
     
     private let moneyLabel: UILabel = {
         let label = UILabel()
-        label.text = "$0"
+        label.text = "0"
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
@@ -25,7 +26,7 @@ final class SendMoneyViewController: BaseViewController {
         return label
     }()
 
-    private lazy var newReminderTableView: UITableView = {
+    private lazy var sendMoneyTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.rowHeight = 50
@@ -45,16 +46,16 @@ final class SendMoneyViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         observeKeyboardNotifications()
         observeTouchesOnView()
+        updateUI()
     }
 
     override func setupView() {
         super.setupView()
         view.backgroundColor = .white
         configureNavigationBar()
-        view.addSubview(newReminderTableView)
+        view.addSubview(sendMoneyTableView)
         view.addSubview(informationLabel)
         view.addSubview(balanceLabel)
         view.addSubview(moneyLabel)
@@ -79,7 +80,7 @@ final class SendMoneyViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
-        newReminderTableView.snp.makeConstraints { make in
+        sendMoneyTableView.snp.makeConstraints { make in
             make.top.equalTo(sendMoneyLabel.snp.bottom).offset(EdgeMargin)
             make.bottom.equalTo(informationLabel.snp.top)
             make.leading.equalTo(view).offset(EdgeMargin)
@@ -135,6 +136,11 @@ final class SendMoneyViewController: BaseViewController {
 
     @objc private func cancelPressed() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func updateUI() {
+        guard let account = account else { return }
+        moneyLabel.text = "\(account.balance)"
     }
 }
 

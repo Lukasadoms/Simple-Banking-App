@@ -9,5 +9,5 @@ import Foundation
 
 class TransactionDetailViewController: BaseViewController {
     
-    var transaction: Transaction? = nil
+    var transaction: TransactionResponse? = nil
 }
