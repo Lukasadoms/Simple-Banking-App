@@ -202,7 +202,11 @@ extension MainViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let transactions = accountTransactions else { return 0 }
-        return transactions.count
+        if transactions.count > 5 {
+            return 5
+        } else {
+            return transactions.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -211,10 +215,11 @@ extension MainViewController: UITableViewDataSource {
         guard
             let account = currentAccount,
             let transactionCell = cell as? TransactionCell,
-            let transaction = accountTransactions?[indexPath.row]
+            let accountTransactions = accountTransactions
         else { return cell }
-        
-        transactionCell.setupCell(account: account, phoneNumber: transaction.senderId , amount: transaction.amount )
+        let sortedTransactions = accountTransactions.sorted { $0.createdOn > $1.createdOn }
+        let transaction = sortedTransactions[indexPath.row]
+        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.senderId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount )
         return transactionCell
     }
 }
@@ -315,9 +320,20 @@ extension MainViewController: AddMoneyViewControllerDelegate {
                 }
             }
         })
+        apiManager.getAccountTransactions(phoneNumber: account.phoneNumber, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let transactions):
+                DispatchQueue.main.async {
+                    self?.accountTransactions = transactions
+                    self?.updateUI()
+                }
+            }
+        })
     }
-    
-    
 }
 
 

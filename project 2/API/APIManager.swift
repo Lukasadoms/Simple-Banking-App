@@ -215,16 +215,16 @@ struct APIManager {
             return
         }
         
-        let updatingUser = TransactionResponse(id: "",
-                                               senderId: senderAccount.id,
-                                               receiverId: receiverAccount.id,
+        let transaction = TransactionResponse(id: "",
+                                               senderId: senderAccount.phoneNumber,
+                                               receiverId: receiverAccount.phoneNumber,
                                                amount: amount,
                                                currency: currency,
                                                createdOn: createdOn,
                                                reference: reference
         )
 
-        guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
+        guard let requestJSON = try? JSONEncoder().encode(transaction) else {
             completion(.failure(.unexpectedDataFormat))
             return
         }
@@ -248,7 +248,11 @@ struct APIManager {
         }.resume()
     }
     
-    func updateAccount(account: AccountResponse, currency: String?, phoneNumber: String?, amount: Double?, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
+    func updateAccount(account: AccountResponse,
+                       currency: String?,
+                       phoneNumber: String?,
+                       amount: Double?,
+                       _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
         guard let url = APIEndpoint.accountWithId(account: account).url
         else {
@@ -256,22 +260,69 @@ struct APIManager {
             return
         }
         
-        var updatingUser = AccountResponse(
+        var updatingAccount = AccountResponse(
             id: account.id,
             phoneNumber: account.phoneNumber,
             currency: account.currency,
             balance: account.balance
         )
         if let currency = currency {
-            updatingUser.currency = currency
+            updatingAccount.currency = currency
         }
         
         if let phoneNumber = phoneNumber {
-            updatingUser.phoneNumber = phoneNumber
+            updatingAccount.phoneNumber = phoneNumber
         }
         
         if let amount = amount {
-            updatingUser.balance += amount
+            updatingAccount.balance += amount
+        }
+
+        guard let requestJSON = try? JSONEncoder().encode(updatingAccount) else {
+            completion(.failure(.unexpectedDataFormat))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = APIHTTPMethod.put
+        request.httpBody = requestJSON
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+            guard let accountResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(accountResponse))
+        }.resume()
+    }
+    
+    func updateUser(user: UserResponse,
+                    phoneNumber: String?,
+                    password: String?,
+                    _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
+
+        guard let url = APIEndpoint.userWithId(user: user).url
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+        
+        var updatingUser = UserResponse(
+            userID: user.userID,
+            phoneNumber: user.phoneNumber,
+            password: user.password
+        )
+        if let password = password {
+            updatingUser.password = password
+        }
+        if let phoneNumber = phoneNumber {
+            updatingUser.phoneNumber = phoneNumber
         }
 
         guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
@@ -290,7 +341,7 @@ struct APIManager {
                 completion(.failure(.failedRequest))
                 return
             }
-            guard let accountResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
+            guard let accountResponse = try? JSONDecoder().decode(UserResponse.self, from: data) else {
                 completion(.failure(.failedResponse))
                 return
             }

@@ -121,7 +121,12 @@ extension AddMoneyViewController {
     
     @objc func addMoneyPressed() {
         guard let account = account else { return }
-        apiManager.updateAccount(account: account, currency: nil, phoneNumber: nil, amount: moneyTextField.value,  { [weak self] result in
+        apiManager.updateAccount(
+            account: account,
+            currency: nil,
+            phoneNumber: nil,
+            amount: Double(moneyTextField.text!),
+            { [weak self] result in
             switch result {
             case .success:
                 DispatchQueue.main.async {
@@ -140,7 +145,7 @@ extension AddMoneyViewController {
         apiManager.postTransaction(
             senderAccount: account,
             receiverAccount: account,
-            amount: moneyTextField.value,
+            amount: Double(moneyTextField.text!)!,
             currency: account.currency,
             reference: "Add money to account",
             { [weak self] result in

@@ -32,7 +32,7 @@ final class SettingsViewController: BaseViewController {
     
     private let phoneNumberTextField: TextField = {
         let textField = TextField()
-        textField.placeholder = "Phone Number"
+        textField.placeholder = "Phone Number: 370..."
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
         textField.autocorrectionType = .no
         textField.textColor = .black
@@ -72,6 +72,15 @@ final class SettingsViewController: BaseViewController {
         return label
     }()
     
+    private let phoneNumberView = UIView()
+    
+    private let plusLabel: UILabel = {
+        let label = UILabel()
+        label.text = "+"
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         currencyTextField.text = currentAccount?.currency
@@ -83,9 +92,15 @@ final class SettingsViewController: BaseViewController {
 
     override func setupView() {
         super.setupView()
+        
+        phoneNumberView.backgroundColor = .systemGray6
+        phoneNumberView.layer.cornerRadius = 8
+        
         view.backgroundColor = .white
         configureNavigationBar()
-        view.addSubview(phoneNumberTextField)
+        phoneNumberView.addSubview(phoneNumberTextField)
+        phoneNumberView.addSubview(plusLabel)
+        view.addSubview(phoneNumberView)
         view.addSubview(passwordTextField)
         view.addSubview(currencyTextField)
         view.addSubview(informationLabel)
@@ -101,15 +116,27 @@ final class SettingsViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
-        phoneNumberTextField.snp.makeConstraints { make in
+        phoneNumberView.snp.makeConstraints { make in
             make.top.equalTo(settingsLabel.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(view).offset(EdgeMargin)
             make.trailing.equalTo(view).inset(EdgeMargin)
             make.height.equalTo(50)
         }
         
+        plusLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(phoneNumberView)
+            make.leading.equalTo(phoneNumberView).offset(5)
+        }
+        
+        phoneNumberTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(plusLabel)
+            make.leading.equalTo(plusLabel.snp.trailing).offset(EdgeMargin/4)
+            make.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+        
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberTextField.snp.bottom).offset(EdgeMargin)
+            make.top.equalTo(phoneNumberView.snp.bottom).offset(EdgeMargin)
             make.leading.equalTo(view).offset(EdgeMargin)
             make.trailing.equalTo(view).inset(EdgeMargin)
             make.height.equalTo(50)
@@ -182,17 +209,45 @@ final class SettingsViewController: BaseViewController {
     }
     
     @objc private func savePressed() {
-        guard
-            let currentAccount = currentAccount,
+        guard let currentAccount = currentAccount else { return }
+        if
             let phoneNumber = phoneNumberTextField.text,
             !phoneNumber.isEmpty
-        else { return }
-        apiManager.checkIfAccountExists(phoneNumber: phoneNumber, {  [weak self] result in
+        {
+            updatePhoneNumber(account: currentAccount, phoneNumber: phoneNumber)
+        }
+        
+        if
+            let password = passwordTextField.text,
+            !password.isEmpty
+        {
+            updatePassword(account: currentAccount, password: password)
+        }
+        
+        
+    }
+    
+    func updatePhoneNumber(account: AccountResponse, phoneNumber: String) {
+        let phoneRegex = "^[0-9]{0,1}+[0-9]{5,16}$"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        guard
+            phoneTest.evaluate(with: phoneNumber)
+        else {
+            self.showAlert(message: "please entera a valid phone number")
+            return
+        }
+        
+        guard
+            phoneTest.evaluate(with: phoneNumber) else {
+            self.showAlert(message: "please entera a valid phone number")
+            return
+        }
+        apiManager.checkIfAccountExists(phoneNumber: phoneNumber, { [weak self] result in
             switch result {
             case .failure(let error):
                 switch error {
                 case .userDoesntExist:
-                    continueAccountUpdate()
+                    continuePhoneNumberUpdate(phoneNumber: phoneNumber, currency: (self?.currencyTextField.text)!)
                 default:
                     DispatchQueue.main.async {
                         self?.showAlert(message: error.errorDescription)
@@ -204,22 +259,75 @@ final class SettingsViewController: BaseViewController {
                 }
             }
         })
-        func continueAccountUpdate() {
-            apiManager.updateAccount(account: currentAccount, currency: currencyTextField.text, phoneNumber: phoneNumberTextField.text, amount: moneyTextField.value, { [weak self] result in
+        
+        func continuePhoneNumberUpdate(phoneNumber: String, currency: String) {
+            apiManager.updateAccount(account: account, currency: currency, phoneNumber: phoneNumber, amount: nil, { [weak self] result in
                 switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
                         self?.showAlert(message: error.errorDescription)
                     }
-                case .success:
+                case .success(let newAccount):
+                    self?.currentAccount = newAccount
+                    self?.apiManager.checkIfUserExists(phoneNumber: account.phoneNumber, { [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self?.showAlert(message: error.errorDescription)
+                            }
+                        case .success(let user):
+                            self?.apiManager.updateUser(
+                                user: user,
+                                phoneNumber: phoneNumber,
+                                password: nil,
+                                {
+                                    [weak self] result in
+                                    switch result {
+                                    case .failure(let error):
+                                        DispatchQueue.main.async {
+                                            self?.showAlert(message: error.errorDescription)
+                                        }
+                                    case .success:
+                                        print("updated user settings")
+                                    }
+                                })
+                        }
+                    })
                     DispatchQueue.main.async {
                         self?.showAlert(message:"updated current account information")
                     }
                 }
             })
+            
+            
         }
-        
-        
+    }
+    
+    func updatePassword(account: AccountResponse, password: String) {
+        apiManager.checkIfUserExists(phoneNumber: account.phoneNumber, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let user):
+                self?.apiManager.updateUser(
+                    user: user,
+                    phoneNumber: nil,
+                    password: password,
+                    {
+                        [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            DispatchQueue.main.async {
+                                self?.showAlert(message: error.errorDescription)
+                            }
+                        case .success:
+                            print("updated user settings")
+                        }
+                    })
+            }
+        })
     }
     
     @objc private func donePressed() {

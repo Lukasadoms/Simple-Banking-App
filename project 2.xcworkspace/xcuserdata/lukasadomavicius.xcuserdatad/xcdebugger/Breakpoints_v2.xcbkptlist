@@ -7,143 +7,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "36460D8C-BD2E-454D-AF82-40718BC633C1"
+            uuid = "E4DDED30-B745-43AC-8C3C-DDBFBE453851"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7BC5FA11-DD6D-4F33-B2D2-05500F253EB0"
+            uuid = "8FDB41A5-80FE-4E9F-9642-A421A57F3D3A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "16B92A76-4FB4-4BD1-8F31-44D83FDF457E"
+            uuid = "ACB95CAF-EA2E-4984-880E-A91E2E0B9469"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "87EEED31-4B4A-40C6-AC4F-0F110BF04970"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8E3CF782-D2C6-4C47-A093-B890668EDFBC"
+            uuid = "7CD1FB47-ED23-4A85-8E6F-7095110FA10A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "294"
-            endingLineNumber = "294"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2FC62685-9476-44F3-A4FF-F9C618C7B257"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "293"
-            endingLineNumber = "293"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FA0E8289-AA9B-447F-99D9-CFF6EDF13C28"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "FA0E8289-AA9B-447F-99D9-CFF6EDF13C28 - b1b6288ed61778c2"
+                  uuid = "7CD1FB47-ED23-4A85-8E6F-7095110FA10A - a8ef69ed33d58cb5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "project_2.APIManager.updateAccount(account: project_2.AccountResponse, currency: Swift.Optional&lt;Swift.String&gt;, phoneNumber: Swift.Optional&lt;Swift.String&gt;, amount: Swift.Optional&lt;Swift.Double&gt;, _: (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/API/APIManager.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "2248">
+                  startingLineNumber = "266"
+                  endingLineNumber = "266"
+                  offsetFromSymbolStart = "308">
                </Location>
                <Location
-                  uuid = "FA0E8289-AA9B-447F-99D9-CFF6EDF13C28 - e9431c384f91cacd"
+                  uuid = "7CD1FB47-ED23-4A85-8E6F-7095110FA10A - a8ef69ed33d58cb5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in project_2.APIManager.updateAccount(account: project_2.AccountResponse, currency: Swift.Optional&lt;Swift.String&gt;, phoneNumber: Swift.Optional&lt;Swift.String&gt;, amount: Swift.Optional&lt;Swift.Double&gt;, _: (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; ()) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/API/APIManager.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "289"
-                  endingLineNumber = "289"
-                  offsetFromSymbolStart = "176">
+                  startingLineNumber = "266"
+                  endingLineNumber = "266"
+                  offsetFromSymbolStart = "356">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -151,79 +103,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D2C3686C-AE27-4059-8FC4-3D0C9717FAF5"
+            uuid = "C550085F-D643-4223-8033-7AD2167C672C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/API/APIManager.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
-            landmarkName = "updateAccount(account:currency:phoneNumber:amount:_:)"
-            landmarkType = "7">
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "174C97CD-DCA9-425C-A752-1FA7AD3E3D94"
+            uuid = "B9181F01-E1BA-46B9-8AAE-7FEAB020EA38"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "sendMoneyPressed()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6EDF3DE2-A004-481B-94D2-ADBCEF1158FC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
-            landmarkName = "sendMoneyPressed()"
-            landmarkType = "7">
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "6EDF3DE2-A004-481B-94D2-ADBCEF1158FC - 6b17dab9d1a70cb1"
+                  uuid = "B9181F01-E1BA-46B9-8AAE-7FEAB020EA38 - 4edc09ba0dd10384"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in project_2.SendMoneyViewController.sendMoneyPressed() -&gt; ()"
+                  symbolName = "closure #2 (Swift.Result&lt;project_2.UserResponse, project_2.APIError&gt;) -&gt; () in closure #2 (Swift.Result&lt;project_2.UserResponse, project_2.APIError&gt;) -&gt; () in closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/SendMoney/SendMoneyViewController.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "227"
-                  endingLineNumber = "227"
-                  offsetFromSymbolStart = "264">
+                  startingLineNumber = "286"
+                  endingLineNumber = "286"
+                  offsetFromSymbolStart = "196">
                </Location>
                <Location
-                  uuid = "6EDF3DE2-A004-481B-94D2-ADBCEF1158FC - 6b17dab9d1a70cb1"
+                  uuid = "B9181F01-E1BA-46B9-8AAE-7FEAB020EA38 - 4edc09ba0dd10384"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in project_2.SendMoneyViewController.sendMoneyPressed() -&gt; ()"
+                  symbolName = "closure #2 (Swift.Result&lt;project_2.UserResponse, project_2.APIError&gt;) -&gt; () in closure #2 (Swift.Result&lt;project_2.UserResponse, project_2.APIError&gt;) -&gt; () in closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/SendMoney/SendMoneyViewController.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "227"
-                  endingLineNumber = "227"
-                  offsetFromSymbolStart = "312">
+                  startingLineNumber = "286"
+                  endingLineNumber = "286"
+                  offsetFromSymbolStart = "256">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -231,273 +167,113 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7A13744A-5127-45E0-BE3A-ED72455144DE"
+            uuid = "41A76607-3EFA-4992-95A2-BD0FC2DE018E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
-            landmarkName = "sendMoneyPressed()"
-            landmarkType = "7">
+            startingLineNumber = "289"
+            endingLineNumber = "289"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "659D1FD8-A98C-4886-9787-99B154B5F655"
+            uuid = "9B531D8B-9101-48EB-9257-C97CB7E8B76E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D76E50F6-B9B3-43DA-A70A-1F180FD3EC2C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EF74B08E-7BEB-47B5-87F7-CF3401D2B1C9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "276"
             endingLineNumber = "276"
-            landmarkName = "continueSendMoney(account:)"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E7BC9D4-FBE3-4E84-B707-12D793256DA7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "project 2/UI/Settings/SettingsViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "continuePhoneNumberUpdate(phoneNumber:currency:)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "659D1FD8-A98C-4886-9787-99B154B5F655 - 2366e7566403cfdc"
+                  uuid = "4E7BC9D4-FBE3-4E84-B707-12D793256DA7 - a8ef69ed33d58c73"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "continueSendMoney(account: project_2.AccountResponse) -&gt; ()"
+                  symbolName = "closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/SendMoney/SendMoneyViewController.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "700">
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "1156">
                </Location>
                <Location
-                  uuid = "659D1FD8-A98C-4886-9787-99B154B5F655 - 97cee560688e4456"
+                  uuid = "4E7BC9D4-FBE3-4E84-B707-12D793256DA7 - 8ca24bb8a224dabe"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #3 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continueSendMoney(account: project_2.AccountResponse) -&gt; ()"
+                  symbolName = "closure #2 (Swift.Result&lt;project_2.UserResponse, project_2.APIError&gt;) -&gt; () in closure #1 (Swift.Result&lt;project_2.AccountResponse, project_2.APIError&gt;) -&gt; () in continuePhoneNumberUpdate(phoneNumber: Swift.String, currency: Swift.String) -&gt; ()"
                   moduleName = "project 2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/SendMoney/SendMoneyViewController.swift"
+                  urlString = "file:///Users/lukasadomavicius/CodeAcademy/Developer/CodeAcademy%20Project2/project%202/project%202/UI/Settings/SettingsViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "188">
+                  startingLineNumber = "272"
+                  endingLineNumber = "272"
+                  offsetFromSymbolStart = "260">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7759ACDD-3EA3-45E3-9369-C0DCB17EA682"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
-            landmarkName = "continueSendMoney(account:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C9113157-53B9-458A-9243-AA2CF79BB38F"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/SendMoney/SendMoneyViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
-            landmarkName = "continueSendMoney(account:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C10CCD77-5278-4CCD-80D8-EF3D4510E733"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "93932417-BE0D-4C9E-8C30-A83CF92316F7"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "48CEE718-962A-4B3B-B3D0-DF6C43EF7AC0"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "33A6BAB7-59FE-4893-8C8C-6A30811F7848"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B669C322-7C1D-44BF-8D87-1499ABFCB9C4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7BC86A6B-F610-4E45-8786-7168B022F684"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0955B6B5-D396-445F-8845-81CC3E66EFB8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5A03179C-0250-468D-9A79-A0FE08C1F7F6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/Transactions/TransactionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E5C8517E-0371-4209-9B13-843FED5A31E5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/MainMenu/MainViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "664C8CD6-8580-4843-860A-4B0A23BD4C80"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/MainMenu/MainViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E7154584-5ACD-482B-89E9-D201694E8AAD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "project 2/UI/MainMenu/MainViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -137,7 +137,7 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
             else {
             return cell
         }
-        transactionCell.setupCell(account: account, phoneNumber: transaction.senderId, amount: transaction.amount)
+        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.receiverId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount)
         return transactionCell
     }
     

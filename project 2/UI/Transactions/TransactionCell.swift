@@ -31,10 +31,10 @@ final class TransactionCell: CodePayTableViewCell {
 
     // MARK: - Configuration
 
-    func setupCell(account: AccountResponse, phoneNumber: String, amount: Double) {
-        transactionPhoneNumberLabel.text = "+\(phoneNumber)"
+    func setupCell(account: AccountResponse, senderPhoneNumber: String, receiverPhoneNumber: String, amount: Double) {
+        transactionPhoneNumberLabel.text = "+\(receiverPhoneNumber)"
         
-        if account.phoneNumber == phoneNumber {
+        if account.phoneNumber == receiverPhoneNumber {
             amountLabel.text = "+\(amount)"
         }
         else {

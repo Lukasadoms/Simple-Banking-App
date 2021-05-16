@@ -51,12 +51,6 @@ final class LoginViewController: BaseViewController {
         textField.keyboardType = .decimalPad
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
-        textField.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner,
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
         return textField
     }()
     
@@ -68,12 +62,6 @@ final class LoginViewController: BaseViewController {
         textField.textColor = .black
         textField.backgroundColor = .systemGray6
         textField.layer.cornerRadius = 8
-        textField.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner,
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
         return textField
     }()
     
@@ -143,12 +131,6 @@ final class LoginViewController: BaseViewController {
         
         phoneNumberView.backgroundColor = .systemGray6
         phoneNumberView.layer.cornerRadius = 8
-        phoneNumberView.layer.maskedCorners = [
-            .layerMinXMaxYCorner,
-            .layerMaxXMaxYCorner,
-            .layerMinXMinYCorner,
-            .layerMaxXMinYCorner
-        ]
         
         view.addSubview(contentView)
         contentView.addSubview(iconView)

@@ -229,11 +229,12 @@ final class SendMoneyViewController: BaseViewController {
                     self?.showAlert(message: error.errorDescription)
                 }
             case .success(let account):
-                guard let amount = self?.moneyTextField.value else { return }
-                if currentAccount.currency == account.currency && amount < currentAccount.balance {
-                    continueSendMoney(account: account)
-                } else {
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    guard let amount = self?.moneyTextField.text else { return }
+                    
+                    if currentAccount.currency == account.currency && Double(amount)! <= currentAccount.balance {
+                        continueSendMoney(account: account)
+                    } else {
                         self?.showAlert(message: "not sufficient funds or the currency in receiving account is not the same")
                     }
                 }
@@ -245,7 +246,7 @@ final class SendMoneyViewController: BaseViewController {
             apiManager.postTransaction(
                 senderAccount: currentAccount,
                 receiverAccount: account,
-                amount: moneyTextField.value,
+                amount: Double(moneyTextField.text!)!,
                 currency: currentAccount.currency,
                 reference: reference,
                 { [weak self] result in
@@ -262,7 +263,7 @@ final class SendMoneyViewController: BaseViewController {
                     }
                 }
             })
-            apiManager.updateAccount(account: account, currency: nil, phoneNumber: nil, amount: moneyTextField.value, { [weak self] result in
+            apiManager.updateAccount(account: account, currency: nil, phoneNumber: nil, amount: Double(moneyTextField.text!)!, { [weak self] result in
                 switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -273,7 +274,7 @@ final class SendMoneyViewController: BaseViewController {
                 }
             })
             
-            apiManager.updateAccount(account: currentAccount, currency: nil, phoneNumber: nil, amount: -moneyTextField.value, { [weak self] result in
+            apiManager.updateAccount(account: currentAccount, currency: nil, phoneNumber: nil, amount: -Double(moneyTextField.text!)!, { [weak self] result in
                 switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
