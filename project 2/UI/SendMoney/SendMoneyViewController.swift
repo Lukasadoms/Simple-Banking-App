@@ -1,10 +1,12 @@
 
 import UIKit
 
+
 final class SendMoneyViewController: BaseViewController {
 
     var currentAccount: AccountResponse?
     let apiManager = APIManager()
+    weak var delegate: AddMoneyViewControllerDelegate?
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -194,7 +196,7 @@ final class SendMoneyViewController: BaseViewController {
             title: "Cancel",
             style: .plain,
             target: self,
-            action: #selector(cancelPressed)
+            action: #selector(backPressed)
         )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Done",
@@ -227,7 +229,15 @@ final class SendMoneyViewController: BaseViewController {
                     self?.showAlert(message: error.errorDescription)
                 }
             case .success(let account):
-                continueSendMoney(account: account)
+                guard let amount = self?.moneyTextField.value else { return }
+                if currentAccount.currency == account.currency && amount < currentAccount.balance {
+                    continueSendMoney(account: account)
+                } else {
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: "not sufficient funds or the currency in receiving account is not the same")
+                    }
+                }
+                
             }
         })
         
@@ -235,7 +245,7 @@ final class SendMoneyViewController: BaseViewController {
             apiManager.postTransaction(
                 senderAccount: currentAccount,
                 receiverAccount: account,
-                amount: Decimal(moneyTextField.value),
+                amount: moneyTextField.value,
                 currency: currentAccount.currency,
                 reference: reference,
                 { [weak self] result in
@@ -248,7 +258,30 @@ final class SendMoneyViewController: BaseViewController {
                 case .success:
                     DispatchQueue.main.async {
                         self?.showAlert(message: "Transaction submitted succesfully")
+                        self?.updateUI()
                     }
+                }
+            })
+            apiManager.updateAccount(account: account, currency: nil, phoneNumber: nil, amount: moneyTextField.value, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success:
+                    print("updated receiving account balance")
+                }
+            })
+            
+            apiManager.updateAccount(account: currentAccount, currency: nil, phoneNumber: nil, amount: -moneyTextField.value, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success:
+                    print("updated current account balance")
+                    self?.delegate?.balanceHasChanged()
                 }
             })
         }

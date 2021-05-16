@@ -14,6 +14,7 @@ class BaseViewController: UIViewController {
     let EdgeMargin: CGFloat = 20
     let SearchBarHeight: CGFloat = 50
     let TitleSize: CGFloat = 30
+    let currencyArray = ["EUR", "USD"]
     
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
@@ -87,28 +88,17 @@ extension BaseViewController {
     }
     
     func showAlert(message: String) {
-        let alert = UIAlertController(title: "Uh-oh", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
-}
-
-class TextField: UITextField {
-
-    let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
-
-    override open func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
-    }
-
-    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
-    }
-
-    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: padding)
+    
+    @objc func backPressed() {
+        dismiss(animated: true, completion: nil)
     }
 }
+
+
 
 extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -120,8 +110,6 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let currencyArray = ["EUR", "USD"]
         return currencyArray[row]
     }
-    
 }

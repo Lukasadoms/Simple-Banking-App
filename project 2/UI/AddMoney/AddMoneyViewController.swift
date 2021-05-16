@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol AddMoneyViewControllerDelegate: AnyObject {
+    func balanceHasChanged()
+}
+
 final class AddMoneyViewController: BaseViewController {
     
     var account: AccountResponse?
     let apiManager = APIManager()
+    weak var delegate: AddMoneyViewControllerDelegate?
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -102,13 +107,13 @@ extension AddMoneyViewController {
             title: "Cancel",
             style: .plain,
             target: self,
-            action: #selector(cancelPressed)
+            action: #selector(backPressed)
         )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Done",
             style: .done,
             target: self,
-            action: #selector(cancelPressed)
+            action: #selector(backPressed)
         )
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -116,13 +121,40 @@ extension AddMoneyViewController {
     
     @objc func addMoneyPressed() {
         guard let account = account else { return }
-        apiManager.sendMoneyToAccount(account: account, amount: moneyTextField.value, { [weak self] result in
+        apiManager.updateAccount(account: account, currency: nil, phoneNumber: nil, amount: moneyTextField.value,  { [weak self] result in
             switch result {
             case .success:
-                self?.showAlert(message: "Account Balance updated")
-                self?.updateUI()
+                DispatchQueue.main.async {
+                    self?.showAlert(message: "Account Balance updated")
+                    self?.delegate?.balanceHasChanged()
+                    self?.updateUI()
+                }
+                
             case .failure(let error):
-                self?.showAlert(message: error.errorDescription)
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            }
+        })
+        
+        apiManager.postTransaction(
+            senderAccount: account,
+            receiverAccount: account,
+            amount: moneyTextField.value,
+            currency: account.currency,
+            reference: "Add money to account",
+            { [weak self] result in
+                
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success:
+                DispatchQueue.main.async {
+                    self?.showAlert(message: "Transaction submitted succesfully")
+                    self?.updateUI()
+                }
             }
         })
     }

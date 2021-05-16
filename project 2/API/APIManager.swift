@@ -202,53 +202,14 @@ struct APIManager {
         }.resume()
     }
     
-    func sendMoneyToAccount(account: AccountResponse, amount: Double, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
-
-        guard let url = APIEndpoint.account.url
-        else {
-            completion(.failure(.failedURLCreation))
-            return
-        }
-        
-        let updatingUser = AccountResponse(
-            id: account.id,
-            phoneNumber: account.phoneNumber,
-            currency: account.currency,
-            balance: account.balance + amount
-        )
-
-        guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
-            completion(.failure(.unexpectedDataFormat))
-            return
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = APIHTTPMethod.put
-        request.httpBody = requestJSON
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        session.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                completion(.failure(.failedRequest))
-                return
-            }
-            guard let userResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
-                completion(.failure(.failedResponse))
-                return
-            }
-            completion(.success(userResponse))
-        }.resume()
-    }
-    
     func postTransaction(senderAccount: AccountResponse,
                          receiverAccount: AccountResponse,
-                         amount: Decimal, currency: String,
+                         amount: Double, currency: String,
                          reference: String,
                          _ completion: @escaping (Result<TransactionResponse, APIError>) -> Void)
     {
         let createdOn = Int(Date().timeIntervalSince1970)
-        guard let url = APIEndpoint.account.url
+        guard let url = APIEndpoint.transaction.url
         else {
             completion(.failure(.failedURLCreation))
             return
@@ -284,6 +245,56 @@ struct APIManager {
                 return
             }
             completion(.success(userResponse))
+        }.resume()
+    }
+    
+    func updateAccount(account: AccountResponse, currency: String?, phoneNumber: String?, amount: Double?, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
+
+        guard let url = APIEndpoint.accountWithId(account: account).url
+        else {
+            completion(.failure(.failedURLCreation))
+            return
+        }
+        
+        var updatingUser = AccountResponse(
+            id: account.id,
+            phoneNumber: account.phoneNumber,
+            currency: account.currency,
+            balance: account.balance
+        )
+        if let currency = currency {
+            updatingUser.currency = currency
+        }
+        
+        if let phoneNumber = phoneNumber {
+            updatingUser.phoneNumber = phoneNumber
+        }
+        
+        if let amount = amount {
+            updatingUser.balance += amount
+        }
+
+        guard let requestJSON = try? JSONEncoder().encode(updatingUser) else {
+            completion(.failure(.unexpectedDataFormat))
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = APIHTTPMethod.put
+        request.httpBody = requestJSON
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data else {
+                completion(.failure(.failedRequest))
+                return
+            }
+            guard let accountResponse = try? JSONDecoder().decode(AccountResponse.self, from: data) else {
+                completion(.failure(.failedResponse))
+                return
+            }
+            completion(.success(accountResponse))
         }.resume()
     }
 }

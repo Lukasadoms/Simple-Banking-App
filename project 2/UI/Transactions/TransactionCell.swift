@@ -15,21 +15,9 @@ final class TransactionCell: CodePayTableViewCell {
 
     private lazy var iconContainerView = UIView()
     private lazy var iconView = UIImageView()
-    private lazy var transactionPhoneNumberLabel = UILabel()
-    private lazy var amountLabel = UILabel()
-
-    func configuredLabel(text: String, color: UIColor) -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.textColor = color
-        return label
-    }
+    private var transactionPhoneNumberLabel = UILabel()
+    private var amountLabel = UILabel()
     
-    func configureCell(phoneNumber: String, amount: Decimal) {
-        transactionPhoneNumberLabel = configuredLabel(text: phoneNumber, color: .black)
-        amountLabel = configuredLabel(text: "\(amount)", color: .systemGray3)
-    }
-
     // MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -43,6 +31,19 @@ final class TransactionCell: CodePayTableViewCell {
 
     // MARK: - Configuration
 
+    func setupCell(account: AccountResponse, phoneNumber: String, amount: Double) {
+        transactionPhoneNumberLabel.text = "+\(phoneNumber)"
+        
+        if account.phoneNumber == phoneNumber {
+            amountLabel.text = "+\(amount)"
+        }
+        else {
+            amountLabel.text = "-\(amount)"
+        }
+        
+        amountLabel.textColor = .systemGray3
+    }
+    
     func configureCell() {
         iconView = UIImageView(image: #imageLiteral(resourceName: "codepayLogo"))
 
@@ -57,9 +58,6 @@ final class TransactionCell: CodePayTableViewCell {
 
         accessoryType = .disclosureIndicator
         selectionStyle = .none
-        
-        transactionPhoneNumberLabel.numberOfLines = 0
-
         setupConstraints()
     }
 

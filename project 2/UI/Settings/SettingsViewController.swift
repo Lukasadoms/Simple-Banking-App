@@ -9,6 +9,9 @@ import UIKit
 
 final class SettingsViewController: BaseViewController {
     
+    let apiManager = APIManager()
+    var currentAccount: AccountResponse?
+    
     private let settingsLabel: UILabel = {
         let label = UILabel()
         label.text = "Settings:"
@@ -16,14 +19,49 @@ final class SettingsViewController: BaseViewController {
         return label
     }()
     
-    private lazy var settingsTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = .white
-        tableView.rowHeight = 50
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(SendMoneyCell.self, forCellReuseIdentifier: "SendMoneyCell")
-        return tableView
+    private let currencyTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "Currency"
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    private let phoneNumberTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "Phone Number"
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.keyboardType = .decimalPad
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    private let passwordTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "Password"
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        return textField
+    }()
+    
+    private let saveButton: UIButton = {
+        let button = UIButton()
+        let buttonColor = UIColor.systemBlue
+        let buttonHighlightedColor = UIColor.systemBlue.withAlphaComponent(0.5)
+        button.setTitle("Save", for: .normal)
+        button.setTitleColor(buttonColor, for: .normal)
+        button.setTitleColor(buttonHighlightedColor, for: .highlighted)
+        button.addTarget(self, action: #selector(savePressed), for: .touchUpInside)
+        return button
     }()
     
     private let informationLabel: UILabel = {
@@ -36,18 +74,23 @@ final class SettingsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        currencyTextField.text = currentAccount?.currency
         observeKeyboardNotifications()
         observeTouchesOnView()
+        createSeasonPickerView()
+        dismissPickerView()
     }
 
     override func setupView() {
         super.setupView()
         view.backgroundColor = .white
         configureNavigationBar()
-        view.addSubview(settingsTableView)
+        view.addSubview(phoneNumberTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(currencyTextField)
         view.addSubview(informationLabel)
         view.addSubview(settingsLabel)
+        view.addSubview(saveButton)
     }
 
     override func setupConstraints() {
@@ -58,11 +101,32 @@ final class SettingsViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide).offset(EdgeMargin)
         }
 
-        settingsTableView.snp.makeConstraints { make in
+        phoneNumberTextField.snp.makeConstraints { make in
             make.top.equalTo(settingsLabel.snp.bottom).offset(EdgeMargin)
-            make.bottom.equalTo(informationLabel.snp.top)
             make.leading.equalTo(view).offset(EdgeMargin)
             make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(50)
+        }
+        
+        passwordTextField.snp.makeConstraints { make in
+            make.top.equalTo(phoneNumberTextField.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(50)
+        }
+        
+        currencyTextField.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(50)
+        }
+        
+        saveButton.snp.makeConstraints { make in
+            make.top.equalTo(currencyTextField.snp.bottom).offset(EdgeMargin)
+            make.leading.equalTo(view).offset(EdgeMargin)
+            make.trailing.equalTo(view).inset(EdgeMargin)
+            make.height.equalTo(50)
         }
         
         informationLabel.snp.makeConstraints { make in
@@ -92,81 +156,79 @@ final class SettingsViewController: BaseViewController {
     }
 
     private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Cancel",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Back",
             style: .plain,
             target: self,
-            action: #selector(cancelPressed)
-        )
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Done",
-            style: .done,
-            target: self,
-            action: #selector(donePressed)
+            action: #selector(backPressed)
         )
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+    func createSeasonPickerView() {
+        let currencyPickerView = UIPickerView()
+        currencyPickerView.delegate = self
+        currencyTextField.inputView = currencyPickerView
+    }
+    
+    func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.donePressed))
+        toolBar.setItems([button], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        currencyTextField.inputAccessoryView = toolBar
+    }
+    
+    @objc private func savePressed() {
+        guard
+            let currentAccount = currentAccount,
+            let phoneNumber = phoneNumberTextField.text,
+            !phoneNumber.isEmpty
+        else { return }
+        apiManager.checkIfAccountExists(phoneNumber: phoneNumber, {  [weak self] result in
+            switch result {
+            case .failure(let error):
+                switch error {
+                case .userDoesntExist:
+                    continueAccountUpdate()
+                default:
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                }
+            case .success:
+                DispatchQueue.main.async {
+                    self?.showAlert(message: AccountManager.AccountManagerError.accountAlreadyExists.errorDescription)
+                }
+            }
+        })
+        func continueAccountUpdate() {
+            apiManager.updateAccount(account: currentAccount, currency: currencyTextField.text, phoneNumber: phoneNumberTextField.text, amount: moneyTextField.value, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        self?.showAlert(message:"updated current account information")
+                    }
+                }
+            })
+        }
+        
+        
+    }
+    
     @objc private func donePressed() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func cancelPressed() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-}
-
-extension SettingsViewController: UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        default:
-            return 1
-        }
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SendMoneyCell", for: indexPath)
-
-        guard let sendMoneyCell = cell as? SendMoneyCell else {
-            return cell
-        }
-
-        switch indexPath.section {
-        case 0:
-            sendMoneyCell.setupCell(type: .passwordField)
-            
-        case 1:
-            sendMoneyCell.setupCell(type: .phoneField)
-            
-        case 2:
-            sendMoneyCell.setupCell(type: .currencyPicker)
-        default:
-            fatalError("Unexpected section!")
-        }
-        sendMoneyCell.roundAllCorners()
-        return sendMoneyCell
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        3
-    }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
+        view.endEditing(true)
     }
 }
 
-extension SettingsViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        20
+extension SettingsViewController: UIDocumentPickerDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        currencyTextField.text = currencyArray[row]
     }
 }

@@ -12,6 +12,7 @@ class TransactionsViewController: BaseViewController {
     
     var transactions: [TransactionResponse] = []
     var filteredTransactions: [TransactionResponse] = []
+    var currentAccount: AccountResponse?
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
@@ -90,7 +91,7 @@ class TransactionsViewController: BaseViewController {
             title: "Cancel",
             style: .plain,
             target: self,
-            action: #selector(cancelPressed)
+            action: #selector(backPressed)
         )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Done",
@@ -130,10 +131,13 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
             transaction = transactions[indexPath.row]
         }
         
-        guard let transactionCell = cell as? TransactionCell else {
+        guard
+            let transactionCell = cell as? TransactionCell,
+            let account = currentAccount
+            else {
             return cell
         }
-        transactionCell.configureCell(phoneNumber: transaction.senderId, amount: transaction.amount)
+        transactionCell.setupCell(account: account, phoneNumber: transaction.senderId, amount: transaction.amount)
         return transactionCell
     }
     

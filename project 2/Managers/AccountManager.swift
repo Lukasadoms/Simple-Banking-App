@@ -22,7 +22,7 @@ class AccountManager {
             case .missingValues:
                 return "Missing required values!"
             case .accountAlreadyExists:
-                return "This username is already taken!"
+                return "This phoneNumber is already taken!"
             case .wrongPassword:
                 return "Password is incorrect!"
             case .accountNotFound:

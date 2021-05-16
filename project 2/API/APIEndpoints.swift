@@ -13,6 +13,7 @@ enum APIEndpoint {
     case user
     case getUserToken(user: UserResponse)
     case account
+    case accountWithId(account: AccountResponse)
     case getUserTransactions(phoneNumber: String)
     case transaction
     
@@ -31,6 +32,9 @@ enum APIEndpoint {
             return makeURL(endpoint: "/api/v6/user/\(userId)")
         case .account:
             return makeURL(endpoint: "/api/v6/account")
+        case .accountWithId(let account):
+            let accountId = account.id
+            return makeURL(endpoint: "/api/v6/account/\(accountId)")
         case .getUserTransactions(let phoneNumber):
             let queryItem = URLQueryItem(name: SearchQueryKey, value: phoneNumber)
             return makeURL(endpoint: "/api/v6/transaction", queryItems: [queryItem])

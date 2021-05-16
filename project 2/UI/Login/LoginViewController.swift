@@ -265,8 +265,8 @@ final class LoginViewController: BaseViewController {
             else {
                 return
             }
-            //loginUser(phoneNumber: phoneNumber, password: password)
-            self.proceedToMainView(account: AccountResponse(id: "", phoneNumber: "37063655911", currency: "EUR", balance: 100))
+            loginUser(phoneNumber: phoneNumber, password: password)
+            //self.proceedToMainView(account: AccountResponse(id: "", phoneNumber: "37063655911", currency: "EUR", balance: 100))
         case 1:
             guard
                 let phoneNumber = phoneNumberTextField.text,
@@ -401,7 +401,7 @@ extension LoginViewController {
         let mainViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        mainViewController.account = account
+        mainViewController.currentAccount = account
         present(navigationController, animated: true, completion: nil)
     }
 }
