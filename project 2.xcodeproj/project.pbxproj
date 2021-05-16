@@ -36,7 +36,6 @@
 		C9BFE0A826404CE700489159 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0A726404CE700489159 /* TransactionCell.swift */; };
 		C9BFE0AB26404D3600489159 /* AddMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0AA26404D3600489159 /* AddMoneyViewController.swift */; };
 		C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B026404D7D00489159 /* BaseView.swift */; };
-		C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */; };
 		C9BFE0B726404DDE00489159 /* SelfSizingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */; };
 		C9BFE0BA26404E0200489159 /* SendMoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0B926404E0200489159 /* SendMoneyViewController.swift */; };
 		C9BFE0C026404E5C00489159 /* ActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */; };
@@ -77,7 +76,6 @@
 		C9BFE0A726404CE700489159 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		C9BFE0AA26404D3600489159 /* AddMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoneyViewController.swift; sourceTree = "<group>"; };
 		C9BFE0B026404D7D00489159 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCirlceCell.swift; sourceTree = "<group>"; };
 		C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizingTableView.swift; sourceTree = "<group>"; };
 		C9BFE0B926404E0200489159 /* SendMoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyViewController.swift; sourceTree = "<group>"; };
 		C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonView.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 				C9BFE0A026404C8000489159 /* BaseViewController.swift */,
 				C9BFE0B626404DDE00489159 /* SelfSizingTableView.swift */,
 				C9BFE0D326446C0500489159 /* CurrencyTextField.swift */,
-				C9BFE0B326404DBB00489159 /* ColorCirlceCell.swift */,
 				C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */,
 				C952E39F2648071F00C302D5 /* StringExtension.swift */,
 				C952E3AB2650240700C302D5 /* TextField Extension.swift */,
@@ -407,7 +404,6 @@
 				C9BFE081264049D900489159 /* AppDelegate.swift in Sources */,
 				C952E3A226498DF000C302D5 /* AccountManager.swift in Sources */,
 				C9BFE0D426446C0500489159 /* CurrencyTextField.swift in Sources */,
-				C9BFE0B426404DBB00489159 /* ColorCirlceCell.swift in Sources */,
 				C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */,
 				C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */,
 				C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */,

@@ -13,6 +13,7 @@ class TransactionsViewController: BaseViewController {
     var transactions: [TransactionResponse] = []
     var filteredTransactions: [TransactionResponse] = []
     var currentAccount: AccountResponse?
+    let apiManager = APIManager()
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
@@ -125,10 +126,13 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
         let transaction: TransactionResponse
+        
         if isFiltering {
-            transaction = filteredTransactions[indexPath.row]
+            let sortedTransactions = filteredTransactions.sorted { $0.createdOn > $1.createdOn }
+            transaction = sortedTransactions[indexPath.row]
         } else {
-            transaction = transactions[indexPath.row]
+            let sortedTransactions = transactions.sorted { $0.createdOn > $1.createdOn }
+            transaction = sortedTransactions[indexPath.row]
         }
         
         guard
@@ -145,9 +149,11 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
         
         let transaction: TransactionResponse
         if isFiltering {
-          transaction = filteredTransactions[indexPath.row]
+            let sortedTransactions = filteredTransactions.sorted { $0.createdOn > $1.createdOn }
+            transaction = sortedTransactions[indexPath.row]
         } else {
-          transaction = transactions[indexPath.row]
+            let sortedTransactions = transactions.sorted { $0.createdOn > $1.createdOn }
+            transaction = sortedTransactions[indexPath.row]
         }
         let transactionDetailViewController = TransactionDetailViewController()
         let navigationController = UINavigationController(rootViewController: transactionDetailViewController)
@@ -159,17 +165,17 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
 
 extension TransactionsViewController: UISearchResultsUpdating {
     
-  func updateSearchResults(for searchController: UISearchController) {
-    let searchBar = searchController.searchBar
-    filterContentForSearchText(searchBar.text!)
-  }
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
 }
 
 extension TransactionsViewController {
     
     func filterContentForSearchText(_ searchText: String) {
       //TODO
-      
+        
       myTransactionsTableView.reloadData()
     }
 }

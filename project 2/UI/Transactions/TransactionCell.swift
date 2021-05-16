@@ -14,7 +14,7 @@ final class TransactionCell: CodePayTableViewCell {
     // MARK: - UI elements
 
     private lazy var iconContainerView = UIView()
-    private lazy var iconView = UIImageView()
+    private var iconView = UIImageView()
     private var transactionPhoneNumberLabel = UILabel()
     private var amountLabel = UILabel()
     
@@ -35,10 +35,14 @@ final class TransactionCell: CodePayTableViewCell {
         transactionPhoneNumberLabel.text = "+\(receiverPhoneNumber)"
         
         if account.phoneNumber == receiverPhoneNumber {
+            iconView.image = UIImage(systemName: "arrowtriangle.down.circle")!
+            iconView.tintColor = .green
             amountLabel.text = "+\(amount)"
         }
         else {
             amountLabel.text = "-\(amount)"
+            iconView.image = UIImage(systemName: "arrowtriangle.up.circle")!
+            iconView.tintColor = .red
         }
         
         amountLabel.textColor = .systemGray3
@@ -49,7 +53,7 @@ final class TransactionCell: CodePayTableViewCell {
 
         iconContainerView.layer.cornerRadius = RoundedEdgesRadius
         iconContainerView.clipsToBounds = true
-        iconContainerView.backgroundColor = .systemBlue
+        iconContainerView.backgroundColor = .systemGray6
 
         iconContainerView.addSubview(iconView)
         contentView.addSubview(iconContainerView)

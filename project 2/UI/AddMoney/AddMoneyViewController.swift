@@ -128,8 +128,9 @@ extension AddMoneyViewController {
             amount: Double(moneyTextField.text!),
             { [weak self] result in
             switch result {
-            case .success:
+            case .success(let account):
                 DispatchQueue.main.async {
+                    self?.account = account
                     self?.showAlert(message: "Account Balance updated")
                     self?.delegate?.balanceHasChanged()
                     self?.updateUI()

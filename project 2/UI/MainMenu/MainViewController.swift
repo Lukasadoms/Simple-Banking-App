@@ -66,7 +66,7 @@ final class MainViewController: BaseViewController {
     private let scrollView = UIScrollView()
     
     init() {
-        super.init(nibName: nil, bundle: nil) // Ar čia viskas gerai ?
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -219,7 +219,12 @@ extension MainViewController: UITableViewDataSource {
         else { return cell }
         let sortedTransactions = accountTransactions.sorted { $0.createdOn > $1.createdOn }
         let transaction = sortedTransactions[indexPath.row]
-        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.senderId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount )
+        transactionCell.setupCell(
+            account: account,
+            senderPhoneNumber: transaction.senderId,
+            receiverPhoneNumber: transaction.receiverId,
+            amount: transaction.amount
+        )
         return transactionCell
     }
 }
@@ -244,6 +249,8 @@ extension MainViewController: UITableViewDelegate {
         present(navigationController, animated: true, completion: nil)
     }
 }
+
+// MARK: - ActionToolbar Methods
 
 extension MainViewController: ActionsButtonViewDelegate {
     func actionsButtonViewAddMoneyPressed() {

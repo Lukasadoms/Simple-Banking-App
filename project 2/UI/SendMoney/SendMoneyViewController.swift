@@ -280,9 +280,11 @@ final class SendMoneyViewController: BaseViewController {
                     DispatchQueue.main.async {
                         self?.showAlert(message: error.errorDescription)
                     }
-                case .success:
+                case .success(let account):
+                    self?.currentAccount = account
                     print("updated current account balance")
                     self?.delegate?.balanceHasChanged()
+                    self?.updateUI()
                 }
             })
         }
