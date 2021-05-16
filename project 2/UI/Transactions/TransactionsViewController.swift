@@ -23,8 +23,6 @@ class TransactionsViewController: BaseViewController {
       return searchController.isActive && !isSearchBarEmpty
     }
 
-    private let contentView = UIView()
-    
     let searchController = UISearchController(searchResultsController: nil)
 
     private let myTransactionsLabel: UILabel = {
@@ -64,12 +62,10 @@ class TransactionsViewController: BaseViewController {
     override func setupView() {
         super.setupView()
         
-//        applyTheming()
         configureNavigationBar()
         view.backgroundColor = .white
         view.addSubview(myTransactionsLabel)
         view.addSubview(myTransactionsTableView)
-        
     }
     
     override func setupConstraints() {
@@ -88,30 +84,18 @@ class TransactionsViewController: BaseViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Cancel",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Back",
             style: .plain,
             target: self,
             action: #selector(backPressed)
         )
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Done",
-            style: .done,
-            target: self,
-            action: #selector(donePressed)
-        )
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
-    @objc private func donePressed() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func cancelPressed() {
-        dismiss(animated: true, completion: nil)
-    }
 }
+
+// MARK: - TableView methods
 
 extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,7 +105,6 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
         
         return transactions.count
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
@@ -141,7 +124,7 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
             else {
             return cell
         }
-        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.receiverId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount)
+        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.senderId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount)
         return transactionCell
     }
     
@@ -163,6 +146,8 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
     }
 }
 
+// MARK: - UISearchBar methods
+
 extension TransactionsViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -174,9 +159,10 @@ extension TransactionsViewController: UISearchResultsUpdating {
 extension TransactionsViewController {
     
     func filterContentForSearchText(_ searchText: String) {
-      //TODO
-        
-      myTransactionsTableView.reloadData()
+        filteredTransactions = transactions.filter { (transaction: TransactionResponse) -> Bool in
+            return  transaction.receiverId.contains(searchText) || transaction.reference.lowercased().contains(searchText.lowercased())
+        }
+        myTransactionsTableView.reloadData()
     }
 }
 

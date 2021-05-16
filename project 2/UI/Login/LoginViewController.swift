@@ -110,13 +110,15 @@ final class LoginViewController: BaseViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        checkIfUserIsLoggedIn()
         observeTouchesOnView()
         currencyPicker.delegate = self as UIPickerViewDelegate
         currencyPicker.dataSource = self as UIPickerViewDataSource
@@ -211,7 +213,7 @@ final class LoginViewController: BaseViewController {
         currencyPicker.snp.makeConstraints { make in
             make.leading.equalTo(stackView)
             make.trailing.equalTo(stackView)
-            make.height.equalTo(50)
+            make.height.equalTo(80)
         }
         
         loginButton.snp.makeConstraints { make in
@@ -245,10 +247,10 @@ final class LoginViewController: BaseViewController {
                 !phoneNumber.isEmpty,
                 !password.isEmpty
             else {
+                showAlert(message: AccountManager.AccountManagerError.missingValues.errorDescription)
                 return
             }
             loginUser(phoneNumber: phoneNumber, password: password)
-            //self.proceedToMainView(account: AccountResponse(id: "", phoneNumber: "37063655911", currency: "EUR", balance: 100))
         case 1:
             guard
                 let phoneNumber = phoneNumberTextField.text,
@@ -259,13 +261,13 @@ final class LoginViewController: BaseViewController {
                 !password.isEmpty,
                 !reEnterPassword.isEmpty
             else {
+                showAlert(message: AccountManager.AccountManagerError.missingValues.errorDescription)
                 return
             }
             registerUser(phoneNumber: phoneNumber, password: password)
         default:
             return
         }
-        
     }
 }
 
@@ -273,22 +275,6 @@ final class LoginViewController: BaseViewController {
 
 extension LoginViewController {
     func loginUser(phoneNumber: String, password: String) {
-        
-        func checkIfAccountExists() {
-            apiManager.checkIfAccountExists(phoneNumber: phoneNumber, {  [weak self] result in
-                switch result {
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.showAlert(message: error.errorDescription)
-                    }
-                case .success(let account):
-                    DispatchQueue.main.async {
-                        self?.proceedToMainView(account: account)
-                    }
-                }
-            })
-        }
-        
         apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
             case .failure(let error):
@@ -296,14 +282,30 @@ extension LoginViewController {
                     self?.showAlert(message: error.errorDescription)
                 }
             case .success(let user):
+                self?.getUserToken(user: user)
                 DispatchQueue.main.async {
                     guard let passwordCheck = self?.accountManager.checkIfPasswordIsCorrect(password: password, user: user) else { return }
                     if passwordCheck {
-                        checkIfAccountExists()
+                        self?.loginAccountWith(phoneNumber: phoneNumber)
                     }
                     else {
                         self?.showAlert(message: AccountManager.AccountManagerError.wrongPassword.errorDescription)
                     }
+                }
+            }
+        })
+    }
+    
+    func loginAccountWith(phoneNumber: String) {
+        apiManager.checkIfAccountExists(phoneNumber: phoneNumber, {  [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let account):
+                DispatchQueue.main.async {
+                    self?.proceedToMainView(account: account)
                 }
             }
         })
@@ -315,45 +317,6 @@ extension LoginViewController {
 extension LoginViewController {
     
     func registerUser(phoneNumber: String, password: String) {
-        func continueUserCreation() {
-            apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
-                switch result {
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.showAlert(message: error.errorDescription)
-                    }
-                case .success(let user):
-                    getUserToken(user: user)
-                }
-            })
-            apiManager.createAccount(phoneNumber: phoneNumber, currency: "EUR", { [weak self] result in
-                switch result {
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.showAlert(message: error.errorDescription)
-                    }
-                case .success(let account):
-                    DispatchQueue.main.async {
-                        self?.proceedToMainView(account: account)
-                    }
-                }
-            })
-        }
-        
-        func getUserToken(user: UserResponse) {
-            apiManager.getUserToken(user: user, { [weak self] result in
-                switch result {
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self?.showAlert(message: error.errorDescription)
-                    }
-                case .success(let token):
-                    self?.userManager.saveToken(token.accessToken, phoneNumber: user.phoneNumber)
-                    self?.userManager.saveUserPhoneNumber(phoneNumber: user.phoneNumber)
-                }
-            })
-        }
-        
         
         apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
@@ -373,12 +336,69 @@ extension LoginViewController {
             }
         })
         
+        func continueUserCreation() {
+            guard accountManager.validatePhoneNumberAndPassword(phoneNumber: phoneNumber, password: password) else {
+                DispatchQueue.main.async {
+                    self.showAlert(message: AccountManager.AccountManagerError.missingValues.errorDescription)
+                }
+                return
+            }
+            apiManager.createUser(phoneNumber: phoneNumber, password: password, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success(let user):
+                    self?.getUserToken(user: user)
+                }
+            })
+            apiManager.createAccount(phoneNumber: phoneNumber, currency: selectedCurrency, { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(message: error.errorDescription)
+                    }
+                case .success(let account):
+                    DispatchQueue.main.async {
+                        self?.proceedToMainView(account: account)
+                    }
+                }
+            })
+        }
+    }
+    
+    func getUserToken(user: UserResponse) {
+        apiManager.getUserToken(user: user, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let token):
+                self?.userManager.saveToken(token.accessToken, phoneNumber: user.phoneNumber)
+                self?.userManager.saveTokenExpiration(token.expiresIn)
+                self?.userManager.saveUserPhoneNumber(phoneNumber: user.phoneNumber)
+            }
+        })
     }
 }
 
 // MARK: - Navigation
 
 extension LoginViewController {
+    
+    func checkIfUserIsLoggedIn() {
+        if userManager.isUserLoggedIn() {
+            guard let phoneNumber = userManager.getUserphoneNumber()
+            else {
+                showAlert(message: "Session expired please login again")
+                return
+            }
+            loginAccountWith(phoneNumber: phoneNumber)
+        }
+    }
+    
     func proceedToMainView(account: AccountResponse) {
         let mainViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)

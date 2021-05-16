@@ -5,7 +5,7 @@
         <attribute name="currency" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="phonenumber" attributeType="String"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="sender" inverseEntity="Transaction"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="amount" attributeType="Decimal" defaultValueString="0.0"/>
@@ -16,10 +16,10 @@
         <attribute name="reference" attributeType="String"/>
         <attribute name="senderID" attributeType="String"/>
         <relationship name="receiver" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account"/>
-        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account"/>
     </entity>
     <elements>
         <element name="Transaction" positionX="-45" positionY="0" width="128" height="178"/>
-        <element name="Account" positionX="107.40625" positionY="-259.92578125" width="128" height="104"/>
+        <element name="Account" positionX="107.40625" positionY="-259.92578125" width="128" height="118"/>
     </elements>
 </model>

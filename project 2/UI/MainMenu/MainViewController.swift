@@ -20,6 +20,7 @@ final class MainViewController: BaseViewController {
         let label = UILabel()
         label.text = "My Transactions"
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -82,9 +83,7 @@ final class MainViewController: BaseViewController {
         updateUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
+    // MARK: - UI Constraints Setup
     
     override func setupView() {
         super.setupView()
@@ -103,7 +102,7 @@ final class MainViewController: BaseViewController {
         contentView.addSubview(myTransactionsLabel)
         contentView.addSubview(myTransactionsTableView)
 
-        contentView.addSubview(actionButtonView)
+        view.addSubview(actionButtonView)
     }
     
     override func setupConstraints() {
@@ -119,7 +118,6 @@ final class MainViewController: BaseViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView)
             make.width.equalTo(scrollView)
-            
         }
         
         iconView.snp.makeConstraints { make in
@@ -138,7 +136,7 @@ final class MainViewController: BaseViewController {
         myTransactionsLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(actionButtonView.snp.bottom).offset(EdgeMargin)
+            make.top.equalTo(myBalanceLabel.snp.bottom).offset(EdgeMargin)
         }
         
         myTransactionsTableView.snp.makeConstraints { make in
@@ -149,17 +147,16 @@ final class MainViewController: BaseViewController {
         }
         
         actionButtonView.snp.makeConstraints { make in
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
-            make.top.equalTo(myBalanceLabel.snp.bottom).offset(EdgeMargin)
-            make.height.equalTo(80)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         seeAllTransactionsButton.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(contentView.snp.bottom).offset(EdgeMargin)
-            make.height.equalTo(80)
+            make.height.equalTo(20)
         }
     }
 }
@@ -239,8 +236,8 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let transaction = accountTransactions?[indexPath.row] else { return }
+        guard let sortedTransactions = accountTransactions?.sorted(by: { $0.createdOn > $1.createdOn }) else { return }
+        let transaction = sortedTransactions[indexPath.row]
         
         let transactionDetailViewController = TransactionDetailViewController()
         let navigationController = UINavigationController(rootViewController: transactionDetailViewController)
@@ -311,7 +308,9 @@ extension MainViewController {
     }
 }
 
-extension MainViewController: AddMoneyViewControllerDelegate {
+// MARK: - BalanceChangeDelegate methods
+
+extension MainViewController: BalanceChangeDelegate {
     func balanceHasChanged() {
         guard let account = currentAccount else { return }
         apiManager.checkIfAccountExists(phoneNumber: account.phoneNumber, { [weak self] result in

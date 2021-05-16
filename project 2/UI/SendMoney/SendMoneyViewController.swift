@@ -6,7 +6,7 @@ final class SendMoneyViewController: BaseViewController {
 
     var currentAccount: AccountResponse?
     let apiManager = APIManager()
-    weak var delegate: AddMoneyViewControllerDelegate?
+    weak var delegate: BalanceChangeDelegate?
     
     private let balanceLabel: UILabel = {
         let label = UILabel()

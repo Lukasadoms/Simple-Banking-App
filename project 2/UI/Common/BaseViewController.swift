@@ -15,6 +15,7 @@ class BaseViewController: UIViewController {
     let SearchBarHeight: CGFloat = 50
     let TitleSize: CGFloat = 30
     let currencyArray = ["EUR", "USD"]
+    var selectedCurrency: String = ""
     
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
@@ -111,5 +112,9 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return currencyArray[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCurrency = currencyArray[row]
     }
 }

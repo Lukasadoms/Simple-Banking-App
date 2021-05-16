@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol AddMoneyViewControllerDelegate: AnyObject {
+protocol BalanceChangeDelegate: AnyObject {
     func balanceHasChanged()
 }
 
@@ -15,7 +15,7 @@ final class AddMoneyViewController: BaseViewController {
     
     var account: AccountResponse?
     let apiManager = APIManager()
-    weak var delegate: AddMoneyViewControllerDelegate?
+    weak var delegate: BalanceChangeDelegate?
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -158,7 +158,7 @@ extension AddMoneyViewController {
                 }
             case .success:
                 DispatchQueue.main.async {
-                    self?.showAlert(message: "Transaction submitted succesfully")
+                    print("Transaction submitted succesfully")
                     self?.updateUI()
                 }
             }

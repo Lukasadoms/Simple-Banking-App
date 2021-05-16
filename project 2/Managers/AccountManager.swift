@@ -8,8 +8,6 @@
 import Foundation
 
 class AccountManager {
-    
-    let apiManager = APIManager()
 
     enum AccountManagerError: Error {
         case missingValues
@@ -20,7 +18,7 @@ class AccountManager {
         var errorDescription: String {
             switch self {
             case .missingValues:
-                return "Missing required values!"
+                return "Please make sure phone number is correct and password has at least one uppercase letter and one special symbol"
             case .accountAlreadyExists:
                 return "This phoneNumber is already taken!"
             case .wrongPassword:
@@ -30,14 +28,6 @@ class AccountManager {
             }
         }
     }
-
-    static var loggedInAccount: Account? /*{
-        willSet(newAccount) {
-            print("Will set account. Old username: \(loggedInAccount?.username ?? "nil"), new username: \(newAccount?.username ?? "nil")")
-        } didSet {
-            print("Did set account. Old username: \(oldValue?.username ?? "nil"), new username: \(loggedInAccount?.username ?? "nil")")
-        }
-    }*/
 }
     // MARK: - Main functionality
 
@@ -46,14 +36,18 @@ extension AccountManager {
     func checkIfPasswordIsCorrect(password: String, user: UserResponse) -> Bool {
         password == user.password
     }
-}
-
-// MARK: - Helpers
-
-private extension AccountManager {
     
-    static func isUsernameTaken(_ username: String) -> Bool {
-        return false
+    func validatePhoneNumberAndPassword(phoneNumber: String, password: String) -> Bool {
+        let phoneRegex = "^[0-9]{0,1}+[0-9]{5,16}$"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        let passwordRegex = "^(?=.*[a-z])(?=.*[$@$#!%*?&])(?=.*[A-Z]).{6,}$"
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@ ", passwordRegex)
+        guard
+            phoneTest.evaluate(with: phoneNumber),
+            passwordTest.evaluate(with: password)
+        else { return false }
+        
+        return true
     }
 }
 

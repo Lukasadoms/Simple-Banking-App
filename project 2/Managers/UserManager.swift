@@ -30,7 +30,8 @@ struct UserManager {
     }
     
     func saveTokenExpiration(_ expiration: Int) {
-        userDefaults.setValue(expiration, forKey: UserManagerKey.tokenExpiration)
+        let timestamp = Int(NSDate().timeIntervalSince1970) + expiration
+        userDefaults.setValue(timestamp, forKey: UserManagerKey.tokenExpiration)
     }
     
     func saveToken(_ token: String, phoneNumber: String) {

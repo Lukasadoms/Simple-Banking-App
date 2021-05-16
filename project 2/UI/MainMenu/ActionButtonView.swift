@@ -36,8 +36,6 @@ class ActionButtonView: UIToolbar {
         let fontSize = button.titleLabel?.font.pointSize ?? 12
         button.titleLabel?.font = .boldSystemFont(ofSize: fontSize)
         button.addTarget(self, action: #selector(addMoneyPressed), for: .touchUpInside)
-        
-
         return UIBarButtonItem(customView: button)
     }()
     
@@ -83,8 +81,6 @@ class ActionButtonView: UIToolbar {
             animated: false)
     }
 }
-
-// MARK: - Transparency Effect
 
 extension ActionButtonView {
     

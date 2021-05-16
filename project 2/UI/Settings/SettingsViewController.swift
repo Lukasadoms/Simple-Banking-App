@@ -336,7 +336,7 @@ final class SettingsViewController: BaseViewController {
 }
 
 extension SettingsViewController: UIDocumentPickerDelegate {
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    override func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         currencyTextField.text = currencyArray[row]
     }
 }
