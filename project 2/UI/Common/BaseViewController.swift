@@ -20,12 +20,6 @@ class BaseViewController: UIViewController {
     var transactionManager = TransactionManager()
     let apiManager = APIManager()
     
-    private let currencyPicker: UIPickerView = {
-        let picker = UIPickerView()
-        picker.isHidden = true
-        return picker
-    }()
-    
     let moneyTextField: CurrencyTextField = {
         let textField = CurrencyTextField()
         textField.backgroundColor = .systemGray6
@@ -88,17 +82,9 @@ extension BaseViewController {
         )
         view.addGestureRecognizer(recognizer)
     }
-    
-    func showAlert(message: String) {
-        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
-    }
-    
-    @objc func backPressed() {
-        dismiss(animated: true, completion: nil)
-    }
 }
+
+// MARK: - CurrencyPickerView delegate and datasource methods
 
 extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -115,5 +101,23 @@ extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectedCurrency = currencyArray[row]
+    }
+}
+
+// MARK: - Helpers
+
+extension BaseViewController {
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    @objc func backPressed() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func donePressed() {
+        view.endEditing(true)
     }
 }

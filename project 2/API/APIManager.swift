@@ -21,6 +21,8 @@ struct APIManager {
         return URLSession(configuration: configuration)
     }
     
+    // MARK: - CheckIfUserExists API call
+    
     func checkIfUserExists(phoneNumber: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
 
         guard let url = APIEndpoint.checkUser(phoneNumber: phoneNumber).url
@@ -49,6 +51,8 @@ struct APIManager {
             }
         }.resume()
     }
+    
+    // MARK: - CreteUser API call
     
     func createUser(phoneNumber: String, password: String, _ completion: @escaping (Result<UserResponse, APIError>) -> Void) {
 
@@ -88,6 +92,8 @@ struct APIManager {
         }.resume()
     }
     
+    // MARK: - GetUserToken API call
+    
     func getUserToken(user: UserResponse, _ completion: @escaping (Result<UserTokenResponse, APIError>) -> Void) {
 
         guard let url = APIEndpoint.getUserToken(user: user).url
@@ -110,6 +116,8 @@ struct APIManager {
             completion(.success(userTokenResponse))
         }.resume()
     }
+    
+    // MARK: - CreateAccount API call
     
     func createAccount(phoneNumber: String, currency: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
@@ -150,6 +158,8 @@ struct APIManager {
         }.resume()
     }
     
+    // MARK: - CheckIfUserExists API call
+    
     func checkIfAccountExists(phoneNumber: String, _ completion: @escaping (Result<AccountResponse, APIError>) -> Void) {
 
         guard let url = APIEndpoint.checkAccount(phoneNumber: phoneNumber).url
@@ -179,6 +189,8 @@ struct APIManager {
         }.resume()
     }
     
+    // MARK: - GetAccountTransactions API call
+    
     func getAccountTransactions(phoneNumber: String, _ completion: @escaping (Result<[TransactionResponse], APIError>) -> Void) {
 
         guard let url = APIEndpoint.getUserTransactions(phoneNumber: phoneNumber).url
@@ -201,6 +213,8 @@ struct APIManager {
             completion(.success(transactionResponse))
         }.resume()
     }
+    
+    // MARK: - PostTransaction API call
     
     func postTransaction(senderAccount: AccountResponse,
                          receiverAccount: AccountResponse,
@@ -247,6 +261,8 @@ struct APIManager {
             completion(.success(userResponse))
         }.resume()
     }
+    
+    // MARK: - UpdateAccountDetails API call
     
     func updateAccount(account: AccountResponse,
                        currency: String?,
@@ -301,6 +317,8 @@ struct APIManager {
             completion(.success(accountResponse))
         }.resume()
     }
+    
+    // MARK: - UpdateUserDetails API call
     
     func updateUser(user: UserResponse,
                     phoneNumber: String?,

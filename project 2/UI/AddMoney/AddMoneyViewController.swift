@@ -13,8 +13,9 @@ protocol BalanceChangeDelegate: AnyObject {
 
 final class AddMoneyViewController: BaseViewController {
     
-    
     weak var delegate: BalanceChangeDelegate?
+    
+    // MARK: - UI Elements
     
     private let balanceLabel: UILabel = {
         let label = UILabel()
@@ -53,6 +54,8 @@ final class AddMoneyViewController: BaseViewController {
         updateUI()
         observeTouchesOnView()
     }
+    
+    // MARK: - UI Setup
 
     override func setupView() {
         super.setupView()
@@ -100,16 +103,12 @@ final class AddMoneyViewController: BaseViewController {
     }
 }
 
+// MARK: - Helpers
+
 extension AddMoneyViewController {
     private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Cancel",
-            style: .plain,
-            target: self,
-            action: #selector(backPressed)
-        )
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Done",
+            title: "Back",
             style: .done,
             target: self,
             action: #selector(backPressed)

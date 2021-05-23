@@ -9,6 +9,8 @@ import UIKit
 
 final class SettingsViewController: BaseViewController {
     
+    // MARK: - UI Elements
+    
     private let settingsLabel: UILabel = {
         let label = UILabel()
         label.text = "Settings:"
@@ -86,6 +88,8 @@ final class SettingsViewController: BaseViewController {
         createSeasonPickerView()
         dismissPickerView()
     }
+    
+    // MARK: - UI Setup
 
     override func setupView() {
         super.setupView()
@@ -159,6 +163,8 @@ final class SettingsViewController: BaseViewController {
         }
     }
     
+    // MARK: - Helpers
+    
     override func keyboardWillAppear(_ keyboardHeight: CGFloat) {
         super.keyboardWillAppear(keyboardHeight)
         
@@ -223,6 +229,11 @@ final class SettingsViewController: BaseViewController {
         
         
     }
+}
+
+// MARK: - Main functionality
+
+extension SettingsViewController {
     
     func updatePhoneNumber(account: AccountResponse, phoneNumber: String) {
         let phoneRegex = "^[0-9]{0,1}+[0-9]{5,16}$"
@@ -326,11 +337,9 @@ final class SettingsViewController: BaseViewController {
             }
         })
     }
-    
-    @objc private func donePressed() {
-        view.endEditing(true)
-    }
 }
+
+// MARK: - PickerView Delegate methods
 
 extension SettingsViewController: UIDocumentPickerDelegate {
     override func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

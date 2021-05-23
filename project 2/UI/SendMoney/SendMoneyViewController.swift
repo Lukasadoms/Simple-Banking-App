@@ -92,7 +92,7 @@ final class SendMoneyViewController: BaseViewController {
         updateUI()
     }
     
-    // MARK: - UI SETUP
+    // MARK: - UI setup
 
     override func setupView() {
         super.setupView()
@@ -199,28 +199,14 @@ final class SendMoneyViewController: BaseViewController {
 extension SendMoneyViewController {
     
     private func configureNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Cancel",
-            style: .plain,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Back",
+            style: .done,
             target: self,
             action: #selector(backPressed)
         )
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Done",
-            style: .done,
-            target: self,
-            action: #selector(donePressed)
-        )
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
-    @objc private func donePressed() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func cancelPressed() {
-        dismiss(animated: true, completion: nil)
     }
 }
 

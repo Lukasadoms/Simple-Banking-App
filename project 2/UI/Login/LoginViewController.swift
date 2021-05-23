@@ -26,10 +26,16 @@ final class LoginViewController: BaseViewController {
         return label
     }()
     
-    private let currencyPicker: UIPickerView = {
-        let picker = UIPickerView()
-        picker.isHidden = true
-        return picker
+    let currencyTextField: TextField = {
+        let textField = TextField()
+        textField.placeholder = "Currency"
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.autocorrectionType = .no
+        textField.textColor = .black
+        textField.backgroundColor = .systemGray6
+        textField.layer.cornerRadius = 8
+        textField.isHidden = true
+        return textField
     }()
     
     private let loginSegmentedControl: UISegmentedControl = {
@@ -116,11 +122,26 @@ final class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        createSeasonPickerView()
+        dismissPickerView()
         
         checkIfUserIsLoggedIn()
         observeTouchesOnView()
-        currencyPicker.delegate = self as UIPickerViewDelegate
-        currencyPicker.dataSource = self as UIPickerViewDataSource
+    }
+    
+    func createSeasonPickerView() {
+        let currencyPickerView = UIPickerView()
+        currencyPickerView.delegate = self
+        currencyTextField.inputView = currencyPickerView
+    }
+    
+    func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.donePressed))
+        toolBar.setItems([button], animated: true)
+        toolBar.isUserInteractionEnabled = true
+        currencyTextField.inputAccessoryView = toolBar
     }
     
     override func viewDidLayoutSubviews() {
@@ -142,7 +163,7 @@ final class LoginViewController: BaseViewController {
         stackView.addArrangedSubview(phoneNumberView)
         stackView.addArrangedSubview(passwordTextField)
         stackView.addArrangedSubview(passwordReenterTextField)
-        stackView.addArrangedSubview(currencyPicker)
+        stackView.addArrangedSubview(currencyTextField)
         stackView.addArrangedSubview(loginButton)
         
     }
@@ -209,10 +230,10 @@ final class LoginViewController: BaseViewController {
             make.height.equalTo(50)
         }
         
-        currencyPicker.snp.makeConstraints { make in
+        currencyTextField.snp.makeConstraints { make in
             make.leading.equalTo(stackView)
             make.trailing.equalTo(stackView)
-            make.height.equalTo(80)
+            make.height.equalTo(50)
         }
         
         loginButton.snp.makeConstraints { make in
@@ -224,12 +245,12 @@ final class LoginViewController: BaseViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             passwordReenterTextField.isHidden = true
-            currencyPicker.isHidden = true
+            currencyTextField.isHidden = true
             loginButton.setTitle("Login", for: .normal)
             UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         case 1:
             passwordReenterTextField.isHidden = false
-            currencyPicker.isHidden = false
+            currencyTextField.isHidden = false
             loginButton.setTitle("Register", for: .normal)
             UIView.animate(withDuration: 0.5, animations: view.layoutIfNeeded)
         default:
@@ -256,6 +277,7 @@ final class LoginViewController: BaseViewController {
                 let phoneNumber = phoneNumberTextField.text,
                 let password = passwordTextField.text,
                 let reEnterPassword = passwordReenterTextField.text,
+                let currency = currencyTextField.text,
                 passwordReenterTextField.text == passwordTextField.text,
                 !phoneNumber.isEmpty,
                 !password.isEmpty,
@@ -264,7 +286,7 @@ final class LoginViewController: BaseViewController {
                 showAlert(message: AccountManager.AccountManagerError.missingValues.errorDescription)
                 return
             }
-            registerUser(phoneNumber: phoneNumber, password: password)
+            registerUser(phoneNumber: phoneNumber, password: password, currency: currency)
         default:
             return
         }
@@ -316,7 +338,7 @@ extension LoginViewController {
 
 extension LoginViewController {
     
-    func registerUser(phoneNumber: String, password: String) {
+    func registerUser(phoneNumber: String, password: String, currency: String) {
         
         apiManager.checkIfUserExists(phoneNumber: phoneNumber, {  [weak self] result in
             switch result {
@@ -353,7 +375,7 @@ extension LoginViewController {
                     self?.getUserToken(user: user)
                 }
             })
-            apiManager.createAccount(phoneNumber: phoneNumber, currency: selectedCurrency, { [weak self] result in
+            apiManager.createAccount(phoneNumber: phoneNumber, currency: currency, { [weak self] result in
                 switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -407,6 +429,15 @@ extension LoginViewController {
         present(navigationController, animated: true, completion: nil)
     }
 }
+
+// MARK: - pickerView delegate methods
+
+extension LoginViewController: UIDocumentPickerDelegate {
+    override func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        currencyTextField.text = currencyArray[row]
+    }
+}
+
 
 
 

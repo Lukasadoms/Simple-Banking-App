@@ -12,6 +12,8 @@ class TransactionDetailViewController: BaseViewController {
     
     var transaction: Transaction?
     
+    // MARK: - UI Elements
+    
     private let transactionLabel: UILabel = {
         let label = UILabel()
         label.text = "Transaction Details:"
@@ -74,6 +76,8 @@ class TransactionDetailViewController: BaseViewController {
         super.viewDidLoad()
         configureView()
     }
+    
+    // MARK: - UI Setup
 
     override func setupView() {
         super.setupView()

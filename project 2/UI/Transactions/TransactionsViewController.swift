@@ -22,6 +22,8 @@ class TransactionsViewController: BaseViewController {
     }
 
     let searchController = UISearchController(searchResultsController: nil)
+    
+    // MARK: - UI Elements
 
     private let myTransactionsLabel: UILabel = {
         let label = UILabel()
@@ -56,6 +58,8 @@ class TransactionsViewController: BaseViewController {
         definesPresentationContext = true
 
     }
+    
+    // MARK: - UI Setup
     
     override func setupView() {
         super.setupView()
