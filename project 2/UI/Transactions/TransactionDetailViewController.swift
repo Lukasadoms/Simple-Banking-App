@@ -10,7 +10,7 @@ import UIKit
 
 class TransactionDetailViewController: BaseViewController {
     
-    var transaction: TransactionResponse?
+    var transaction: Transaction?
     
     private let transactionLabel: UILabel = {
         let label = UILabel()
@@ -152,13 +152,18 @@ class TransactionDetailViewController: BaseViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         let strDate = dateFormatter.string(from: date)
         dateLabel.text = "Created on: \(strDate)"
-        senderLabel.text = "Sender: \(transaction.senderId)"
-        receiverLabel.text = "Receiver: \(transaction.receiverId)"
-        noteLabel.text = "Note: \(transaction.reference)"
-        amountLabel.text = "Amount: \(transaction.amount)"
+        senderLabel.text = "Sender: \(transaction.senderId ?? "")"
+        receiverLabel.text = "Receiver: \(transaction.receiverId ?? "")"
+        noteLabel.text = "Note: \(transaction.reference ?? "")"
+        amountLabel.text = "Amount: \(transaction.amount ?? 0)"
     }
     
     @objc func repeatPressed() {
-        
+        let sendMoneyViewController = SendMoneyViewController()
+        sendMoneyViewController.phoneNumberTextField.text = transaction?.receiverId
+        sendMoneyViewController.moneyTextField.text = transaction?.amount?.stringValue
+        sendMoneyViewController.referenceTextField.text = transaction?.reference
+        let navigationController = UINavigationController(rootViewController: sendMoneyViewController)
+        present(navigationController, animated: true, completion: nil)
     }
 }

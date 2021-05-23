@@ -23,6 +23,7 @@
 		C952E3A7264AEA3B00C302D5 /* AccountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3A6264AEA3B00C302D5 /* AccountResponse.swift */; };
 		C952E3AA264FB9FE00C302D5 /* TransactionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3A9264FB9FE00C302D5 /* TransactionResponse.swift */; };
 		C952E3AC2650240700C302D5 /* TextField Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E3AB2650240700C302D5 /* TextField Extension.swift */; };
+		C952E42D2657FCF600C302D5 /* TransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C952E42C2657FCF600C302D5 /* TransactionManager.swift */; };
 		C97B5A512646C14E005158EA /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A502646C14E005158EA /* SettingsViewController.swift */; };
 		C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */; };
 		C9BFE081264049D900489159 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE080264049D900489159 /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 		C952E3A6264AEA3B00C302D5 /* AccountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountResponse.swift; sourceTree = "<group>"; };
 		C952E3A9264FB9FE00C302D5 /* TransactionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionResponse.swift; sourceTree = "<group>"; };
 		C952E3AB2650240700C302D5 /* TextField Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField Extension.swift"; sourceTree = "<group>"; };
+		C952E42C2657FCF600C302D5 /* TransactionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionManager.swift; sourceTree = "<group>"; };
 		C97B5A502646C14E005158EA /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		C97B5A532646C8DC005158EA /* CodaPayTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodaPayTableViewCell.swift; sourceTree = "<group>"; };
 		C9BFE07D264049D900489159 /* project 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +153,7 @@
 			children = (
 				C952E39B2647F15F00C302D5 /* UserManager.swift */,
 				C952E3A126498DF000C302D5 /* AccountManager.swift */,
+				C952E42C2657FCF600C302D5 /* TransactionManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				C952E3A226498DF000C302D5 /* AccountManager.swift in Sources */,
 				C9BFE0D426446C0500489159 /* CurrencyTextField.swift in Sources */,
 				C9BFE08B264049D900489159 /* project_2.xcdatamodeld in Sources */,
+				C952E42D2657FCF600C302D5 /* TransactionManager.swift in Sources */,
 				C9BFE0B126404D7D00489159 /* BaseView.swift in Sources */,
 				C97B5A542646C8DC005158EA /* CodaPayTableViewCell.swift in Sources */,
 				C952E3A7264AEA3B00C302D5 /* AccountResponse.swift in Sources */,

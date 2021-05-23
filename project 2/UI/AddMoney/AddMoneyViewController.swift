@@ -13,8 +13,7 @@ protocol BalanceChangeDelegate: AnyObject {
 
 final class AddMoneyViewController: BaseViewController {
     
-    var account: AccountResponse?
-    let apiManager = APIManager()
+    
     weak var delegate: BalanceChangeDelegate?
     
     private let balanceLabel: UILabel = {
@@ -120,7 +119,7 @@ extension AddMoneyViewController {
     }
     
     @objc func addMoneyPressed() {
-        guard let account = account else { return }
+        guard let account = accountManager.currentAccount else { return }
         apiManager.updateAccount(
             account: account,
             currency: nil,
@@ -130,7 +129,7 @@ extension AddMoneyViewController {
             switch result {
             case .success(let account):
                 DispatchQueue.main.async {
-                    self?.account = account
+                    self?.accountManager.currentAccount = account
                     self?.showAlert(message: "Account Balance updated")
                     self?.delegate?.balanceHasChanged()
                     self?.updateUI()
@@ -146,7 +145,7 @@ extension AddMoneyViewController {
         apiManager.postTransaction(
             senderAccount: account,
             receiverAccount: account,
-            amount: Double(moneyTextField.text!)!,
+            amount: Decimal(Double(moneyTextField.text!)!),
             currency: account.currency,
             reference: "Add money to account",
             { [weak self] result in
@@ -166,7 +165,7 @@ extension AddMoneyViewController {
     }
     
     func updateUI() {
-        guard let account = account else { return }
+        guard let account = accountManager.currentAccount else { return }
         moneyLabel.text = "\(account.balance)"
     }
 }

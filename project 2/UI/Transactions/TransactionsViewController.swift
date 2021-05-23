@@ -10,10 +10,8 @@ import SnapKit
 
 class TransactionsViewController: BaseViewController {
     
-    var transactions: [TransactionResponse] = []
-    var filteredTransactions: [TransactionResponse] = []
-    var currentAccount: AccountResponse?
-    let apiManager = APIManager()
+    var transactions: [Transaction] = []
+    var filteredTransactions: [Transaction] = []
     
     var isSearchBarEmpty: Bool {
       return searchController.searchBar.text?.isEmpty ?? true
@@ -108,7 +106,7 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
-        let transaction: TransactionResponse
+        let transaction: Transaction
         
         if isFiltering {
             let sortedTransactions = filteredTransactions.sorted { $0.createdOn > $1.createdOn }
@@ -120,17 +118,17 @@ extension TransactionsViewController: UITableViewDelegate, UITableViewDataSource
         
         guard
             let transactionCell = cell as? TransactionCell,
-            let account = currentAccount
+            let account = accountManager.currentAccount
             else {
             return cell
         }
-        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.senderId, receiverPhoneNumber: transaction.receiverId, amount: transaction.amount)
+        transactionCell.setupCell(account: account, senderPhoneNumber: transaction.senderId!, receiverPhoneNumber: transaction.receiverId!, amount: transaction.amount!.stringValue)
         return transactionCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let transaction: TransactionResponse
+        let transaction: Transaction
         if isFiltering {
             let sortedTransactions = filteredTransactions.sorted { $0.createdOn > $1.createdOn }
             transaction = sortedTransactions[indexPath.row]
@@ -159,8 +157,8 @@ extension TransactionsViewController: UISearchResultsUpdating {
 extension TransactionsViewController {
     
     func filterContentForSearchText(_ searchText: String) {
-        filteredTransactions = transactions.filter { (transaction: TransactionResponse) -> Bool in
-            return  transaction.receiverId.contains(searchText) || transaction.reference.lowercased().contains(searchText.lowercased())
+        filteredTransactions = transactions.filter { (transaction: Transaction) -> Bool in
+            return  transaction.receiverId!.contains(searchText) || transaction.reference!.lowercased().contains(searchText.lowercased())
         }
         myTransactionsTableView.reloadData()
     }

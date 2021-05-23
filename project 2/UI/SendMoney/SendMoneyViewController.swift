@@ -4,8 +4,6 @@ import UIKit
 
 final class SendMoneyViewController: BaseViewController {
 
-    var currentAccount: AccountResponse?
-    let apiManager = APIManager()
     weak var delegate: BalanceChangeDelegate?
     
     private let balanceLabel: UILabel = {
@@ -62,7 +60,7 @@ final class SendMoneyViewController: BaseViewController {
         return button
     }()
     
-    private let phoneNumberTextField: TextField = {
+    let phoneNumberTextField: TextField = {
         let textField = TextField()
         textField.placeholder = "370..."
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
@@ -74,7 +72,7 @@ final class SendMoneyViewController: BaseViewController {
         return textField
     }()
     
-    private let referenceTextField: TextField = {
+    let referenceTextField: TextField = {
         let textField = TextField()
         textField.placeholder = "Reference"
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
@@ -218,7 +216,7 @@ final class SendMoneyViewController: BaseViewController {
     
     @objc func sendMoneyPressed() {
         guard
-            let currentAccount = currentAccount,
+            let currentAccount = accountManager.currentAccount,
             let phoneNumber = phoneNumberTextField.text,
             let reference = referenceTextField.text
         else { return }
@@ -232,7 +230,7 @@ final class SendMoneyViewController: BaseViewController {
                 DispatchQueue.main.async {
                     guard let amount = self?.moneyTextField.text else { return }
                     
-                    if currentAccount.currency == account.currency && Double(amount)! <= currentAccount.balance {
+                    if currentAccount.currency == account.currency && Decimal(Double(amount)!) <= currentAccount.balance {
                         continueSendMoney(account: account)
                     } else {
                         self?.showAlert(message: "not sufficient funds or the currency in receiving account is not the same")
@@ -246,7 +244,7 @@ final class SendMoneyViewController: BaseViewController {
             apiManager.postTransaction(
                 senderAccount: currentAccount,
                 receiverAccount: account,
-                amount: Double(moneyTextField.text!)!,
+                amount: Decimal(Double(moneyTextField.text!)!),
                 currency: currentAccount.currency,
                 reference: reference,
                 { [weak self] result in
@@ -281,7 +279,7 @@ final class SendMoneyViewController: BaseViewController {
                         self?.showAlert(message: error.errorDescription)
                     }
                 case .success(let account):
-                    self?.currentAccount = account
+                    self?.accountManager.currentAccount = account
                     print("updated current account balance")
                     self?.delegate?.balanceHasChanged()
                     self?.updateUI()
@@ -291,8 +289,10 @@ final class SendMoneyViewController: BaseViewController {
     }
     
     func updateUI() {
-        guard let account = currentAccount else { return }
-        moneyLabel.text = "\(account.balance)"
+        guard let account = accountManager.currentAccount else { return }
+        DispatchQueue.main.async {
+            self.moneyLabel.text = "\(account.balance)"
+        }
     }
 }
 

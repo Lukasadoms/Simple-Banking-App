@@ -31,7 +31,7 @@ final class TransactionCell: CodePayTableViewCell {
 
     // MARK: - Configuration
 
-    func setupCell(account: AccountResponse, senderPhoneNumber: String, receiverPhoneNumber: String, amount: Double) {
+    func setupCell(account: AccountResponse, senderPhoneNumber: String, receiverPhoneNumber: String, amount: String) {
         transactionPhoneNumberLabel.text = "+\(receiverPhoneNumber)"
         
         if account.phoneNumber == receiverPhoneNumber {

@@ -31,4 +31,15 @@ class CoreDataManager {
         
         try managedContext.save()
     }
+    
+    static func deleteTransactions() throws {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Transaction")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try managedContext.execute(deleteRequest)
+        } catch let error as NSError {
+            throw error
+        }
+    }
 }

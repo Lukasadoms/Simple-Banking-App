@@ -9,9 +9,6 @@ import UIKit
 
 final class SettingsViewController: BaseViewController {
     
-    let apiManager = APIManager()
-    var currentAccount: AccountResponse?
-    
     private let settingsLabel: UILabel = {
         let label = UILabel()
         label.text = "Settings:"
@@ -83,7 +80,7 @@ final class SettingsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currencyTextField.text = currentAccount?.currency
+        currencyTextField.text = accountManager.currentAccount?.currency
         observeKeyboardNotifications()
         observeTouchesOnView()
         createSeasonPickerView()
@@ -209,7 +206,7 @@ final class SettingsViewController: BaseViewController {
     }
     
     @objc private func savePressed() {
-        guard let currentAccount = currentAccount else { return }
+        guard let currentAccount = accountManager.currentAccount else { return }
         if
             let phoneNumber = phoneNumberTextField.text,
             !phoneNumber.isEmpty
@@ -268,7 +265,7 @@ final class SettingsViewController: BaseViewController {
                         self?.showAlert(message: error.errorDescription)
                     }
                 case .success(let newAccount):
-                    self?.currentAccount = newAccount
+                    self?.accountManager.currentAccount = newAccount
                     self?.apiManager.checkIfUserExists(phoneNumber: account.phoneNumber, { [weak self] result in
                         switch result {
                         case .failure(let error):

@@ -16,6 +16,8 @@ class BaseViewController: UIViewController {
     let TitleSize: CGFloat = 30
     let currencyArray = ["EUR", "USD"]
     var selectedCurrency: String = ""
+    var accountManager = AccountManager()
+    let apiManager = APIManager()
     
     private let currencyPicker: UIPickerView = {
         let picker = UIPickerView()
@@ -36,7 +38,6 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
         
         setupView()
@@ -72,7 +73,6 @@ extension BaseViewController {
         guard let keyboardFrame = (notifaction.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        
         self.keyboardWillAppear(keyboardFrame.height)
     }
     

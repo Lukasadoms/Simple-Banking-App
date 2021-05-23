@@ -204,7 +204,7 @@ struct APIManager {
     
     func postTransaction(senderAccount: AccountResponse,
                          receiverAccount: AccountResponse,
-                         amount: Double, currency: String,
+                         amount: Decimal, currency: String,
                          reference: String,
                          _ completion: @escaping (Result<TransactionResponse, APIError>) -> Void)
     {
@@ -275,7 +275,7 @@ struct APIManager {
         }
         
         if let amount = amount {
-            updatingAccount.balance += amount
+            updatingAccount.balance += Decimal(amount)
         }
 
         guard let requestJSON = try? JSONEncoder().encode(updatingAccount) else {

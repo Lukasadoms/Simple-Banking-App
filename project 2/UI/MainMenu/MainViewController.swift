@@ -10,10 +10,8 @@ import SnapKit
 
 final class MainViewController: BaseViewController {
     
-    private var accountTransactions: [TransactionResponse]? = []
-    private let apiManager = APIManager()
-    var currentAccount: AccountResponse?
-
+    private let transactionManager = TransactionManager()
+    
     // MARK: - UI elements
 
     private let myTransactionsLabel: UILabel = {
@@ -66,14 +64,6 @@ final class MainViewController: BaseViewController {
     private let contentView = UIView()
     private let scrollView = UIScrollView()
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,10 +79,10 @@ final class MainViewController: BaseViewController {
         super.setupView()
         
         actionButtonView.actionsDelegate = self
-        
-        applyTheming()
         configureNavigationBar()
         configureScrollView()
+        
+        view.backgroundColor = .white
                 
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -100,7 +90,7 @@ final class MainViewController: BaseViewController {
         scrollView.addSubview(seeAllTransactionsButton)
         contentView.addSubview(myBalanceLabel)
         contentView.addSubview(myTransactionsLabel)
-        contentView.addSubview(myTransactionsTableView)
+        scrollView.addSubview(myTransactionsTableView)
 
         view.addSubview(actionButtonView)
     }
@@ -156,7 +146,7 @@ final class MainViewController: BaseViewController {
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(contentView.snp.bottom).offset(EdgeMargin)
-            make.height.equalTo(20)
+            make.height.equalTo(40)
         }
     }
 }
@@ -164,10 +154,6 @@ final class MainViewController: BaseViewController {
 // MARK: - View configuration
 
 private extension MainViewController {
-
-    func applyTheming() {
-        view.backgroundColor = .white
-    }
 
     func configureNavigationBar() {
         navigationItem.hidesBackButton = true
@@ -187,7 +173,7 @@ private extension MainViewController {
     }
     
     func updateUI() {
-        guard let account = currentAccount else { return }
+        guard let account = accountManager.currentAccount else { return }
         myBalanceLabel.text = "Balance: \(account.balance)"
         myTransactionsTableView.reloadData()
     }
@@ -198,7 +184,7 @@ private extension MainViewController {
 extension MainViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let transactions = accountTransactions else { return 0 }
+        guard let transactions = transactionManager.getTransactionsFromDataBase() else { return 0 }
         if transactions.count > 5 {
             return 5
         } else {
@@ -210,17 +196,18 @@ extension MainViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionCell", for: indexPath)
         guard
-            let account = currentAccount,
+            let currentAccount = accountManager.currentAccount,
             let transactionCell = cell as? TransactionCell,
-            let accountTransactions = accountTransactions
+            let accountTransactions = transactionManager.getTransactionsFromDataBase()
         else { return cell }
+        
         let sortedTransactions = accountTransactions.sorted { $0.createdOn > $1.createdOn }
         let transaction = sortedTransactions[indexPath.row]
         transactionCell.setupCell(
-            account: account,
-            senderPhoneNumber: transaction.senderId,
-            receiverPhoneNumber: transaction.receiverId,
-            amount: transaction.amount
+            account: currentAccount,
+            senderPhoneNumber: transaction.senderId!,
+            receiverPhoneNumber: transaction.receiverId!,
+            amount: transaction.amount!.stringValue
         )
         return transactionCell
     }
@@ -236,7 +223,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let sortedTransactions = accountTransactions?.sorted(by: { $0.createdOn > $1.createdOn }) else { return }
+        guard let sortedTransactions = transactionManager.getTransactionsFromDataBase()?.sorted(by: { $0.createdOn > $1.createdOn }) else { return }
         let transaction = sortedTransactions[indexPath.row]
         
         let transactionDetailViewController = TransactionDetailViewController()
@@ -252,16 +239,16 @@ extension MainViewController: UITableViewDelegate {
 extension MainViewController: ActionsButtonViewDelegate {
     func actionsButtonViewAddMoneyPressed() {
         let addMoneyViewController = AddMoneyViewController()
-        addMoneyViewController.account = currentAccount
         addMoneyViewController.delegate = self
+        addMoneyViewController.accountManager = accountManager
         let navigationController = UINavigationController(rootViewController: addMoneyViewController)
         present(navigationController, animated: true, completion: nil)
     }
 
     func actionsButtonViewSendMoneyPressed() {
         let sendMoneyViewController = SendMoneyViewController()
-        sendMoneyViewController.currentAccount = currentAccount
         sendMoneyViewController.delegate = self
+        sendMoneyViewController.accountManager = accountManager
         let navigationController = UINavigationController(rootViewController: sendMoneyViewController)
         present(navigationController, animated: true, completion: nil)
     }
@@ -271,8 +258,8 @@ extension MainViewController: ActionsButtonViewDelegate {
 
 extension MainViewController {
     func getAccountTransactions() {
-        guard let account = currentAccount else { return }
-        apiManager.getAccountTransactions(phoneNumber: account.phoneNumber, { [weak self] result in
+        guard let currentAccount = accountManager.currentAccount else { return }
+        apiManager.getAccountTransactions(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
             switch result {
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -280,7 +267,12 @@ extension MainViewController {
                 }
             case .success(let transactions):
                 DispatchQueue.main.async {
-                    self?.accountTransactions = transactions
+                    do {
+                        try self?.transactionManager.saveTransactionsToDataBase(transactions: transactions)
+                    }
+                    catch {
+                        self?.showAlert(message: "Error saving DB")
+                    }
                     self?.updateUI()
                 }
             }
@@ -293,16 +285,14 @@ extension MainViewController {
 extension MainViewController {
     @objc func settingsButtonPressed() {
         let settingsViewController = SettingsViewController()
-        settingsViewController.currentAccount = currentAccount
         let navigationController = UINavigationController(rootViewController: settingsViewController)
         present(navigationController, animated: true, completion: nil)
     }
     
     @objc func seeTransactionsPressed() {
         let transactionsViewController = TransactionsViewController()
-        guard let accountTransactions = accountTransactions else { return }
-        transactionsViewController.transactions = accountTransactions
-        transactionsViewController.currentAccount = currentAccount
+        transactionsViewController.accountManager.currentAccount = accountManager.currentAccount
+        transactionsViewController.transactions = transactionManager.getTransactionsFromDataBase()!
         let navigationController = UINavigationController(rootViewController: transactionsViewController)
         present(navigationController, animated: true, completion: nil)
     }
@@ -312,8 +302,8 @@ extension MainViewController {
 
 extension MainViewController: BalanceChangeDelegate {
     func balanceHasChanged() {
-        guard let account = currentAccount else { return }
-        apiManager.checkIfAccountExists(phoneNumber: account.phoneNumber, { [weak self] result in
+        guard let currentAccount = accountManager.currentAccount else { return }
+        apiManager.checkIfAccountExists(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
             switch result {
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -321,12 +311,12 @@ extension MainViewController: BalanceChangeDelegate {
                 }
             case .success(let account):
                 DispatchQueue.main.async {
-                    self?.currentAccount = account
+                    self?.accountManager.currentAccount = account
                     self?.updateUI()
                 }
             }
         })
-        apiManager.getAccountTransactions(phoneNumber: account.phoneNumber, { [weak self] result in
+        apiManager.getAccountTransactions(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
             switch result {
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -334,13 +324,17 @@ extension MainViewController: BalanceChangeDelegate {
                 }
             case .success(let transactions):
                 DispatchQueue.main.async {
-                    self?.accountTransactions = transactions
+                    do{
+                        try self?.transactionManager.saveTransactionsToDataBase(transactions: transactions)
+                    }
+                    catch {
+                        self?.showAlert(message: "error saving to database, please try again")
+                    }
                     self?.updateUI()
                 }
             }
         })
     }
 }
-
 
 

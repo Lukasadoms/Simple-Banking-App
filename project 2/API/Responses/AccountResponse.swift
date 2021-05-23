@@ -11,5 +11,5 @@ struct AccountResponse: Codable {
     let id: String
     var phoneNumber: String
     var currency: String
-    var balance: Double
+    var balance: Decimal
 }

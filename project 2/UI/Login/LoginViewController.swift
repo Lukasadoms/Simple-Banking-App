@@ -9,9 +9,7 @@ import UIKit
 import SnapKit
 
 final class LoginViewController: BaseViewController {
-    
-    let apiManager = APIManager()
-    let accountManager = AccountManager()
+
     let userManager = UserManager()
     
     private let plusLabel: UILabel = {
@@ -117,6 +115,7 @@ final class LoginViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         checkIfUserIsLoggedIn()
         observeTouchesOnView()
@@ -251,6 +250,7 @@ final class LoginViewController: BaseViewController {
                 return
             }
             loginUser(phoneNumber: phoneNumber, password: password)
+            //proceedToMainView(account: AccountResponse(id: "99", phoneNumber: "+99", currency: "EUR", balance: 199.99))
         case 1:
             guard
                 let phoneNumber = phoneNumberTextField.text,
@@ -403,7 +403,7 @@ extension LoginViewController {
         let mainViewController = MainViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        mainViewController.currentAccount = account
+        mainViewController.accountManager.currentAccount = account
         present(navigationController, animated: true, completion: nil)
     }
 }

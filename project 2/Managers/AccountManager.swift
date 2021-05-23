@@ -28,6 +28,8 @@ class AccountManager {
             }
         }
     }
+    
+    var currentAccount: AccountResponse?
 }
     // MARK: - Main functionality
 
@@ -48,6 +50,28 @@ extension AccountManager {
         else { return false }
         
         return true
+    }
+    
+    func updateAccountInfo(account: AccountResponse, apiManager: APIManager, transcationManager: TransactionManager) throws {
+        
+//        apiManager.checkIfAccountExists(phoneNumber: account.phoneNumber, { [weak self] result in
+//            switch result {
+//            case .failure(let error):
+//                throw error
+//            case .success(let account):
+//                DispatchQueue.main.async {
+//                    self?.accountManager.currentAccount = account
+//                }
+//            }
+//        })
+//        apiManager.getAccountTransactions(phoneNumber: account.phoneNumber, { [weak self] result in throws
+//            switch result {
+//            case .failure(let error):
+//                    throw error
+//            case .success(let transactions):
+//                try self?.transactionManager.saveTransactionsToDataBase(transactions: transactions)
+//            }
+//        })
     }
 }
 
