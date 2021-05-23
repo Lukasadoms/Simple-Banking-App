@@ -152,10 +152,10 @@ class TransactionDetailViewController: BaseViewController {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
         let strDate = dateFormatter.string(from: date)
         dateLabel.text = "Created on: \(strDate)"
-        senderLabel.text = "Sender: \(transaction.senderId ?? "")"
-        receiverLabel.text = "Receiver: \(transaction.receiverId ?? "")"
+        senderLabel.text = "Sender: +\(transaction.senderId ?? "")"
+        receiverLabel.text = "Receiver: +\(transaction.receiverId ?? "")"
         noteLabel.text = "Note: \(transaction.reference ?? "")"
-        amountLabel.text = "Amount: \(transaction.amount ?? 0)"
+        amountLabel.text = "Amount: \(transaction.amount ?? 0) \(transaction.currency ?? "")"
     }
     
     @objc func repeatPressed() {

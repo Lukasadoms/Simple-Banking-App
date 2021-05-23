@@ -166,7 +166,7 @@ extension AddMoneyViewController {
     
     func updateUI() {
         guard let account = accountManager.currentAccount else { return }
-        moneyLabel.text = "\(account.balance)"
+        moneyLabel.text = "\(account.balance) \(account.currency)"
     }
 }
 

@@ -10,8 +10,6 @@ import SnapKit
 
 final class MainViewController: BaseViewController {
     
-    private let transactionManager = TransactionManager()
-    
     // MARK: - UI elements
 
     private let myTransactionsLabel: UILabel = {
@@ -69,7 +67,7 @@ final class MainViewController: BaseViewController {
         
         observeTouchesOnView()
         configureNavigationBar()
-        getAccountTransactions()
+        updateAccountInfo()
         updateUI()
     }
     
@@ -174,7 +172,7 @@ private extension MainViewController {
     
     func updateUI() {
         guard let account = accountManager.currentAccount else { return }
-        myBalanceLabel.text = "Balance: \(account.balance)"
+        myBalanceLabel.text = "Balance: \(account.balance) \(account.currency)"
         myTransactionsTableView.reloadData()
     }
 }
@@ -257,8 +255,21 @@ extension MainViewController: ActionsButtonViewDelegate {
 // MARK: - API Calls
 
 extension MainViewController {
-    func getAccountTransactions() {
+    func updateAccountInfo() {
         guard let currentAccount = accountManager.currentAccount else { return }
+        apiManager.checkIfAccountExists(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(message: error.errorDescription)
+                }
+            case .success(let account):
+                DispatchQueue.main.async {
+                    self?.accountManager.currentAccount = account
+                    self?.updateUI()
+                }
+            }
+        })
         apiManager.getAccountTransactions(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
             switch result {
             case .failure(let error):
@@ -271,7 +282,7 @@ extension MainViewController {
                         try self?.transactionManager.saveTransactionsToDataBase(transactions: transactions)
                     }
                     catch {
-                        self?.showAlert(message: "Error saving DB")
+                        self?.showAlert(message: "error saving to database, please try again")
                     }
                     self?.updateUI()
                 }
@@ -302,38 +313,7 @@ extension MainViewController {
 
 extension MainViewController: BalanceChangeDelegate {
     func balanceHasChanged() {
-        guard let currentAccount = accountManager.currentAccount else { return }
-        apiManager.checkIfAccountExists(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
-            switch result {
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.showAlert(message: error.errorDescription)
-                }
-            case .success(let account):
-                DispatchQueue.main.async {
-                    self?.accountManager.currentAccount = account
-                    self?.updateUI()
-                }
-            }
-        })
-        apiManager.getAccountTransactions(phoneNumber: currentAccount.phoneNumber, { [weak self] result in
-            switch result {
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self?.showAlert(message: error.errorDescription)
-                }
-            case .success(let transactions):
-                DispatchQueue.main.async {
-                    do{
-                        try self?.transactionManager.saveTransactionsToDataBase(transactions: transactions)
-                    }
-                    catch {
-                        self?.showAlert(message: "error saving to database, please try again")
-                    }
-                    self?.updateUI()
-                }
-            }
-        })
+       updateAccountInfo()
     }
 }
 

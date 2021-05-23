@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 class AccountManager {
 
@@ -31,7 +32,8 @@ class AccountManager {
     
     var currentAccount: AccountResponse?
 }
-    // MARK: - Main functionality
+
+// MARK: - Main functionality
 
 extension AccountManager {
     
@@ -50,6 +52,45 @@ extension AccountManager {
         else { return false }
         
         return true
+    }
+    
+    func saveAccountToDatabase(account: AccountResponse) throws {
+        let newAccount = Account(context: CoreDataManager.managedContext)
+        newAccount.balance = NSDecimalNumber(decimal: account.balance)
+        newAccount.currency = account.currency
+        newAccount.id = Int64(account.id)!
+        newAccount.phoneNumber = account.phoneNumber
+        do {
+            try CoreDataManager.saveContext()
+        }
+        catch {
+            throw error
+        }
+    }
+    
+    func getAccountFromDatabase (accountPhoneNumber: String) -> Account? {
+        
+        do {
+            let fetchRequest : NSFetchRequest<Account> = Account.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "phoneNumber == %@", accountPhoneNumber)
+            let fetchedResults = try CoreDataManager.managedContext.fetch(fetchRequest)
+            if let account = fetchedResults.first {
+                return account
+            }
+        }
+        catch {
+            return nil
+        }
+        return nil
+    }
+    
+    func getTransactionsFromDataBase() -> [Transaction]? {
+        do {
+            return try CoreDataManager.managedContext.fetch(Transaction.fetchRequest())
+        }
+        catch {
+            return nil
+        }
     }
     
     func updateAccountInfo(account: AccountResponse, apiManager: APIManager, transcationManager: TransactionManager) throws {

@@ -17,6 +17,7 @@ class BaseViewController: UIViewController {
     let currencyArray = ["EUR", "USD"]
     var selectedCurrency: String = ""
     var accountManager = AccountManager()
+    var transactionManager = TransactionManager()
     let apiManager = APIManager()
     
     private let currencyPicker: UIPickerView = {
@@ -98,8 +99,6 @@ extension BaseViewController {
         dismiss(animated: true, completion: nil)
     }
 }
-
-
 
 extension BaseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

@@ -6,6 +6,8 @@ final class SendMoneyViewController: BaseViewController {
 
     weak var delegate: BalanceChangeDelegate?
     
+    // MARK: - UI Elements
+    
     private let balanceLabel: UILabel = {
         let label = UILabel()
         label.text = "Your balance:"
@@ -89,6 +91,8 @@ final class SendMoneyViewController: BaseViewController {
         observeTouchesOnView()
         updateUI()
     }
+    
+    // MARK: - UI SETUP
 
     override func setupView() {
         super.setupView()
@@ -188,7 +192,12 @@ final class SendMoneyViewController: BaseViewController {
         
         UIView.animate(withDuration: 1.5, animations: view.layoutIfNeeded)
     }
+}
 
+// MARK: - Helpers
+
+extension SendMoneyViewController {
+    
     private func configureNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: "Cancel",
@@ -213,6 +222,13 @@ final class SendMoneyViewController: BaseViewController {
     @objc private func cancelPressed() {
         dismiss(animated: true, completion: nil)
     }
+}
+
+// MARK: - Send Money method
+
+extension SendMoneyViewController {
+    
+    
     
     @objc func sendMoneyPressed() {
         guard
@@ -231,7 +247,7 @@ final class SendMoneyViewController: BaseViewController {
                     guard let amount = self?.moneyTextField.text else { return }
                     
                     if currentAccount.currency == account.currency && Decimal(Double(amount)!) <= currentAccount.balance {
-                        continueSendMoney(account: account)
+                        continueSendMoney(to: account)
                     } else {
                         self?.showAlert(message: "not sufficient funds or the currency in receiving account is not the same")
                     }
@@ -240,7 +256,7 @@ final class SendMoneyViewController: BaseViewController {
             }
         })
         
-        func continueSendMoney(account: AccountResponse) {
+        func continueSendMoney(to account: AccountResponse) {
             apiManager.postTransaction(
                 senderAccount: currentAccount,
                 receiverAccount: account,
@@ -291,7 +307,7 @@ final class SendMoneyViewController: BaseViewController {
     func updateUI() {
         guard let account = accountManager.currentAccount else { return }
         DispatchQueue.main.async {
-            self.moneyLabel.text = "\(account.balance)"
+            self.moneyLabel.text = "\(account.balance) \(account.currency)"
         }
     }
 }

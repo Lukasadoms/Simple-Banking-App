@@ -42,7 +42,6 @@
 		C9BFE0C026404E5C00489159 /* ActionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */; };
 		C9BFE0C42643CC2D00489159 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0C32643CC2D00489159 /* LoginViewController.swift */; };
 		C9BFE0D426446C0500489159 /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0D326446C0500489159 /* CurrencyTextField.swift */; };
-		C9BFE0DA2645679400489159 /* SendMoneyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9BFE0D92645679400489159 /* SendMoneyCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,7 +82,6 @@
 		C9BFE0BF26404E5C00489159 /* ActionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonView.swift; sourceTree = "<group>"; };
 		C9BFE0C32643CC2D00489159 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C9BFE0D326446C0500489159 /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
-		C9BFE0D92645679400489159 /* SendMoneyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMoneyCell.swift; sourceTree = "<group>"; };
 		CA3AC11012C2637B5BC7B19B /* Pods-project 2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project 2.debug.xcconfig"; path = "Target Support Files/Pods-project 2/Pods-project 2.debug.xcconfig"; sourceTree = "<group>"; };
 		DBCCA199F64AAB563F452210 /* Pods-project 2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-project 2.release.xcconfig"; path = "Target Support Files/Pods-project 2/Pods-project 2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -268,7 +266,6 @@
 		C9BFE0DE2645683600489159 /* SendMoney */ = {
 			isa = PBXGroup;
 			children = (
-				C9BFE0D92645679400489159 /* SendMoneyCell.swift */,
 				C9BFE0B926404E0200489159 /* SendMoneyViewController.swift */,
 			);
 			path = SendMoney;
@@ -415,7 +412,6 @@
 				C952E39C2647F15F00C302D5 /* UserManager.swift in Sources */,
 				C9BFE0C026404E5C00489159 /* ActionButtonView.swift in Sources */,
 				C952E3AC2650240700C302D5 /* TextField Extension.swift in Sources */,
-				C9BFE0DA2645679400489159 /* SendMoneyCell.swift in Sources */,
 				C9BFE0B726404DDE00489159 /* SelfSizingTableView.swift in Sources */,
 				C9BFE0A826404CE700489159 /* TransactionCell.swift in Sources */,
 				C952E3902647E49300C302D5 /* CoreDataManager.swift in Sources */,
